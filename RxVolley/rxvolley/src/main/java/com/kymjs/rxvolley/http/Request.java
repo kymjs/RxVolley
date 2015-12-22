@@ -103,7 +103,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     /**
      * 通知请求队列，本次请求已经完成
      */
-    public void finish(final String tag) {
+    public void finish() {
         if (mRequestQueue != null) {
             mRequestQueue.finish(this);
         }

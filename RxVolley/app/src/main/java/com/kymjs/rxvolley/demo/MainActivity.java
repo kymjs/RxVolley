@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.kymjs.okhttp.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
+import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.respondadapter.Result;
+import com.squareup.okhttp.OkHttpClient;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -19,8 +22,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER,
+                new OkHttpStack(new OkHttpClient())));
+
         Observable<Result> observable = new RxVolley.Builder()
-                .url("http://kymjs.com/feed.xml").getResult();
+                .url("http://kymjs.com/feed.xml")
+                .contentType(RxVolley.ContentType.FORM)
+                .getResult();
 
         observable
                 .filter(new Func1<Result, Boolean>() {
@@ -43,6 +51,5 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("kymjs", "======网络请求" + result);
                     }
                 });
-
     }
 }

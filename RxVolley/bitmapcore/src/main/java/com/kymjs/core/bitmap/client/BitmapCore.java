@@ -15,12 +15,14 @@ import com.kymjs.core.bitmap.ImageBale;
 import com.kymjs.core.bitmap.ImageDisplayer;
 import com.kymjs.core.bitmap.interf.IBitmapCache;
 import com.kymjs.core.bitmap.toolbox.DensityUtils;
+import com.kymjs.okhttp.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
 import com.kymjs.rxvolley.toolbox.Loger;
+import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -70,7 +72,9 @@ public final class BitmapCore {
      */
     public synchronized static boolean createDisplayer(RequestQueue queue, IBitmapCache
             mMemoryCache) {
-        if (queue == null) queue = RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER);
+        if (queue == null)
+            queue = RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER, new OkHttpStack(new
+                    OkHttpClient()));
         if (mMemoryCache == null) mMemoryCache = new BitmapMemoryCache();
         if (sDiskImageDisplayer == null) {
             sDiskImageDisplayer = new DiskImageDisplayer(mMemoryCache);

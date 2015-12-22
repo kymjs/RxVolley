@@ -21,6 +21,7 @@ import android.os.Looper;
 
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
+import com.kymjs.rxvolley.interf.IHttpStack;
 import com.kymjs.rxvolley.interf.INetwork;
 import com.kymjs.rxvolley.respondadapter.Poster;
 import com.kymjs.rxvolley.toolbox.DiskBasedCache;
@@ -59,7 +60,7 @@ public class RequestQueue {
 
     /**
      * Staging area for requests that already have a duplicate request in flight.
-     * <p>
+     * <p/>
      * <ul>
      * <li>containsKey(cacheKey) indicates that there is a request in flight for the given cache
      * key.</li>
@@ -294,7 +295,7 @@ public class RequestQueue {
     }
 
     /**
-     * Called from {@link Request#finish(String)}, indicating that processing of the given request
+     * Called from {@link Request#finish()}, indicating that processing of the given request
      * has finished.
      * <p/>
      * <p>Releases waiting requests for <code>request.getCacheKey()</code> if
@@ -322,12 +323,19 @@ public class RequestQueue {
     }
 
     public synchronized static RequestQueue newRequestQueue(File cacheFolder) {
+        return newRequestQueue(cacheFolder, new HttpConnectStack());
+    }
+
+    public synchronized static RequestQueue newRequestQueue(File cacheFolder, IHttpStack
+            httpStack) {
         if (cacheFolder == null || !cacheFolder.exists() || !cacheFolder.isDirectory()) {
             throw new RuntimeException("RequestQueue-> DiskBasedCache cache dir error");
         }
-        INetwork network = new Network(new HttpConnectStack());
+        INetwork network = new Network(httpStack);
         RequestQueue queue = new RequestQueue(new DiskBasedCache(cacheFolder), network);
         queue.start();
         return queue;
     }
+
+
 }
