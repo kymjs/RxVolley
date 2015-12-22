@@ -22,6 +22,7 @@ import android.os.Looper;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.INetwork;
+import com.kymjs.rxvolley.respondadapter.Poster;
 import com.kymjs.rxvolley.toolbox.DiskBasedCache;
 import com.kymjs.rxvolley.toolbox.Loger;
 
@@ -58,7 +59,7 @@ public class RequestQueue {
 
     /**
      * Staging area for requests that already have a duplicate request in flight.
-     * <p/>
+     * <p>
      * <ul>
      * <li>containsKey(cacheKey) indicates that there is a request in flight for the given cache
      * key.</li>
@@ -115,6 +116,8 @@ public class RequestQueue {
      */
     private CacheDispatcher mCacheDispatcher;
 
+    private Poster mPoster;
+
     /**
      * Creates the worker pool. Processing will not begin until {@link #start()} is called.
      *
@@ -124,11 +127,12 @@ public class RequestQueue {
      * @param delivery       A ResponseDelivery interface for posting responses and errors
      */
     public RequestQueue(ICache cache, INetwork network, int threadPoolSize,
-                        IDelivery delivery) {
+                        IDelivery delivery, Poster poster) {
         mCache = cache;
         mNetwork = network;
         mDispatchers = new NetworkDispatcher[threadPoolSize];
         mDelivery = delivery;
+        mPoster = poster;
     }
 
     /**
@@ -140,7 +144,12 @@ public class RequestQueue {
      */
     public RequestQueue(ICache cache, INetwork network, int threadPoolSize) {
         this(cache, network, threadPoolSize,
-                new ExecutorDelivery(new Handler(Looper.getMainLooper())));
+                new ExecutorDelivery(new Handler(Looper.getMainLooper())),
+                new Poster());
+    }
+
+    public Poster getPoster() {
+        return mPoster;
     }
 
     /**
@@ -159,13 +168,14 @@ public class RequestQueue {
     public void start() {
         stop();  // Make sure any currently running dispatchers are stopped.
         // Create the cache dispatcher and start it.
-        mCacheDispatcher = new CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery);
+        mCacheDispatcher = new CacheDispatcher(mCacheQueue, mNetworkQueue, mCache, mDelivery,
+                mPoster);
         mCacheDispatcher.start();
 
         // Create network dispatchers (and corresponding threads) up to the pool size.
         for (int i = 0; i < mDispatchers.length; i++) {
             NetworkDispatcher networkDispatcher = new NetworkDispatcher(mNetworkQueue, mNetwork,
-                    mCache, mDelivery);
+                    mCache, mDelivery, mPoster);
             mDispatchers[i] = networkDispatcher;
             networkDispatcher.start();
         }

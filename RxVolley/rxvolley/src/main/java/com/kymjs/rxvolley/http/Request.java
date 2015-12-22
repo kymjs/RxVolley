@@ -42,6 +42,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     public boolean mResponseDelivered = false; // 是否再次分发本次响应
     public boolean mCanceled = false; // 是否取消本次请求
 
+    public Object mTag;
     public Integer mSequence;
 
     protected final HttpCallback mCallback;
@@ -69,7 +70,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      * 设置tag，方便取消本次请求时能找到它
      */
     public Object getTag() {
-        return mConfig.mTag;
+        return mTag;
     }
 
     public HttpCallback getCallback() {
@@ -108,7 +109,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         }
     }
 
-    public Request<?> setRequestQueue(RequestQueue requestQueue) {
+    Request<?> setRequestQueue(RequestQueue requestQueue) {
         mRequestQueue = requestQueue;
         return this;
     }
@@ -121,7 +122,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         return mSequence;
     }
 
-    public void setSequence(int sequence) {
+    void setSequence(int sequence) {
         this.mSequence = sequence;
     }
 
@@ -131,7 +132,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
 
     public abstract String getCacheKey();
 
-    public Request<?> setCacheEntry(ICache.Entry entry) {
+    Request<?> setCacheEntry(ICache.Entry entry) {
         mCacheEntry = entry;
         return this;
     }
@@ -283,6 +284,12 @@ public abstract class Request<T> implements Comparable<Request<T>> {
                 strMsg = "unknow";
             }
             mCallback.onFailure(errorNo, strMsg);
+        }
+    }
+
+    public void deliverStartHttp() {
+        if (mCallback != null) {
+            mCallback.onPreHttp();
         }
     }
 

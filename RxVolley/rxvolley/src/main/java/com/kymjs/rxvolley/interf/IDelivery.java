@@ -15,6 +15,7 @@
  */
 package com.kymjs.rxvolley.interf;
 
+
 import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.Response;
 import com.kymjs.rxvolley.http.VolleyError;
@@ -27,6 +28,7 @@ import com.kymjs.rxvolley.http.VolleyError;
 public interface IDelivery {
     /**
      * 分发响应结果
+     *
      * @param request
      * @param response
      */
@@ -41,4 +43,9 @@ public interface IDelivery {
     void postError(Request<?> request, VolleyError error);
 
     void postResponse(Request<?> request, Response<?> response, Runnable runnable);
+
+    /**
+     * 分发当Http请求开始时的事件
+     */
+    void postStartHttp(Request<?> request);
 }

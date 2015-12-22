@@ -14,7 +14,7 @@ public class Loger {
 
     public static void debug(String msg) {
         if (sEnable) {
-            Log.i("rxvolley", msg);
+            Log.i("RxVolley", msg);
         }
     }
 }

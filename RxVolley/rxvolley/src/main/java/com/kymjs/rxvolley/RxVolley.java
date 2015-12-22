@@ -1,5 +1,8 @@
 package com.kymjs.rxvolley;
 
+
+import android.text.TextUtils;
+
 import com.kymjs.rxvolley.client.FormRequest;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
@@ -8,10 +11,13 @@ import com.kymjs.rxvolley.client.RequestConfig;
 import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
-import com.kymjs.rxvolley.interf.IRespondAdapter;
+import com.kymjs.rxvolley.interf.ICache;
+import com.kymjs.rxvolley.respondadapter.Result;
 import com.kymjs.rxvolley.toolbox.FileUtils;
 
 import java.io.File;
+
+import rx.Observable;
 
 /**
  * @author kymjs (http://www.kymjs.com/) on 12/17/15.
@@ -36,7 +42,7 @@ public class RxVolley {
     }
 
     /**
-     * 设置请求队列,必须在调用RxVolley#getRequestQueue()之前设置
+     * 设置请求队列,必须在调用Core#getRequestQueue()之前设置
      *
      * @return 是否设置成功
      */
@@ -194,37 +200,22 @@ public class RxVolley {
             return this;
         }
 
-        /**
-         * 本次请求的tag，方便在取消时找到它
-         */
-        public Builder tag(String tag) {
-            this.httpConfig.mTag = tag;
-            return this;
-        }
-
-        /**
-         * 网络请求响应结果类型转换适配器
-         */
-        public Builder respondAdapter(IRespondAdapter<?> adapter) {
-            this.httpConfig.adapter = adapter;
-            return this;
-        }
-
-
-        public void doTask() {
-            doHttp();
-        }
-
-        /**
-         * 做Http请求
-         */
-        private void doHttp() {
+        private Builder build() {
             if (request == null) {
                 if (params == null) {
                     params = new HttpParams();
                 } else {
-                    if (httpConfig.mMethod == RxVolley.Method.GET)
+                    if (httpConfig.mMethod == Method.GET)
                         httpConfig.mUrl += params.getUrlParams();
+                }
+
+                if (httpConfig.mShouldCache == null) {
+                    //默认情况只对get请求做缓存
+                    if (httpConfig.mMethod == Method.GET) {
+                        httpConfig.mShouldCache = Boolean.TRUE;
+                    } else {
+                        httpConfig.mShouldCache = Boolean.FALSE;
+                    }
                 }
 
                 if (contentType == ContentType.JSON) {
@@ -232,8 +223,62 @@ public class RxVolley {
                 } else {
                     request = new FormRequest(httpConfig, params, callback);
                 }
+
+                if (TextUtils.isEmpty(httpConfig.mUrl)) {
+                    throw new RuntimeException("Request url is empty");
+                }
             }
+            if (callback != null) {
+                callback.onPreStart();
+            }
+            return this;
+        }
+
+        public Observable<Result> getResult() {
+            doTask();
+            return getRequestQueue().getPoster().take(httpConfig.mUrl);
+        }
+
+        /**
+         * do request task
+         */
+        public void doTask() {
+            build();
             getRequestQueue().add(request);
         }
+    }
+
+    public static void get(String url, HttpCallback callback) {
+        new Builder().url(url).callback(callback).doTask();
+    }
+
+    public static void get(String url, HttpParams params, HttpCallback callback) {
+        new Builder().url(url).params(params).callback(callback).doTask();
+    }
+
+    public static void post(String url, HttpParams params, HttpCallback callback) {
+        new Builder().url(url).params(params).httpMethod(Method.POST).callback(callback).doTask();
+    }
+
+    public static void jsonGet(String url, HttpParams params, HttpCallback callback) {
+        new Builder().url(url).params(params).contentType(ContentType.JSON)
+                .httpMethod(Method.GET).callback(callback).doTask();
+    }
+
+    public static void jsonPost(String url, HttpParams params, HttpCallback callback) {
+        new Builder().url(url).params(params).contentType(ContentType.JSON)
+                .httpMethod(Method.POST).callback(callback).doTask();
+    }
+
+
+    public static byte[] getCache(String url) {
+        ICache cache = getRequestQueue().getCache();
+        if (cache != null) {
+            ICache.Entry entry = cache.get(url);
+            if (entry != null) {
+                return entry.data;
+            }
+        }
+        return new byte[0];
     }
 }

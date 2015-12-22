@@ -16,6 +16,7 @@
 
 package com.kymjs.rxvolley.interf;
 
+
 import com.kymjs.rxvolley.http.NetworkResponse;
 import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.VolleyError;
@@ -26,13 +27,11 @@ import com.kymjs.rxvolley.http.VolleyError;
 public interface INetwork {
     /**
      * Performs the specified request.
-     * 
-     * @param request
-     *            Request to process
+     *
+     * @param request Request to process
      * @return A {@link NetworkResponse} with data and caching metadata; will
-     *         never be null
-     * @throws VolleyError
-     *             on errors
+     * never be null
+     * @throws VolleyError on errors
      */
     public NetworkResponse performRequest(Request<?> request)
             throws VolleyError;

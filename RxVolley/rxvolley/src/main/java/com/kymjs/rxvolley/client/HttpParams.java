@@ -232,7 +232,7 @@ public class HttpParams implements Serializable {
         StringBuilder result = new StringBuilder();
         boolean isFirst = true;
         Collections.sort(urlParams);
-        
+
         for (HttpParamsEntry entry : urlParams) {
             if (!isFirst) {
                 result.append("&");

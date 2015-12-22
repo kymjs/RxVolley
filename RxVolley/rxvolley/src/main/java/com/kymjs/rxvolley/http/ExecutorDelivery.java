@@ -77,6 +77,16 @@ public class ExecutorDelivery implements IDelivery {
         mResponsePoster.execute(new ResponseDeliveryRunnable(request, response, null));
     }
 
+    @Override
+    public void postStartHttp(final Request<?> request) {
+        mResponsePoster.execute(new Runnable() {
+            @Override
+            public void run() {
+                request.deliverStartHttp();
+            }
+        });
+    }
+
     /**
      * A Runnable used for delivering network responses to a listener on the
      * main thread.

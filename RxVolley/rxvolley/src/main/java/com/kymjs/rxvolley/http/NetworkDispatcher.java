@@ -24,6 +24,7 @@ import android.os.Process;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.INetwork;
+import com.kymjs.rxvolley.respondadapter.Poster;
 import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.util.concurrent.BlockingQueue;
@@ -39,14 +40,16 @@ public class NetworkDispatcher extends Thread {
     private final INetwork mNetwork; // 网络请求执行器
     private final ICache mCache; // 缓存器
     private final IDelivery mDelivery;
+    private final Poster mPoster;
     private volatile boolean mQuit = false; // 标记是否退出本线程
 
     public NetworkDispatcher(BlockingQueue<Request<?>> queue, INetwork network, ICache cache,
-                             IDelivery delivery) {
+                             IDelivery delivery, Poster poster) {
         mQueue = queue;
         mNetwork = network;
         mCache = cache;
         mDelivery = delivery;
+        mPoster = poster;
     }
 
     /**
@@ -59,7 +62,6 @@ public class NetworkDispatcher extends Thread {
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void addTrafficStatsTag(Request<?> request) {
-        // Tag the request (if API >= 14)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             TrafficStats.setThreadStatsTag(request.getTrafficStatsTag());
         }
@@ -87,6 +89,11 @@ public class NetworkDispatcher extends Thread {
                     request.finish("任务已经取消");
                     continue;
                 }
+
+                if (request.getCallback() != null) {
+                    request.getCallback().onPreHttp();
+                }
+                mDelivery.postStartHttp(request);
                 addTrafficStatsTag(request);
                 NetworkResponse networkResponse = mNetwork.performRequest(request);
                 // 如果这个响应已经被分发，则不会再次分发
@@ -100,7 +107,17 @@ public class NetworkDispatcher extends Thread {
                     mCache.put(request.getCacheKey(), response.cacheEntry);
                 }
                 request.markDelivered();
+                //执行异步响应
+                if (response.cacheEntry != null) {
+                    if (request.getCallback() != null) {
+                        request.getCallback().onSuccessInAsync(response.cacheEntry.data);
+                    }
+                    mPoster.enqueue(request.getUrl(),
+                            response.cacheEntry.responseHeaders, response.cacheEntry.data);
+                }
                 mDelivery.postResponse(request, response);
+
+
             } catch (VolleyError volleyError) {
                 parseAndDeliverNetworkError(request, volleyError);
             } catch (Exception e) {
@@ -110,8 +127,7 @@ public class NetworkDispatcher extends Thread {
         }
     }
 
-    private void parseAndDeliverNetworkError(Request<?> request,
-                                             VolleyError error) {
+    private void parseAndDeliverNetworkError(Request<?> request, VolleyError error) {
         error = request.parseNetworkError(error);
         mDelivery.postError(request, error);
     }
