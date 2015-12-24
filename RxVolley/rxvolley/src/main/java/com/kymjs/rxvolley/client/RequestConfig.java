@@ -9,7 +9,7 @@ import com.kymjs.rxvolley.http.RetryPolicy;
  */
 public class RequestConfig {
 
-    public int mTimeout = 5000; // 请求超时时间
+    public int mTimeout = 0; // 请求超时时间
 
     public int mDelayTime = 0; // 为了更真实的模拟网络,缓存延迟响应
 

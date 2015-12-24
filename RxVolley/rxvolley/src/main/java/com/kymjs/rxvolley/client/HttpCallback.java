@@ -83,7 +83,7 @@ public abstract class HttpCallback {
     }
 
     /**
-     * 仅网络请求中有效
+     * 仅请求bitmap中有效
      *
      * @param bitmap
      */

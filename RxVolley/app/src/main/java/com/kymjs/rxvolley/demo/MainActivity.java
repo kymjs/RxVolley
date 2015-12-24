@@ -7,7 +7,7 @@ import android.util.Log;
 import com.kymjs.okhttp.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.RequestQueue;
-import com.kymjs.rxvolley.respondadapter.Result;
+import com.kymjs.rxvolley.rx.Result;
 import com.squareup.okhttp.OkHttpClient;
 
 import rx.Observable;

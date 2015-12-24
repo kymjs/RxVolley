@@ -24,7 +24,7 @@ import android.os.Process;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.INetwork;
-import com.kymjs.rxvolley.respondadapter.Poster;
+import com.kymjs.rxvolley.rx.Poster;
 import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.util.concurrent.BlockingQueue;
@@ -112,7 +112,7 @@ public class NetworkDispatcher extends Thread {
                     if (request.getCallback() != null) {
                         request.getCallback().onSuccessInAsync(response.cacheEntry.data);
                     }
-                    mPoster.enqueue(request.getUrl(),
+                    mPoster.put(request.getUrl(),
                             response.cacheEntry.responseHeaders, response.cacheEntry.data);
                 }
                 mDelivery.postResponse(request, response);

@@ -250,6 +250,7 @@ public class HttpParams implements Serializable {
     }
 
     public ArrayList<HttpParamsEntry> getHeaders() {
+        mHeaders.add(new HttpParamsEntry("Accept-Encoding", "identity"));
         return mHeaders;
     }
 }

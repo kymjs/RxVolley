@@ -27,6 +27,7 @@ import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.VolleyError;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,26 +57,44 @@ public class ImageDisplayer {
         mMemoryCache = memoryCache;
     }
 
+    public IBitmapCache getMemoryCache() {
+        return mMemoryCache;
+    }
+
     /**
      * 加载一张图片
      *
      * @param callback 回调
      * @return 加载的图片封装
      */
-    public ImageBale get(BitmapRequestConfig config, HttpCallback callback) {
-        throwIfNotOnMainThread();
-        callback.onPreStart();
+    public ImageBale get(BitmapRequestConfig config, final HttpCallback callback) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                callback.onPreStart();
+            }
+        });
 
-        Bitmap cachedBitmap = mMemoryCache.getBitmap(config.mUrl);
+        final Bitmap cachedBitmap = mMemoryCache.getBitmap(config.mUrl);
         if (cachedBitmap != null) {
             ImageBale container = new ImageBale(cachedBitmap, config.mUrl, callback,
                     mRequestsMap, mResponsesMap);
-            callback.onSuccess(new HashMap<String, String>(), cachedBitmap);
-            callback.onFinish();
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onSuccess(Collections.<String, String>emptyMap(), cachedBitmap);
+                    callback.onFinish();
+                }
+            });
             return container;
         } else {
-            // 开始加载网络图片的标志
-            callback.onPreHttp();
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    // 开始加载网络图片的标志
+                    callback.onPreHttp();
+                }
+            });
         }
 
         ImageBale imageBale = new ImageBale(null, config.mUrl, callback, mRequestsMap,
@@ -159,8 +178,8 @@ public class ImageDisplayer {
                             }
                             if (even.getError() == null) {
                                 imageBale.mBitmap = even.mBitmapRespond;
-                                imageBale.mCallback.onSuccess(new HashMap<String, String>(),
-                                        imageBale.mBitmap);
+                                imageBale.mCallback.onSuccess(
+                                        Collections.<String, String>emptyMap(), imageBale.mBitmap);
                             } else {
                                 imageBale.mCallback.onFailure(-1, even.getError().getMessage());
                             }
@@ -176,10 +195,7 @@ public class ImageDisplayer {
         }
     }
 
-    private void throwIfNotOnMainThread() {
-        if (Looper.myLooper() != Looper.getMainLooper()) {
-            throw new IllegalStateException(
-                    "ImageLoader must be invoked from the main thread.");
-        }
+    private boolean isMainThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
     }
 }

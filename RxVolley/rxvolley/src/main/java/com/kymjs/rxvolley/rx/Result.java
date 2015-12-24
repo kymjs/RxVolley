@@ -1,4 +1,4 @@
-package com.kymjs.rxvolley.respondadapter;
+package com.kymjs.rxvolley.rx;
 
 import java.util.Map;
 
@@ -9,8 +9,8 @@ public class Result {
     public Map<String, String> header;
     public byte[] data;
 
-    public Result(Map<String, String> header, byte[] result) {
+    public Result(Map<String, String> header, byte[] data) {
         this.header = header;
-        this.data = result;
+        this.data = data;
     }
 }

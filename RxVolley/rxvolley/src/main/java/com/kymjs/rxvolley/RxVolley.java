@@ -3,6 +3,7 @@ package com.kymjs.rxvolley;
 
 import android.text.TextUtils;
 
+import com.kymjs.rxvolley.client.FileRequest;
 import com.kymjs.rxvolley.client.FormRequest;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
@@ -12,7 +13,7 @@ import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
 import com.kymjs.rxvolley.interf.ICache;
-import com.kymjs.rxvolley.respondadapter.Result;
+import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.FileUtils;
 
 import java.io.File;
@@ -125,7 +126,7 @@ public class RxVolley {
         }
 
         /**
-         * 请求超时时间,如果不设置则使用重连策略的超时时间,默认2500ms
+         * 请求超时时间,如果不设置则使用重连策略的超时时间,默认3000ms
          */
         public Builder timeout(int timeout) {
             this.httpConfig.mTimeout = timeout;
@@ -280,5 +281,18 @@ public class RxVolley {
             }
         }
         return new byte[0];
+    }
+
+    /**
+     * 下载
+     *
+     * @param storeFilePath 本地存储绝对路径
+     * @param url           要下载的文件的url
+     * @param callback      回调
+     */
+    public static void download(String storeFilePath, String url, HttpCallback callback) {
+        RequestConfig config = new RequestConfig();
+        config.mUrl = url;
+        new Builder().setRequest(new FileRequest(storeFilePath, config, callback)).doTask();
     }
 }

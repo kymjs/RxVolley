@@ -23,6 +23,7 @@ import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.RequestConfig;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
+import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -103,7 +104,8 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     /**
      * 通知请求队列，本次请求已经完成
      */
-    public void finish() {
+    public void finish(String log) {
+        Loger.debug(log);
         if (mRequestQueue != null) {
             mRequestQueue.finish(this);
         }
@@ -198,7 +200,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     }
 
     public boolean shouldCache() {
-        return mConfig.mShouldCache;
+        return mConfig.mShouldCache == null ? false : mConfig.mShouldCache;
     }
 
     /**

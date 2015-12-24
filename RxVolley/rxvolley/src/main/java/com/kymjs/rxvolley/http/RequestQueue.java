@@ -23,7 +23,7 @@ import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.IHttpStack;
 import com.kymjs.rxvolley.interf.INetwork;
-import com.kymjs.rxvolley.respondadapter.Poster;
+import com.kymjs.rxvolley.rx.Poster;
 import com.kymjs.rxvolley.toolbox.DiskBasedCache;
 import com.kymjs.rxvolley.toolbox.Loger;
 
@@ -210,6 +210,10 @@ public class RequestQueue {
         return mCache;
     }
 
+    public IDelivery getDelivery() {
+        return mDelivery;
+    }
+
     /**
      * A simple predicate or filter interface for Requests, for use by
      * {@link RequestQueue#cancelAll(RequestFilter)}.
@@ -295,7 +299,7 @@ public class RequestQueue {
     }
 
     /**
-     * Called from {@link Request#finish()}, indicating that processing of the given request
+     * Called from {@link Request#finish(String)}, indicating that processing of the given request
      * has finished.
      * <p/>
      * <p>Releases waiting requests for <code>request.getCacheKey()</code> if

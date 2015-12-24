@@ -20,7 +20,7 @@ import android.os.Process;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.IPersistence;
-import com.kymjs.rxvolley.respondadapter.Poster;
+import com.kymjs.rxvolley.rx.Poster;
 import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.util.concurrent.BlockingQueue;
@@ -101,10 +101,14 @@ public class CacheDispatcher extends Thread {
                 // 从缓存返回数据
                 Response<?> response = request.parseNetworkResponse(new NetworkResponse(entry.data,
                         entry.responseHeaders));
-                mPoster.enqueue(request.getUrl(), entry.responseHeaders, entry.data);
+                mPoster.put(request.getUrl(), entry.responseHeaders, entry.data);
 
                 Loger.debug("CacheDispatcher：http resopnd from cache");
                 sleep(request.getConfig().mDelayTime);
+                if (request.getCallback() != null) {
+                    request.getCallback().onSuccessInAsync(entry.data);
+                }
+
                 mDelivery.postResponse(request, response);
             } catch (InterruptedException e) {
                 if (mQuit) {
