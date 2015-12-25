@@ -30,7 +30,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -40,7 +39,7 @@ import java.util.Random;
  *
  * @author kymjs (http://www.kymjs.com/) .
  */
-public class HttpParams implements Serializable {
+public class HttpParams {
 
     private final static char[] MULTIPART_CHARS =
             "-_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
@@ -49,7 +48,7 @@ public class HttpParams implements Serializable {
     private static final String CONTENT_TYPE = "Content-Type: ";
     private static final String CONTENT_DISPOSITION = "Content-Disposition: ";
 
-    public static String CHARSET = "UTF-8";
+    public static final String CHARSET = "UTF-8";
 
     //文本参数和字符集
     private static final String TYPE_TEXT_CHARSET = String.format("text/plain; charset=%s",

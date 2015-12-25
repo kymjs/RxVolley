@@ -49,14 +49,14 @@ public class FileRequest extends Request<byte[]> {
         super(config, callback);
         mStoreFile = new File(storeFilePath);
         File folder = mStoreFile.getParentFile();
-        if (folder != null) {
-            folder.mkdirs();
-        }
-        if (!mStoreFile.exists()) {
-            try {
-                mStoreFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+        if (folder != null && folder.mkdirs()) {
+            if (!mStoreFile.exists()) {
+                try {
+                    mStoreFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         mTemporaryFile = new File(storeFilePath + ".tmp");
@@ -157,8 +157,8 @@ public class FileRequest extends Request<byte[]> {
         }
 
         if (fileSize > 0 && mStoreFile.length() == fileSize) {
-            mStoreFile.renameTo(mTemporaryFile);
-//            mRequestQueue.mDelivery.postDownloadProgress(this, fileSize, fileSize);
+            boolean is = mStoreFile.renameTo(mTemporaryFile);
+//            mRequestQueue.getDelivery().postDownloadProgress(this, fileSize, fileSize);
             return null;
         }
 

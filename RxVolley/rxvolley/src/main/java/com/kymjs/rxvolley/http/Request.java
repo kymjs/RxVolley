@@ -74,6 +74,10 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         return mTag;
     }
 
+    public void setTag(Object tag) {
+        this.mTag = tag;
+    }
+
     public HttpCallback getCallback() {
         return mCallback;
     }

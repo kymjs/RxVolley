@@ -16,6 +16,11 @@ public class HttpParamsEntry implements Comparable<HttpParamsEntry> {
         }
     }
 
+    @Override
+    public int hashCode() {
+        return k.hashCode();
+    }
+
     public HttpParamsEntry(String key, String value) {
         k = key;
         v = value;

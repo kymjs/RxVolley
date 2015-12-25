@@ -91,7 +91,7 @@ public class HttpHeaderParser {
         if (useServerControl) {
             entry.ttl = softExpire;
         } else {
-            entry.ttl = now + cacheTime * 60000; // 分钟转毫秒
+            entry.ttl = now + cacheTime * 60000L; // 分钟转毫秒
         }
         entry.etag = serverEtag;
         entry.serverDate = serverDate;

@@ -208,7 +208,7 @@ public class DiskBasedCache implements ICache {
                 throw new IOException();
             }
             fos.write(entry.data);
-            fos.close();
+
             putEntry(key, e);
             return;
         } catch (IOException e) {

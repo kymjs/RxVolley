@@ -1,1 +1,1 @@
-include ':app', ':bitmapcore', ':rxvolley', ':okhttp'
+include ':app', ':rxvolley', ':bitmapcore', ':okhttp'

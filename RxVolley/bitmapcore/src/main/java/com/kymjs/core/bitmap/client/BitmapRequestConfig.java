@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class BitmapRequestConfig extends RequestConfig {
 
-    public static int DEF_WIDTH_HEIGHT = -100;
+    public static final int DEF_WIDTH_HEIGHT = -100;
 
     public int maxWidth = DEF_WIDTH_HEIGHT;
     public int maxHeight = DEF_WIDTH_HEIGHT;

@@ -15,8 +15,10 @@
  */
 package com.kymjs.rxvolley.http;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -26,7 +28,7 @@ import java.util.HashMap;
  * @author 李晨光(https://github.com/lichenguang8706)
  * @author kymjs (http://www.kymjs.com/) .
  */
-public class URLHttpResponse implements Serializable {
+public class URLHttpResponse implements Parcelable {
 
     private static final long serialVersionUID = 1L;
 
@@ -99,4 +101,42 @@ public class URLHttpResponse implements Serializable {
     public void setContentLength(long contentLength) {
         this.contentLength = contentLength;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeSerializable(this.headers);
+        dest.writeInt(this.responseCode);
+        dest.writeString(this.responseMessage);
+        dest.writeString(this.contentEncoding);
+        dest.writeString(this.contentType);
+        dest.writeLong(this.contentLength);
+    }
+
+    public URLHttpResponse() {
+    }
+
+    protected URLHttpResponse(Parcel in) {
+        this.headers = (HashMap<String, String>) in.readSerializable();
+        this.responseCode = in.readInt();
+        this.responseMessage = in.readString();
+        this.contentEncoding = in.readString();
+        this.contentType = in.readString();
+        this.contentLength = in.readLong();
+    }
+
+    public static final Parcelable.Creator<URLHttpResponse> CREATOR = new Parcelable
+            .Creator<URLHttpResponse>() {
+        public URLHttpResponse createFromParcel(Parcel source) {
+            return new URLHttpResponse(source);
+        }
+
+        public URLHttpResponse[] newArray(int size) {
+            return new URLHttpResponse[size];
+        }
+    };
 }
