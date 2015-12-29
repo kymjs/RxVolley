@@ -11,12 +11,16 @@ import com.kymjs.rxvolley.rx.Result;
 import com.squareup.okhttp.OkHttpClient;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Subscription subscription;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 .contentType(RxVolley.ContentType.FORM)
                 .getResult();
 
-        observable
+        subscription = observable
                 .filter(new Func1<Result, Boolean>() {
                     @Override
                     public Boolean call(Result result) {
@@ -51,5 +55,13 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("kymjs", "======网络请求" + result);
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (subscription != null && subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
     }
 }
