@@ -6,10 +6,10 @@ import com.kymjs.core.bitmap.DiskImageDisplayer;
 import com.kymjs.core.bitmap.client.BitmapCore;
 import com.kymjs.core.bitmap.client.BitmapRequestConfig;
 import com.kymjs.core.bitmap.toolbox.CreateBitmap;
-import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.Response;
 import com.kymjs.rxvolley.http.VolleyError;
+import com.kymjs.rxvolley.rx.RxBus;
 import com.kymjs.rxvolley.toolbox.FileUtils;
 
 import java.io.FileInputStream;
@@ -43,7 +43,7 @@ public class AsyncPoster implements Runnable {
         }
         byte[] bytes = loadFromFile(pendingPost.config.mUrl, pendingPost.config.maxWidth,
                 pendingPost.config.maxHeight, pendingPost.callback);
-        RxVolley.getRequestQueue().getPoster().put(pendingPost.config.mUrl,
+        RxBus.getDefault().put(pendingPost.config.mUrl,
                 Collections.<String, String>emptyMap(), bytes);
         PendingPost.releasePendingPost(pendingPost);
     }

@@ -168,8 +168,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     }
 
     public String getBodyContentType() {
-        return "application/x-www-form-urlencoded; charset="
-                + getParamsEncoding();
+        return "application/x-www-form-urlencoded; charset=" + getParamsEncoding();
     }
 
     /**

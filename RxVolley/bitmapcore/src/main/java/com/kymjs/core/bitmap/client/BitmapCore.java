@@ -21,6 +21,7 @@ import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
+import com.kymjs.rxvolley.rx.RxBus;
 import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.Loger;
 
@@ -305,7 +306,7 @@ public final class BitmapCore {
 
         public Observable<Bitmap> getResult() {
             doTask();
-            return RxVolley.getRequestQueue().getPoster().take(config.mUrl)
+            return RxBus.getDefault().take(config.mUrl)
                     .filter(new Func1<Result, Boolean>() {
                         @Override
                         public Boolean call(Result result) {

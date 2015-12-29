@@ -13,6 +13,7 @@ import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
 import com.kymjs.rxvolley.interf.ICache;
+import com.kymjs.rxvolley.rx.RxBus;
 import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.FileUtils;
 
@@ -237,7 +238,7 @@ public class RxVolley {
 
         public Observable<Result> getResult() {
             doTask();
-            return getRequestQueue().getPoster().take(httpConfig.mUrl);
+            return RxBus.getDefault().take(httpConfig.mUrl);
         }
 
         /**
