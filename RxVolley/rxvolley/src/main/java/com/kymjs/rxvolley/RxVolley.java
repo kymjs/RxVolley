@@ -22,6 +22,8 @@ import java.io.File;
 import rx.Observable;
 
 /**
+ * 主入口
+ *
  * @author kymjs (http://www.kymjs.com/) on 12/17/15.
  */
 public class RxVolley {
@@ -79,6 +81,9 @@ public class RxVolley {
         int PATCH = 7;
     }
 
+    /**
+     * 构建器
+     */
     public static class Builder {
         private HttpParams params;
         private int contentType;
@@ -236,13 +241,16 @@ public class RxVolley {
             return this;
         }
 
+        /**
+         * 执行请求任务,并返回一个RxJava的Observable类型
+         */
         public Observable<Result> getResult() {
             doTask();
             return RxBus.getDefault().take(httpConfig.mUrl);
         }
 
         /**
-         * do request task
+         * 执行请求任务
          */
         public void doTask() {
             build();
@@ -272,7 +280,12 @@ public class RxVolley {
                 .httpMethod(Method.POST).callback(callback).doTask();
     }
 
-
+    /**
+     * 获取到在本地的二进制缓存
+     *
+     * @param url 缓存的key
+     * @return 缓存内容
+     */
     public static byte[] getCache(String url) {
         ICache cache = getRequestQueue().getCache();
         if (cache != null) {
