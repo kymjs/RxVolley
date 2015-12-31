@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Markus Junginger, greenrobot (http://greenrobot.de)
+ * Copyright (C) 2012 Markus Junginger, greenrobot (http://greenrobot.de),张涛
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,9 @@ import com.kymjs.rxvolley.client.HttpCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 从本地加载一个bitmap的任务,思路取自EventBus
+ */
 final class PendingPost {
     //单例池,复用对象
     private final static List<PendingPost> pendingPostPool = new ArrayList<PendingPost>();

@@ -33,6 +33,5 @@ public interface INetwork {
      * never be null
      * @throws VolleyError on errors
      */
-    public NetworkResponse performRequest(Request<?> request)
-            throws VolleyError;
+    NetworkResponse performRequest(Request<?> request) throws VolleyError;
 }

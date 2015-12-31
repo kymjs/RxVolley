@@ -36,7 +36,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
- * HttpUrlConnection方式实现
+ * HttpUrlConnection方式实现,添加的默认认可全部https证书
  *
  * @author kymjs (http://www.kymjs.com/) .
  */

@@ -32,7 +32,7 @@ import java.util.HashMap;
 /**
  * Form表单形式的Http请求
  *
- * @author kymjs
+ * @author kymjs(http://www.kymjs.com)
  */
 public class FormRequest extends Request<byte[]> {
 

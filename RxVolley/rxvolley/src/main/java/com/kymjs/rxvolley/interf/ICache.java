@@ -20,6 +20,8 @@ import java.util.Map;
 
 /**
  * 一个缓存接口协议，其中包含了缓存的bean原型
+ *
+ * @author kymjs (http://www.kymjs.com/) .
  */
 public interface ICache {
 
