@@ -1,4 +1,4 @@
-##RxVolley = RxJava + Volley + OkHttp
+##RxVolley = Volley + RxJava + OkHttp
 
 ###Retrofit? No, I like Volley.
 RxVolley is modified Volley. Removed the HttpClient, and support RxJava.  
@@ -78,4 +78,22 @@ Observable<Result> observable = new RxVolley.Builder()
     
 //do something
 observable.subscribe(subscriber);
-```
+``` 
+
+
+##More
+
+###Which project uses it ？
+
+* CodeCafe [https://github.com/kymjs/CodeCafe](https://github.com/kymjs/CodeCafe)    
+
+	> My blog project.  
+	
+
+* OSChina Git App [http://git.oschina.net/oschina/git-osc-android](http://git.oschina.net/oschina/git-osc-android)  
+	
+	> OpenSourceChina company Git client.  
+	
+###License
+
+Licensed under the Apache License Version 2.0.  [The "License"](http://www.apache.org/licenses/LICENSE-2.0)  
