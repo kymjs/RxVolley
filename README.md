@@ -3,7 +3,14 @@
 ###Retrofit? No, I like Volley.
 RxVolley is modified Volley. Removed the HttpClient, and support RxJava.  
 
-###How to used？
+##Using RxVolley in your application
+
+If you are building with Gradle, simply add the following line to the ```dependencies``` section of your ```build.gradle``` file:   
+
+>compile 'com.kymjs.rxvolley:bitmapcore:1.0.1'
+
+
+### Getting Started
 Builder pattern to create objects.  
 
 #####Callback method do Get request and contenttype is form  
@@ -80,6 +87,11 @@ Observable<Result> observable = new RxVolley.Builder()
 observable.subscribe(subscriber);
 ``` 
 
+##Requirements
+
+RxVolley can be included in any Android application.  
+
+RxVolley supports Android 3.1, API12 (HONEYCOMB_MR1) and later.  
 
 ##More
 
