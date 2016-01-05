@@ -1,19 +1,17 @@
 ##RxVolley = Volley + RxJava + OkHttp
 
-###Retrofit? No, I like Volley.
-RxVolley is modified Volley. Removed the HttpClient, and support RxJava.  
-
-##Using RxVolley in your application
+####Retrofit? No, I like Volley.
+RxVolley is modified Volley. Removed the HttpClient, and support RxJava.   
 
 If you are building with Gradle, simply add the following line to the ```dependencies``` section of your ```build.gradle``` file:   
 
 >compile 'com.kymjs.rxvolley:bitmapcore:1.0.1'
 
 
-### Getting Started
+## Getting Started
 Builder pattern to create objects.  
 
-#####Callback method do Get request and contenttype is form  
+####Callback method do Get request and contenttype is form  
 
 ```java
 HttpParams params = new HttpParams();
@@ -47,7 +45,7 @@ new RxVolley.Builder()
     .doTask();
 ```
 
-#####Callback method do Post request and contenttype is json  
+####Callback method do Post request and contenttype is json  
 
 ```java
 
@@ -72,7 +70,7 @@ new RxVolley.Builder()
     .doTask();
 ```
 
-#####return Observable\<Result\> type
+####return Observable\<Result\> type
 
 ```java
 Observable<Result> observable = new RxVolley.Builder()
@@ -95,7 +93,7 @@ RxVolley supports Android 3.1, API12 (HONEYCOMB_MR1) and later.
 
 ##More
 
-###Which project uses it ？
+####Which project uses it ？
 
 * CodeCafe [https://github.com/kymjs/CodeCafe](https://github.com/kymjs/CodeCafe)    
 
@@ -106,6 +104,6 @@ RxVolley supports Android 3.1, API12 (HONEYCOMB_MR1) and later.
 	
 	> OpenSourceChina company Git client.  
 	
-###License
+####License
 
 Licensed under the Apache License Version 2.0.  [The "License"](http://www.apache.org/licenses/LICENSE-2.0)  
