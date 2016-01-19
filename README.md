@@ -43,10 +43,10 @@ new RxVolley.Builder()
 	.url("http://www.kymjs.com/rss.xml")
     .httpMethod(RxVolley.Method.GET) //default GET or POST/PUT/DELETE/HEAD/OPTIONS/TRACE/PATCH
     .cacheTime(6) //default: get 5min, post 0min
-    .contentType(RxVolley.ContentType.FROM)//default FROM or JSON
+    .contentType(RxVolley.ContentType.FORM)//default FORM or JSON
     .params(params)
     .shouldCache(true) //default: get true, post false
-    .callback(callback)
+    .callback(callBack)
     .encoding("UTF-8") //default
     .doTask();
 ```
