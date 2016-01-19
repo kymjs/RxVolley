@@ -15,7 +15,8 @@ If you are building with Gradle, simply add the following line to the ```depende
 
 
 ## Getting Started
-Builder pattern to create objects.  
+Builder pattern to create objects.    
+or  [中文帮助](http://rxvolley.mydoc.io/) (正在不断完善中)
 
 ####Callback method do Get request and contenttype is form  
 

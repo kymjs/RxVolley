@@ -6,9 +6,12 @@ import android.util.Log;
 
 import com.kymjs.okhttp.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
+import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.rx.Result;
 import com.squareup.okhttp.OkHttpClient;
+
+import java.util.Map;
 
 import rx.Observable;
 import rx.Subscription;
@@ -32,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
         Observable<Result> observable = new RxVolley.Builder()
                 .url("http://kymjs.com/feed.xml")
                 .contentType(RxVolley.ContentType.FORM)
+                .callback(new HttpCallback() {
+                    @Override
+                    public void onSuccess(Map<String, String> headers, byte[] t) {
+                        
+                    }
+                })
                 .getResult();
 
         subscription = observable
