@@ -17,6 +17,7 @@
 package com.kymjs.rxvolley.http;
 
 
+import com.kymjs.rxvolley.client.FileRequest;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IHttpStack;
 import com.kymjs.rxvolley.interf.INetwork;
@@ -79,12 +80,12 @@ public class Network implements INetwork {
                 }
 
                 if (httpResponse.getContentStream() != null) {
-//                    if (request instanceof FileRequest) {
-//                        responseContents = ((FileRequest) request).handleResponse(httpResponse);
-//                    } else {
-//                        responseContents = entityToBytes(httpResponse);
-//                    }
-                    responseContents = entityToBytes(httpResponse);
+                    if (request instanceof FileRequest) {
+                        responseContents = ((FileRequest) request).handleResponse(httpResponse);
+                    } else {
+                        responseContents = entityToBytes(httpResponse);
+                    }
+//                    responseContents = entityToBytes(httpResponse);
                 } else {
                     responseContents = new byte[0];
                 }

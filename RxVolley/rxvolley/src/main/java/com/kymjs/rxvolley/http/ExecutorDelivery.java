@@ -18,6 +18,7 @@ package com.kymjs.rxvolley.http;
 
 import android.os.Handler;
 
+import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
 
@@ -83,6 +84,17 @@ public class ExecutorDelivery implements IDelivery {
             @Override
             public void run() {
                 request.deliverStartHttp();
+            }
+        });
+    }
+
+    @Override
+    public void postProgress(final ProgressListener listener, final long transferredBytes,
+                             final long totalSize) {
+        mResponsePoster.execute(new Runnable() {
+            @Override
+            public void run() {
+                listener.onProgress(transferredBytes, totalSize);
             }
         });
     }

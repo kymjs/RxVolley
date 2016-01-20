@@ -7,11 +7,12 @@ import android.util.Log;
 import com.kymjs.okhttp.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
+import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.rx.Result;
+import com.kymjs.rxvolley.toolbox.FileUtils;
+import com.kymjs.rxvolley.toolbox.Loger;
 import com.squareup.okhttp.OkHttpClient;
-
-import java.util.Map;
 
 import rx.Observable;
 import rx.Subscription;
@@ -35,12 +36,6 @@ public class MainActivity extends AppCompatActivity {
         Observable<Result> observable = new RxVolley.Builder()
                 .url("http://kymjs.com/feed.xml")
                 .contentType(RxVolley.ContentType.FORM)
-                .callback(new HttpCallback() {
-                    @Override
-                    public void onSuccess(Map<String, String> headers, byte[] t) {
-                        
-                    }
-                })
                 .getResult();
 
         subscription = observable
@@ -72,5 +67,25 @@ public class MainActivity extends AppCompatActivity {
         if (subscription != null && subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
+    }
+
+    private void download() {
+        RxVolley.download(FileUtils.getSDCardPath() + "/a.apk",
+                "https://www.oschina.net/uploads/osc-android-app-2.4.apk", new ProgressListener() {
+                    @Override
+                    public void onProgress(long transferredBytes, long totalSize) {
+                        Loger.debug(transferredBytes + "======" + totalSize);
+                    }
+                }, new HttpCallback() {
+                    @Override
+                    public void onSuccess(String t) {
+                        Loger.debug("====success" + t);
+                    }
+
+                    @Override
+                    public void onFailure(int errorNo, String strMsg) {
+                        Loger.debug(errorNo + "====failure" + strMsg);
+                    }
+                });
     }
 }

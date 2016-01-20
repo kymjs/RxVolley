@@ -23,13 +23,14 @@ import com.kymjs.rxvolley.client.FormRequest;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.kymjs.rxvolley.client.JsonRequest;
+import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.client.RequestConfig;
 import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
 import com.kymjs.rxvolley.interf.ICache;
-import com.kymjs.rxvolley.rx.RxBus;
 import com.kymjs.rxvolley.rx.Result;
+import com.kymjs.rxvolley.rx.RxBus;
 import com.kymjs.rxvolley.toolbox.FileUtils;
 
 import java.io.File;
@@ -315,13 +316,17 @@ public class RxVolley {
     /**
      * 下载
      *
-     * @param storeFilePath 本地存储绝对路径
-     * @param url           要下载的文件的url
-     * @param callback      回调
+     * @param storeFilePath    本地存储绝对路径
+     * @param url              要下载的文件的url
+     * @param progressListener 下载进度回调
+     * @param callback         回调
      */
-    public static void download(String storeFilePath, String url, HttpCallback callback) {
+    public static void download(String storeFilePath, String url, ProgressListener
+            progressListener, HttpCallback callback) {
         RequestConfig config = new RequestConfig();
         config.mUrl = url;
-        new Builder().setRequest(new FileRequest(storeFilePath, config, callback)).doTask();
+        FileRequest request = new FileRequest(storeFilePath, config, callback);
+        request.setOnProgressListener(progressListener);
+        new Builder().setRequest(request).doTask();
     }
 }

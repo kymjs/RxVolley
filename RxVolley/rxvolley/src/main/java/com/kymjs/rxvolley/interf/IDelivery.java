@@ -16,6 +16,7 @@
 package com.kymjs.rxvolley.interf;
 
 
+import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.Response;
 import com.kymjs.rxvolley.http.VolleyError;
@@ -48,4 +49,12 @@ public interface IDelivery {
      * 分发当Http请求开始时的事件
      */
     void postStartHttp(Request<?> request);
+
+    /**
+     * 进度
+     *
+     * @param transferredBytes 进度
+     * @param totalSize        总量
+     */
+    void postProgress(ProgressListener listener, long transferredBytes, long totalSize);
 }

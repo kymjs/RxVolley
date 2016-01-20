@@ -59,6 +59,8 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         mDefaultTrafficStatsTag = findDefaultTrafficStatsTag(config.mUrl);
     }
 
+    
+
     public int getMethod() {
         return mConfig.mMethod;
     }
