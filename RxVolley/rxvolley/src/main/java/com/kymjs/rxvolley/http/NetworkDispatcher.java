@@ -90,9 +90,6 @@ public class NetworkDispatcher extends Thread {
                     continue;
                 }
 
-                if (request.getCallback() != null) {
-                    request.getCallback().onPreHttp();
-                }
                 mDelivery.postStartHttp(request);
                 addTrafficStatsTag(request);
                 NetworkResponse networkResponse = mNetwork.performRequest(request);

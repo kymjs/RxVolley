@@ -14,6 +14,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName version
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -27,6 +28,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:0.4'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
 }
