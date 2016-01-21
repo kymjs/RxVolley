@@ -143,8 +143,7 @@ public class FileRequest extends Request<byte[]> {
 
             String realRangeValue = response.getHeaders().get("Content-Range");
             if (!TextUtils.isEmpty(realRangeValue)) {
-                String assumeRangeValue = "bytes " + downloadedSize + "-"
-                        + (fileSize - 1);
+                String assumeRangeValue = "bytes " + downloadedSize + "-" + (fileSize - 1);
                 if (TextUtils.indexOf(realRangeValue, assumeRangeValue) == -1) {
                     throw new IllegalStateException(
                             "The Content-Range Header is invalid Assume["
@@ -157,8 +156,10 @@ public class FileRequest extends Request<byte[]> {
         }
 
         if (fileSize > 0 && mStoreFile.length() == fileSize) {
-            boolean is = mStoreFile.renameTo(mTemporaryFile);
-//            mRequestQueue.getDelivery().postDownloadProgress(this, fileSize, fileSize);
+            mStoreFile.renameTo(mTemporaryFile);
+            if (mProgressListener != null)
+                mRequestQueue.getDelivery().postProgress(mProgressListener,
+                        fileSize, fileSize);
             return null;
         }
 
@@ -180,11 +181,12 @@ public class FileRequest extends Request<byte[]> {
 
             while ((offset = in.read(buffer)) != -1) {
                 tmpFileRaf.write(buffer, 0, offset);
-
                 downloadedSize += offset;
-                //下载进度回调
-//                mRequestQueue.mDelivery.postDownloadProgress(this, fileSize, downloadedSize);
 
+                //下载进度回调
+                if (mProgressListener != null)
+                    mRequestQueue.getDelivery().postProgress(mProgressListener,
+                            downloadedSize, fileSize);
                 if (isCanceled()) {
                     break;
                 }
@@ -213,6 +215,7 @@ public class FileRequest extends Request<byte[]> {
             for (HttpParamsEntry entry : headers) {
                 map.put(entry.k, entry.v);
             }
+            if (response == null) response = new byte[0];
             mCallback.onSuccess(map, response);
         }
     }

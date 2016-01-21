@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.kymjs.rxvolley.client.HttpCallback;
+import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.client.RequestConfig;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
@@ -47,6 +48,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
     public Integer mSequence;
 
     protected final HttpCallback mCallback;
+    protected ProgressListener mProgressListener;
     protected RequestQueue mRequestQueue;
     private ICache.Entry mCacheEntry = null;
 
@@ -59,7 +61,14 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         mDefaultTrafficStatsTag = findDefaultTrafficStatsTag(config.mUrl);
     }
 
-    
+    /**
+     * Set listener for tracking download progress
+     *
+     * @param listener 进度监听
+     */
+    public void setOnProgressListener(ProgressListener listener) {
+        mProgressListener = listener;
+    }
 
     public int getMethod() {
         return mConfig.mMethod;

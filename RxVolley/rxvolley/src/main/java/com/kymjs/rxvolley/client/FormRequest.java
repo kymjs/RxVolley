@@ -25,7 +25,9 @@ import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
 import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FilterOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -73,7 +75,12 @@ public class FormRequest extends Request<byte[]> {
     public byte[] getBody() {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
-            mParams.writeTo(bos);
+            if (mProgressListener != null) {
+                mParams.writeTo(new CountingOutputStream(bos, mParams.getContentLength(),
+                        mProgressListener));
+            } else {
+                mParams.writeTo(bos);
+            }
         } catch (IOException e) {
             Loger.debug("FormRequest#getBody()--->IOException writing to ByteArrayOutputStream");
         }
@@ -101,5 +108,30 @@ public class FormRequest extends Request<byte[]> {
     @Override
     public Priority getPriority() {
         return Priority.IMMEDIATE;
+    }
+
+    public static class CountingOutputStream extends FilterOutputStream {
+        private final ProgressListener progListener;
+        private long transferred;
+        private long fileLength;
+
+        public CountingOutputStream(final OutputStream out, long fileLength,
+                                    final ProgressListener listener) {
+            super(out);
+            this.fileLength = fileLength;
+            this.progListener = listener;
+            this.transferred = 0;
+        }
+
+        public void write(int b) throws IOException {
+            out.write(b);
+            if (progListener != null) {
+                this.transferred++;
+                if ((transferred % 20 == 0) && (transferred <= fileLength)) {
+                    RxVolley.getRequestQueue().getDelivery().postProgress(this.progListener,
+                            this.transferred, fileLength);
+                }
+            }
+        }
     }
 }

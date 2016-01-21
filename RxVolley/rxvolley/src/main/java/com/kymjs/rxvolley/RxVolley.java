@@ -105,6 +105,7 @@ public class RxVolley {
         private int contentType;
         private HttpCallback callback;
         private Request<?> request;
+        private ProgressListener progressListener;
         private RequestConfig httpConfig = new RequestConfig();
 
         /**
@@ -152,6 +153,16 @@ public class RxVolley {
          */
         public Builder timeout(int timeout) {
             this.httpConfig.mTimeout = timeout;
+            return this;
+        }
+
+        /**
+         * 上传进度回调
+         *
+         * @param listener 进度监听器
+         */
+        public Builder progressListener(ProgressListener listener) {
+            this.progressListener = listener;
             return this;
         }
 
@@ -247,6 +258,8 @@ public class RxVolley {
                     request = new FormRequest(httpConfig, params, callback);
                 }
 
+                request.setOnProgressListener(progressListener);
+
                 if (TextUtils.isEmpty(httpConfig.mUrl)) {
                     throw new RuntimeException("Request url is empty");
                 }
@@ -284,6 +297,12 @@ public class RxVolley {
 
     public static void post(String url, HttpParams params, HttpCallback callback) {
         new Builder().url(url).params(params).httpMethod(Method.POST).callback(callback).doTask();
+    }
+
+    public static void post(String url, HttpParams params, ProgressListener listener,
+                            HttpCallback callback) {
+        new Builder().url(url).params(params).progressListener(listener).httpMethod(Method.POST)
+                .callback(callback).doTask();
     }
 
     public static void jsonGet(String url, HttpParams params, HttpCallback callback) {
