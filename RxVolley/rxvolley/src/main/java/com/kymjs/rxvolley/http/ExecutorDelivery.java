@@ -104,7 +104,7 @@ public class ExecutorDelivery implements IDelivery {
      * main thread.
      */
     @SuppressWarnings("rawtypes")
-    private class ResponseDeliveryRunnable implements Runnable {
+    private static class ResponseDeliveryRunnable implements Runnable {
         private final Request mRequest;
         private final Response mResponse;
         private final Runnable mRunnable;

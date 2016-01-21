@@ -120,11 +120,11 @@ public class HttpConnectStack implements IHttpStack {
         for (Entry<String, List<String>> header : connection.getHeaderFields()
                 .entrySet()) {
             if (header.getKey() != null) {
-                String value = "";
+                StringBuilder value = new StringBuilder();
                 for (String v : header.getValue()) {
-                    value += (v + "; ");
+                    value.append(v).append(";");
                 }
-                headerMap.put(header.getKey(), value);
+                headerMap.put(header.getKey(), value.toString());
             }
         }
         response.setHeaders(headerMap);

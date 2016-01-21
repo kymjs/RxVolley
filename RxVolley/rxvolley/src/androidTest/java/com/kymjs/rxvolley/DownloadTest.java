@@ -78,7 +78,6 @@ public class DownloadTest extends AndroidTestCase {
         };
     }
 
-
     @Test
     public void testDownload() throws Exception {
         RxVolley.download(FileUtils.getSDCardPath() + "/a.apk",
