@@ -5,7 +5,7 @@ RxVolley is modified Volley. Removed the HttpClient, and support RxJava.
 
 If you are building with Gradle, simply add the following line to the ```dependencies``` section of your ```build.gradle``` file:   
 
->compile 'com.kymjs.rxvolley:rxvolley:1.0.1'  
+>compile 'com.kymjs.rxvolley:rxvolley:1.0.2'  
 >
 >// If you want to use okhttp function, add    
 >compile 'com.kymjs.rxvolley:rxvolley:1.0.1'  
