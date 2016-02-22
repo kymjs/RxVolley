@@ -275,7 +275,7 @@ public class RxVolley {
          */
         public Observable<Result> getResult() {
             doTask();
-            return RxBus.getDefault().take(httpConfig.mUrl);
+            return RxBus.getDefault().take(Result.class);
         }
 
         /**
