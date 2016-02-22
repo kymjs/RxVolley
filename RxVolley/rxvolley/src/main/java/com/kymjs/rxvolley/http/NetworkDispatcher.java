@@ -24,6 +24,7 @@ import android.os.Process;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.INetwork;
+import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.rx.RxBus;
 import com.kymjs.rxvolley.toolbox.Loger;
 
@@ -89,7 +90,6 @@ public class NetworkDispatcher extends Thread {
                     request.finish("任务已经取消");
                     continue;
                 }
-
                 mDelivery.postStartHttp(request);
                 addTrafficStatsTag(request);
                 NetworkResponse networkResponse = mNetwork.performRequest(request);
@@ -105,16 +105,13 @@ public class NetworkDispatcher extends Thread {
                 }
                 request.markDelivered();
                 //执行异步响应
-                if (response.cacheEntry != null) {
+                if (networkResponse.data != null) {
                     if (request.getCallback() != null) {
-                        request.getCallback().onSuccessInAsync(response.cacheEntry.data);
+                        request.getCallback().onSuccessInAsync(networkResponse.data);
                     }
-                    mPoster.put(request.getUrl(),
-                            response.cacheEntry.responseHeaders, response.cacheEntry.data);
+                    mPoster.post(new Result(networkResponse.headers, networkResponse.data));
                 }
                 mDelivery.postResponse(request, response);
-
-
             } catch (VolleyError volleyError) {
                 parseAndDeliverNetworkError(request, volleyError);
             } catch (Exception e) {

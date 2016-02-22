@@ -64,7 +64,7 @@ public class RxBus {
             public Boolean call(Object o) {
                 return eventType.isInstance(o);
             }
-        }).cast(eventType);
+        }).take(1).cast(eventType);
     }
 
     //////////////////////////////////////////////////////////////////////////////
