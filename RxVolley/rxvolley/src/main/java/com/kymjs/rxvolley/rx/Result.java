@@ -23,11 +23,14 @@ import java.util.Map;
  * @author kymjs (http://www.kymjs.com/) on 12/22/15.
  */
 public class Result {
+
     public Map<String, String> header;
     public byte[] data;
+    public String url;
 
-    public Result(Map<String, String> header, byte[] data) {
+    public Result(String url, Map<String, String> header, byte[] data) {
         this.header = header;
         this.data = data;
+        this.url = url;
     }
 }

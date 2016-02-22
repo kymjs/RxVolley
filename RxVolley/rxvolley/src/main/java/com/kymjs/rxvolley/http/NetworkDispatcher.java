@@ -109,7 +109,8 @@ public class NetworkDispatcher extends Thread {
                     if (request.getCallback() != null) {
                         request.getCallback().onSuccessInAsync(networkResponse.data);
                     }
-                    mPoster.post(new Result(networkResponse.headers, networkResponse.data));
+                    mPoster.post(new Result(request.getUrl(),
+                            networkResponse.headers, networkResponse.data));
                 }
                 mDelivery.postResponse(request, response);
             } catch (VolleyError volleyError) {
