@@ -1,7 +1,8 @@
 RxVolley使用指南
 ===
 
-RxVolley 项目地址：[https://github.com/kymjs/RxVolley](https://github.com/kymjs/RxVolley)
+RxVolley 项目地址： https://github.com/kymjs/RxVolley  
+
 ##概述
 
 ```RxVolley```是一个基于```Volley```的网络请求库；  
@@ -16,18 +17,21 @@ RxVolley 项目地址：[https://github.com/kymjs/RxVolley](https://github.com/k
 ##依赖 
 
 使用RxVolley，需要在你的```build.gradle```文件中加入  
+
 ```gradle
-compile 'com.kymjs.rxvolley:rxvolley:1.0.1'
+compile 'com.kymjs.rxvolley:rxvolley:1.0.3'
 ```
 
 如果你还想使用OKhttp来替代默认的```HttpUrlconnection```，需要加入  
+
 ```gradle
-compile 'com.kymjs.rxvolley:okhttp:1.0.1'
+compile 'com.kymjs.rxvolley:okhttp:1.0.3'
 ```
 
 如果你想使用RxVolley的图片加载功能(复用http模块可以有效减少apk大小)，需要加入   
+
 ```gradle
-compile 'com.kymjs.rxvolley:bitmapcore:1.0.2'
+compile 'com.kymjs.rxvolley:bitmapcore:1.0.3'
 ```  
 
 使用 RxVolley 做网络请求
@@ -122,6 +126,16 @@ HttpCallback callback = new HttpCallback(){
     }
 }
 
+ProgressListener listener = new ProgressListener(){
+    /**
+     * @param transferredBytes 进度
+     * @param totalSize 总量
+     */
+    @Override
+    public void onProgress(long transferredBytes, long totalSize){
+    }
+}
+
 new RxVolley.Builder()
     .url("http://www.kymjs.com/rss.xml") //接口地址  
     //请求类型，如果不加，默认为 GET 可选项： 
@@ -134,6 +148,7 @@ new RxVolley.Builder()
     .params(params) //上文创建的HttpParams请求参数集
     //是否缓存，默认是 get 请求 5 缓存分钟, post 请求不缓存
     .shouldCache(true) 
+    .progressListener(listener) //上传进度
     .callback(callback) //响应回调
     .encoding("UTF-8") //编码格式，默认为utf-8
     .doTask();  //执行请求操作
@@ -304,16 +319,100 @@ public class FormRequest extends Request<byte[]> {
 }
 ```
 
+##文件(图片)下载
+利用 RxVolley 的自定义请求，在库中内置了文件下载功能。你可以使用
+
+```java
+//下载进度(可选参数，不需要可不传)
+listener = new ProgressListener() {
+    @Override
+    public void onProgress(long transferredBytes, long totalSize) {
+        Loger.debug(transferredBytes + "======" + totalSize);
+    }
+}
+
+//下载回调，内置了很多方法，详细请查看源码
+//包括在异步响应的onSuccessInAsync():注不能做UI操作
+//下载成功时的回调onSuccess()
+//下载失败时的回调onFailure():例如无网络，服务器异常等
+HttpCallback callback = new HttpCallback(){
+    @Override
+    public void onSuccessInAsync(byte[] t) {
+    }
+    @Override
+    public void onSuccess(String t) {
+    }
+    @Override
+    public void onFailure(int errorNo, String strMsg) {
+    }
+}
+
+RxVolley.download(FileUtils.getSDCardPath() + "/a.apk",
+    "https://www.oschina.net/uploads/osc-android-app-2.4.apk",
+    listener, callback);
+
+```
+
+#### download()原型
+
+既然说了```下载功能```是利用 RxVolley 的自定义请求创建的，不妨看看他的方法实现：  
+
+```java
+    /**
+     * 下载
+     *
+     * @param storeFilePath    本地存储绝对路径
+     * @param url              要下载的文件的url
+     * @param progressListener 下载进度回调
+     * @param callback         回调
+     */
+    public static void download(String storeFilePath, String url, ProgressListener
+            progressListener, HttpCallback callback) {
+        RequestConfig config = new RequestConfig();
+        config.mUrl = url;
+        FileRequest request = new FileRequest(storeFilePath, config, callback);
+        request.setOnProgressListener(progressListener);
+        new Builder().setRequest(request).doTask();
+    }
+```
+
 ##更多可选设置
 理论上来说，一切的请求设置都可以通过自定义 Request 来完成。  
 但是，如果你和我一样是个懒人，当然更希望这些早就有人已经做好了。  
 
 ###设置文件缓存的路径
 默认的文件缓存路径是在SD卡根目录的 /RxVolley 文件夹下，你可以通过如下语句设置你的 cacheFolder 
+
 ```
 RxVolley.setRequestQueue(RequestQueue.newRequestQueue(cacheFolder));
 ```
 需要注意的是，setRequestQueue 方法必须在 RxVolley.Build() 方法执行之前调用，也就是在使用 RxVolley 以前先设置配置信息。建议在 Application 类中完成这些设置。  
+
+###Https设置
+如果不设置，默认信任全部的https证书。可以传入自定义 ```SSLSocketFactory```  
+
+```java
+RxVolley.setRequestQueue(RequestQueue.newRequestQueue(cacheFolder), new HttpConnectStack(null, sslSocketFactory));
+```
+需要注意的是，setRequestQueue 方法必须在 RxVolley.Build() 方法执行之前调用，也就是在使用 RxVolley 以前先设置配置信息。建议在 Application 类中完成这些设置。  
+
+一个自定义设置SSLSocketFactory的相关示例：  
+
+```java
+//下载的证书放到项目中的assets目录中
+InputStream ins = context.getAssets().open("app_pay.cer"); 
+CertificateFactory cerFactory = CertificateFactory
+        .getInstance("X.509");
+Certificate cer = cerFactory.generateCertificate(ins);
+KeyStore keyStore = KeyStore.getInstance("PKCS12", "BC");
+keyStore.load(null, null);
+keyStore.setCertificateEntry("trust", cer);
+
+SSLSocketFactory socketFactory = new SSLSocketFactory(keyStore);
+
+RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER), new HttpConnectStack(null, sslSocketFactory));
+```
+
 
 ###Build()中的可选设置
 * 详细请参阅 RxVolley$Builder 类中代码。
@@ -354,7 +453,7 @@ RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER, new
 使用 OkHttp 相关功能需要在你的 ```build.gradle``` 文件中加入 
 
 ```gradle
-compile 'com.kymjs.rxvolley:rxvolley:1.0.1'
+compile 'com.kymjs.rxvolley:okhttp:1.0.1'
 ```
 
 
