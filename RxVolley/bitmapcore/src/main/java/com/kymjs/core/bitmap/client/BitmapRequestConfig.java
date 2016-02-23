@@ -36,6 +36,7 @@ public class BitmapRequestConfig extends RequestConfig {
     public Drawable errorDrawable;
     public int loadRes;
     public int errorRes;
+    public boolean useAsyncLoadDisk;
 
     private final ArrayList<HttpParamsEntry> mHeaders = new ArrayList<>();
 

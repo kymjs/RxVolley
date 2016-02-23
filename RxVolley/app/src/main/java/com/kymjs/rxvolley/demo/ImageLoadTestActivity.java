@@ -11,9 +11,11 @@ import com.kymjs.okhttp.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.RequestQueue;
+import com.kymjs.rxvolley.toolbox.FileUtils;
 import com.kymjs.rxvolley.toolbox.Loger;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -96,13 +98,35 @@ public class ImageLoadTestActivity extends Activity {
                 .callback(callback).doTask();
     }
 
-    private void testBitmapWithDiskLoader() {
+    private void testBitmapWithLoadImage() {
         new BitmapCore.Builder()
                 .url("http://kymjs.com/image/logo.jpg")
                 .callback(callback)
                 .view(contentView)
                 .loadResId(R.mipmap.ic_launcher)
                 .errorResId(R.mipmap.ic_launcher)
+                .doTask();
+    }
+
+    private void testBitmapWithDiskLoader() {
+        new BitmapCore.Builder()
+                .url(FileUtils.getSDCardPath() + File.separator + "request.png")
+                .callback(callback)
+                .view(contentView)
+                .loadResId(R.mipmap.ic_launcher)
+                .errorResId(R.mipmap.ic_launcher)
+                .doTask();
+    }
+
+    private void testBitmapWithDiskLoader2() {
+        new BitmapCore.Builder()
+                .url(FileUtils.getSDCardPath() + File.separator + "request.png")
+                .callback(callback)
+                .view(contentView)
+                .loadResId(R.mipmap.ic_launcher)
+                .errorResId(R.mipmap.ic_launcher)
+                        //并行访问本地图片
+                .useAsyncLoadDiskImage(true)
                 .doTask();
     }
 }

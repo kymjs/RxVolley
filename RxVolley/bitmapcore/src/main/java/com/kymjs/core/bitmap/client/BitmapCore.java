@@ -161,6 +161,16 @@ public final class BitmapCore {
         }
 
         /**
+         * 使用并行访问本地图片
+         *
+         * @param useAsync true为并行,false为串行
+         */
+        public Builder useAsyncLoadDiskImage(boolean useAsync) {
+            this.config.useAsyncLoadDisk = useAsync;
+            return this;
+        }
+
+        /**
          * 请求超时时间,如果不设置则使用重连策略的超时时间,默认2500ms
          */
         public Builder timeout(int timeout) {
@@ -331,7 +341,7 @@ public final class BitmapCore {
                 ImageBale bale = getDisplayer().get(config, realCallback);
                 requestArray.add(bale);
             } else {
-                getDiskDisplayer().load(config, realCallback, true);
+                getDiskDisplayer().load(config, realCallback, config.useAsyncLoadDisk);
             }
         }
     }
