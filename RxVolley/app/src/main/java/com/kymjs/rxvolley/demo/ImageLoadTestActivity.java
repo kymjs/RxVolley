@@ -91,14 +91,14 @@ public class ImageLoadTestActivity extends Activity {
         tearDown();
     }
 
-    private void test() {
+    public void test() {
         new BitmapCore.Builder()
                 .view(contentView)
                 .url("http://kymjs.com/image/logo.jpg")
                 .callback(callback).doTask();
     }
 
-    private void testBitmapWithLoadImage() {
+    public void testBitmapWithLoadImage() {
         new BitmapCore.Builder()
                 .url("http://kymjs.com/image/logo.jpg")
                 .callback(callback)
@@ -108,7 +108,7 @@ public class ImageLoadTestActivity extends Activity {
                 .doTask();
     }
 
-    private void testBitmapWithDiskLoader() {
+    public void testBitmapWithDiskLoader() {
         new BitmapCore.Builder()
                 .url(FileUtils.getSDCardPath() + File.separator + "request.png")
                 .callback(callback)
@@ -118,7 +118,7 @@ public class ImageLoadTestActivity extends Activity {
                 .doTask();
     }
 
-    private void testBitmapWithDiskLoader2() {
+    public void testBitmapWithDiskLoader2() {
         new BitmapCore.Builder()
                 .url(FileUtils.getSDCardPath() + File.separator + "request.png")
                 .callback(callback)

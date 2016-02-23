@@ -1,13 +1,15 @@
-package com.kymjs.rxvolley;
+package com.kymjs.okhttp;
 
 import android.os.Looper;
 import android.test.AndroidTestCase;
 
+import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.Loger;
+import com.squareup.okhttp.OkHttpClient;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,7 +31,8 @@ public class GetRequestTest extends AndroidTestCase {
 
     @Before
     public void setUp() throws Exception {
-        RxVolley.setRequestQueue(RequestQueue.newRequestQueue(getContext().getCacheDir()));
+        RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER,
+                new OkHttpStack(new OkHttpClient())));
 
         callback = new HttpCallback() {
             @Override
