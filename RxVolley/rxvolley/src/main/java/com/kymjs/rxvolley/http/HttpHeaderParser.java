@@ -54,7 +54,7 @@ public class HttpHeaderParser {
             String[] tokens = tempStr.split(",");
             for (String token : tokens) {
                 token = token.trim();
-                // 如果服务器说不缓存这次数据，那么就不缓存了。。。。
+                // 如果服务器说不缓存这次数据，那么就不缓存了
                 if (token.equals("no-cache") || token.equals("no-store")) {
                     return null;
                 } else if (token.startsWith("max-age=")) {
@@ -116,7 +116,7 @@ public class HttpHeaderParser {
     /**
      * 返回这个内容头的编码，如果没有则使用HTTP默认（ISO-8859-1）指定的字符集
      */
-    public static String parseCharset(Map<String, String> headers) {
+    public static String parseCharset(Map<String, String> headers, String defaultCharset) {
         String contentType = headers.get("Content-Type");
         if (contentType != null) {
             String[] params = contentType.split(";");
@@ -129,6 +129,14 @@ public class HttpHeaderParser {
                 }
             }
         }
-        return "ISO-8859-1";
+        return defaultCharset;
+    }
+
+    /**
+     * Returns the charset specified in the Content-Type of this header,
+     * or the HTTP default (ISO-8859-1) if none can be found.
+     */
+    public static String parseCharset(Map<String, String> headers) {
+        return parseCharset(headers, "ISO-8859-1");
     }
 }

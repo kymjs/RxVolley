@@ -32,7 +32,6 @@ import com.kymjs.core.bitmap.interf.IBitmapCache;
 import com.kymjs.core.bitmap.toolbox.DensityUtils;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
-import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
 import com.kymjs.rxvolley.rx.RxBus;
@@ -109,7 +108,6 @@ public final class BitmapCore {
     public static class Builder {
         private HttpCallback realCallback;
         private HttpCallback callback;
-        private Request<?> request;
         private View view;
         private BitmapRequestConfig config = new BitmapRequestConfig();
 
@@ -118,14 +116,6 @@ public final class BitmapCore {
          */
         public Builder callback(HttpCallback callback) {
             this.callback = callback;
-            return this;
-        }
-
-        /**
-         * HttpRequest
-         */
-        public Builder setRequest(Request<?> request) {
-            this.request = request;
             return this;
         }
 
@@ -252,6 +242,10 @@ public final class BitmapCore {
                 if (callback != null)
                     callback.onFailure(-1, "image url is empty");
                 return;
+            }
+
+            if (config.mShouldCache == null) {
+                config.mShouldCache = Boolean.TRUE;
             }
 
             if (config.maxWidth == BitmapRequestConfig.DEF_WIDTH_HEIGHT &&

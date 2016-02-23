@@ -59,7 +59,7 @@ public class RequestQueue {
 
     /**
      * Staging area for requests that already have a duplicate request in flight.
-     * <p>
+     * <p/>
      * <ul>
      * <li>containsKey(cacheKey) indicates that there is a request in flight for the given cache
      * key.</li>
@@ -164,7 +164,7 @@ public class RequestQueue {
 
         // Create network dispatchers (and corresponding threads) up to the pool size.
         for (int i = 0; i < mDispatchers.length; i++) {
-            NetworkDispatcher networkDispatcher = new NetworkDispatcher(mNetworkQueue, mNetwork, 
+            NetworkDispatcher networkDispatcher = new NetworkDispatcher(mNetworkQueue, mNetwork,
                     mCache, mDelivery);
             mDispatchers[i] = networkDispatcher;
             networkDispatcher.start();

@@ -4,6 +4,7 @@ import android.test.AndroidTestCase;
 
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
+import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.toolbox.Loger;
 
 import org.junit.After;
@@ -21,7 +22,7 @@ public class GetRequestTest extends AndroidTestCase {
 
     @Before
     public void setUp() throws Exception {
-        RxVolley.CACHE_FOLDER = getContext().getCacheDir();
+        RxVolley.setRequestQueue(RequestQueue.newRequestQueue(getContext().getCacheDir()));
 
         callback = new HttpCallback() {
             @Override
@@ -69,6 +70,12 @@ public class GetRequestTest extends AndroidTestCase {
 
     @After
     public void tearDown() throws Exception {
+    }
+
+    @Test
+    public void testGetOnSuccessWithNoCacheHeader() throws Exception {
+        //header中声明了cache-control:must-revalidate, no-cache, private
+        RxVolley.get("https://api.douban.com/v2/book/26692621", callback);
     }
 
     @Test

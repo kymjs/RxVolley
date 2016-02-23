@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void test() {
         Observable<Result> observable = new RxVolley.Builder()
-//                .url("http://kymjs.com/feed.xml")
-                .url("https://api.douban.com/v2/book/26692621") //服务器端声明了no-cache
+                .url("http://kymjs.com/feed.xml")
+//                .url("https://api.douban.com/v2/book/26692621") //服务器端声明了no-cache
                 .contentType(RxVolley.ContentType.FORM)
                 .getResult();
 
