@@ -65,6 +65,13 @@ String paramJson = "{\n" +
 HttpParams params = new HttpParams();
 params.putJsonParams(paramJson);
 
+// upload progress
+ProgressListener listener = new ProgressListener(){
+    @Override
+    public void onProgress(long transferredBytes, long totalSize){
+    }
+}
+
 new RxVolley.Builder()
 	.url("http://www.kymjs.com/rss.xml")
     .httpMethod(RxVolley.Method.POST) //default GET or POST/PUT/DELETE/HEAD/OPTIONS/TRACE/PATCH
@@ -72,6 +79,7 @@ new RxVolley.Builder()
     .params(params)
     .contentType(RxVolley.ContentType.JSON)
     .shouldCache(true) //default: get true, post false
+    .progressListener(listener) //upload progress
     .callback(callback)
     .encoding("UTF-8") //default
     .doTask();
