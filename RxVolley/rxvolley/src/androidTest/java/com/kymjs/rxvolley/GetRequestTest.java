@@ -5,6 +5,7 @@ import android.test.AndroidTestCase;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.kymjs.rxvolley.http.RequestQueue;
+import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.Loger;
 
 import org.junit.After;
@@ -12,6 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Map;
+
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * @author kymjs (http://www.kymjs.com/) on 1/5/16.
@@ -79,6 +83,26 @@ public class GetRequestTest extends AndroidTestCase {
     }
 
     @Test
+    public void testGetOnSuccessWithNoCacheHeader2() throws Exception {
+        //header中声明了cache-control:must-revalidate, no-cache, private
+        new RxVolley.Builder()
+                .url("https://api.douban.com/v2/book/26692621")
+                .getResult()
+                .map(new Func1<Result, Map<String, String>>() {
+                    @Override
+                    public Map<String, String> call(Result result) {
+                        return result.header;
+                    }
+                })
+                .subscribe(new Action1<Map<String, String>>() {
+                    @Override
+                    public void call(Map<String, String> headers) {
+                        Loger.debug(headers.get("Cache-Control"));
+                    }
+                });
+    }
+
+    @Test
     public void testGetOnSuccess() throws Exception {
         RxVolley.get("http://www.oschina.net/action/api/news_list", callback);
     }
@@ -95,4 +119,6 @@ public class GetRequestTest extends AndroidTestCase {
         params.put("pageSize", 20);
         RxVolley.get("http://www.oschina.net/action/api/news_list", params, callback);
     }
+
+
 }
