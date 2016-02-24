@@ -325,7 +325,7 @@ public final class BitmapCore {
 
         public Observable<Bitmap> getResult() {
             doTask();
-            return RxBus.getDefault().take(Bitmap.class)
+            return RxBus.getDefault().take(Bitmap.class).take(1)
                     .filter(new Func1<Bitmap, Boolean>() {
                         @Override
                         public Boolean call(Bitmap result) {
