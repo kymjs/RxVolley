@@ -26,7 +26,7 @@ import java.util.Map;
  * @author kymjs (http://www.kymjs.com/) .
  * @version 1.4
  */
-public abstract class HttpCallback {
+public class HttpCallback {
 
     /**
      * 请求开始之前回调
