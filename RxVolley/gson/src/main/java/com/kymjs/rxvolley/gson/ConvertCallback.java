@@ -14,10 +14,11 @@ public abstract class ConvertCallback<T> extends HttpCallback
         implements IConvertAdapter<T>, IConvertType<T> {
 
     private T tempData;
+    private Gson gsonClient = new Gson();
 
     @Override
     public T convertTo(byte[] t) {
-        return new Gson().fromJson(new String(t), toType());
+        return gsonClient.fromJson(new String(t), toType());
     }
 
     @Override
