@@ -241,13 +241,6 @@ public final class BitmapCore {
          * 安全校验
          */
         private synchronized void build() {
-            if (view == null) {
-                Loger.debug("view is null");
-                if (callback != null)
-                    callback.onFailure(-1, "view is null");
-                return;
-            }
-
             if (TextUtils.isEmpty(config.mUrl)) {
                 Loger.debug("image url is empty");
                 doFailure(view, config.errorDrawable, config.errorRes);
@@ -260,20 +253,16 @@ public final class BitmapCore {
                 config.mShouldCache = Boolean.TRUE;
             }
 
-            if (config.maxWidth == BitmapRequestConfig.DEF_WIDTH_HEIGHT &&
-                    config.maxHeight == BitmapRequestConfig.DEF_WIDTH_HEIGHT) {
-                config.maxWidth = view.getWidth();
-                config.maxHeight = view.getHeight();
-                if (config.maxWidth <= 0) {
-                    config.maxWidth = DensityUtils.getScreenW(view.getContext()) / 2;
+            if (view != null) {
+                if (config.maxWidth == BitmapRequestConfig.DEF_WIDTH_HEIGHT &&
+                        config.maxHeight == BitmapRequestConfig.DEF_WIDTH_HEIGHT) {
+                    config.maxWidth = view.getWidth();
+                    config.maxHeight = view.getHeight();
+                } else if (config.maxWidth == BitmapRequestConfig.DEF_WIDTH_HEIGHT) {
+                    config.maxWidth = DensityUtils.getScreenW(view.getContext());
+                } else if (config.maxHeight == BitmapRequestConfig.DEF_WIDTH_HEIGHT) {
+                    config.maxHeight = DensityUtils.getScreenH(view.getContext());
                 }
-                if (config.maxHeight <= 0) {
-                    config.maxHeight = DensityUtils.getScreenH(view.getContext()) / 2;
-                }
-            } else if (config.maxWidth == BitmapRequestConfig.DEF_WIDTH_HEIGHT) {
-                config.maxWidth = DensityUtils.getScreenW(view.getContext());
-            } else if (config.maxHeight == BitmapRequestConfig.DEF_WIDTH_HEIGHT) {
-                config.maxHeight = DensityUtils.getScreenH(view.getContext());
             }
 
             if (config.loadRes == 0 && config.loadDrawable == null) {
@@ -287,7 +276,8 @@ public final class BitmapCore {
                 realCallback = new HttpCallback() {
                     @Override
                     public void onPreStart() {
-                        view.setTag(config.mUrl);
+                        if (view != null)
+                            view.setTag(config.mUrl);
                         if (callback != null) callback.onPreStart();
                     }
 
@@ -304,7 +294,7 @@ public final class BitmapCore {
 
                     @Override
                     public void onFailure(int errorNo, String strMsg) {
-                        if (config.mUrl.equals(view.getTag())) {
+                        if (view != null && config.mUrl.equals(view.getTag())) {
                             setImageWithResource(view, config.errorDrawable, config.errorRes);
                         }
                         if (callback != null) callback.onFailure(errorNo, strMsg);
@@ -317,7 +307,7 @@ public final class BitmapCore {
 
                     @Override
                     public void onSuccess(Map<String, String> headers, Bitmap bitmap) {
-                        if (config.mUrl.equals(view.getTag())) {
+                        if (view != null && config.mUrl.equals(view.getTag())) {
                             setViewImage(view, bitmap);
                         }
                         if (callback != null) callback.onSuccess(headers, bitmap);
@@ -431,6 +421,7 @@ public final class BitmapCore {
     }
 
     public static void setViewImage(View view, int background) {
+        if (view == null) return;
         if (view instanceof ImageView) {
             ((ImageView) view).setImageResource(background);
         } else {
@@ -441,6 +432,7 @@ public final class BitmapCore {
     @SuppressLint("NewApi")
     @SuppressWarnings("deprecation")
     public static void setViewImage(View view, Bitmap background) {
+        if (view == null) return;
         if (view instanceof ImageView) {
             ((ImageView) view).setImageBitmap(background);
         } else {
@@ -457,6 +449,7 @@ public final class BitmapCore {
     @SuppressLint("NewApi")
     @SuppressWarnings("deprecation")
     public static void setViewImage(View view, Drawable background) {
+        if (view == null) return;
         if (view instanceof ImageView) {
             ((ImageView) view).setImageDrawable(background);
         } else {

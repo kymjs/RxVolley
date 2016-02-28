@@ -123,7 +123,6 @@ public class RxImageRequestTest extends AppCompatActivity {
                     }
                 });
         new BitmapCore.Builder()
-                .view(imageView2)
                 .callback(callback)
                 .url(datas_link[2])
                 .getResult()
@@ -136,7 +135,6 @@ public class RxImageRequestTest extends AppCompatActivity {
                     }
                 });
         new BitmapCore.Builder()
-                .view(imageView3)
                 .url(datas_link[3])
                 .getResult()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -148,7 +146,6 @@ public class RxImageRequestTest extends AppCompatActivity {
                     }
                 });
         new BitmapCore.Builder()
-                .view(imageView4)
                 .url(datas_link[4])
                 .callback(callback)
                 .getResult()
