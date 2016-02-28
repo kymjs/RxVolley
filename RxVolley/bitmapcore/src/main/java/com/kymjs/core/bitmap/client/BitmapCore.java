@@ -39,7 +39,7 @@ import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.rx.RxBus;
 import com.kymjs.rxvolley.toolbox.Loger;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -63,7 +63,7 @@ public final class BitmapCore {
 
     private final static ExecutorService DEFAULT_EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 
-    private static ArrayList<ImageBale> requestArray = new ArrayList<>();
+    private static LinkedList<ImageBale> requestArray = new LinkedList<>();
 
     /**
      * 获取一个请求队列(单例)
@@ -303,6 +303,13 @@ public final class BitmapCore {
                     @Override
                     public void onFinish() {
                         if (callback != null) callback.onFinish();
+                        //从正在请求的列表中移除
+                        for (ImageBale bale : requestArray) {
+                            if (config.mUrl.equals(bale.getRequestUrl())) {
+                                requestArray.remove(bale);
+                                break;
+                            }
+                        }
                     }
 
                     @Override
