@@ -142,6 +142,15 @@ public class RxVolley {
         }
 
         /**
+         * 每个request可以设置一个标志,用于在cancel()时找到
+         */
+        public Builder setTag(Object tag) {
+            this.httpConfig.mTag = tag;
+            return this;
+        }
+
+
+        /**
          * HttpRequest的配置器
          */
         public Builder httpConfig(RequestConfig httpConfig) {
@@ -259,6 +268,7 @@ public class RxVolley {
                     request = new FormRequest(httpConfig, params, callback);
                 }
 
+                request.setTag(httpConfig.mTag);
                 request.setOnProgressListener(progressListener);
 
                 if (TextUtils.isEmpty(httpConfig.mUrl)) {

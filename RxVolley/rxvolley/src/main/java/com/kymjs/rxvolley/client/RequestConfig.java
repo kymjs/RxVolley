@@ -41,4 +41,6 @@ public class RequestConfig {
     public RetryPolicy mRetryPolicy = new DefaultRetryPolicy(); //重试策略
 
     public String mEncoding = "UTF-8"; //编码
+
+    public Object mTag; //每个request可以设置一个标志
 }
