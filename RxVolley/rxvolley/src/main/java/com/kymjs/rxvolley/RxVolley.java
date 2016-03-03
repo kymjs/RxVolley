@@ -363,6 +363,7 @@ public class RxVolley {
         RequestConfig config = new RequestConfig();
         config.mUrl = url;
         FileRequest request = new FileRequest(storeFilePath, config, callback);
+        request.setTag(url);
         request.setOnProgressListener(progressListener);
         new Builder().setRequest(request).doTask();
     }
