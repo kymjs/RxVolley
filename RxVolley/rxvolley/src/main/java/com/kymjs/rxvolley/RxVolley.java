@@ -25,6 +25,7 @@ import com.kymjs.rxvolley.client.HttpParams;
 import com.kymjs.rxvolley.client.JsonRequest;
 import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.client.RequestConfig;
+import com.kymjs.rxvolley.http.DefaultRetryPolicy;
 import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
@@ -362,6 +363,8 @@ public class RxVolley {
             progressListener, HttpCallback callback) {
         RequestConfig config = new RequestConfig();
         config.mUrl = url;
+        config.mRetryPolicy = new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                20, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         FileRequest request = new FileRequest(storeFilePath, config, callback);
         request.setTag(url);
         request.setOnProgressListener(progressListener);

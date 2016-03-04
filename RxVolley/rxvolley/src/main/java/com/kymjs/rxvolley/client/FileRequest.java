@@ -192,7 +192,9 @@ public class FileRequest extends Request<byte[]> {
                 }
             }
         } finally {
-            in.close();
+            if (in != null) {
+                in.close();
+            }
             try {
                 response.getContentStream().close();
             } catch (Exception e) {
