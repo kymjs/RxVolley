@@ -74,7 +74,7 @@ public class JsonRequest extends Request<byte[]> {
     @Override
     public String getCacheKey() {
         if (getMethod() == RxVolley.Method.POST) {
-            return getUrl() + mParams.getUrlParams();
+            return getUrl() + mParams.getJsonParams();
         } else {
             return getUrl();
         }
