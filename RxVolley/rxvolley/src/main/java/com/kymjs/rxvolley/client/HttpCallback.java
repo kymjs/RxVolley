@@ -17,6 +17,8 @@ package com.kymjs.rxvolley.client;
 
 import android.graphics.Bitmap;
 
+import com.kymjs.rxvolley.http.VolleyError;
+
 import java.util.Map;
 
 /**
@@ -77,6 +79,13 @@ public abstract class HttpCallback {
     }
 
     /**
+     * Http请求失败时回调
+     * 仅Http网络请求中有效
+     */
+    public void onFailure(VolleyError error) {
+    }
+
+    /**
      * Http请求结束后回调
      */
     public void onFinish() {
@@ -84,8 +93,6 @@ public abstract class HttpCallback {
 
     /**
      * 仅请求bitmap中有效
-     *
-     * @param bitmap
      */
     public void onSuccess(Map<String, String> headers, Bitmap bitmap) {
     }

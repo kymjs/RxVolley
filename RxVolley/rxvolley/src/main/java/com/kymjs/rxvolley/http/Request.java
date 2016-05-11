@@ -300,6 +300,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
                 strMsg = "unknow";
             }
             mCallback.onFailure(errorNo, strMsg);
+            mCallback.onFailure(error);
         }
     }
 
