@@ -145,12 +145,11 @@ public class FileRequest extends Request<byte[]> {
             if (!TextUtils.isEmpty(realRangeValue)) {
                 String assumeRangeValue = "bytes " + downloadedSize + "-" + (fileSize - 1);
                 if (TextUtils.indexOf(realRangeValue, assumeRangeValue) == -1) {
-                    throw new IllegalStateException(
-                            "The Content-Range Header is invalid Assume["
-                                    + assumeRangeValue + "] vs Real["
-                                    + realRangeValue + "], "
-                                    + "please remove the temporary file ["
-                                    + mTemporaryFile + "].");
+                    Loger.debug("The Content-Range Header is invalid Assume["
+                            + assumeRangeValue + "] vs Real["
+                            + realRangeValue + "], "
+                            + "please remove the temporary file ["
+                            + mTemporaryFile + "].");
                 }
             }
         }
@@ -182,7 +181,6 @@ public class FileRequest extends Request<byte[]> {
             while ((offset = in.read(buffer)) != -1) {
                 tmpFileRaf.write(buffer, 0, offset);
                 downloadedSize += offset;
-
                 //下载进度回调
                 if (mProgressListener != null)
                     mRequestQueue.getDelivery().postProgress(mProgressListener,

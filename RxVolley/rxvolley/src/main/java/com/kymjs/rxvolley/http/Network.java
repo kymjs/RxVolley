@@ -85,7 +85,6 @@ public class Network implements INetwork {
                     } else {
                         responseContents = entityToBytes(httpResponse);
                     }
-//                    responseContents = entityToBytes(httpResponse);
                 } else {
                     responseContents = new byte[0];
                 }
