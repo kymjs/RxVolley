@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.kymjs.okhttp.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
@@ -37,7 +38,13 @@ public class MainActivity extends AppCompatActivity {
         RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER,
                 new OkHttpStack(new OkHttpClient())));
 
-        test();
+
+        findViewById(R.id.imageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                test();
+            }
+        });
     }
 
     /**
@@ -76,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 .url("http://kymjs.com/feed.xmlsss")
 //                .url("https://api.douban.com/v2/book/26692621") //服务器端声明了no-cache
                 .contentType(RxVolley.ContentType.FORM)
+                .shouldCache(true)
+                .httpMethod(RxVolley.Method.GET)
                 .getResult();
 
         subscription = observable
