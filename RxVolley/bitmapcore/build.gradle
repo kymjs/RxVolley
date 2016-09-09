@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
-version = "1.0.9"
+version = "1.1.0"
 
 android {
     compileSdkVersion 23
@@ -25,7 +25,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':rxvolley')
+    provided project(':rxvolley')
     testCompile 'junit:junit:4.12'
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:0.4'
