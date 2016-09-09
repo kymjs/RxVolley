@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.kymjs.core.bitmap.client.BitmapCore;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by kymjs on 2/28/16.
@@ -43,7 +44,6 @@ public class RxImageRequestTest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rxloadimage_test);
-
         setUp();
 
         testBitmapLoader();
@@ -111,14 +111,17 @@ public class RxImageRequestTest extends AppCompatActivity {
                 .subscribe(new Subscriber<Bitmap>() {
                     @Override
                     public void onCompleted() {
+                        Log.i("kymjs", "======::网络请求完成");
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.i("kymjs", "======::网络请求失败" + e.getMessage());
                     }
 
                     @Override
                     public void onNext(Bitmap bitmap) {
+                        Log.i("kymjs", "======::网络请求");
                         imageView1.setImageBitmap(bitmap);
                     }
                 });
@@ -127,10 +130,26 @@ public class RxImageRequestTest extends AppCompatActivity {
                 .url(datas_link[2])
                 .getResult()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Bitmap>() {
+                .filter(new Func1<Bitmap, Boolean>() {
                     @Override
-                    public void call(Bitmap bitmap) {
-                        Loger.debug("=====再次设置2");
+                    public Boolean call(Bitmap bitmap) {
+                        return bitmap != null;
+                    }
+                })
+                .subscribe(new Subscriber<Bitmap>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i("kymjs", "======::网络请求完成");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("kymjs", "======::网络请求失败" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Bitmap bitmap) {
+                        Log.i("kymjs", "======::网络请求");
                         imageView2.setImageBitmap(bitmap);
                     }
                 });
@@ -138,10 +157,26 @@ public class RxImageRequestTest extends AppCompatActivity {
                 .url(datas_link[3])
                 .getResult()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Bitmap>() {
+                .filter(new Func1<Bitmap, Boolean>() {
                     @Override
-                    public void call(Bitmap bitmap) {
-                        Loger.debug("=====再次设置3");
+                    public Boolean call(Bitmap bitmap) {
+                        return bitmap != null;
+                    }
+                })
+                .subscribe(new Subscriber<Bitmap>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i("kymjs", "======::网络请求完成");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("kymjs", "======::网络请求失败" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Bitmap bitmap) {
+                        Log.i("kymjs", "======::网络请求");
                         imageView3.setImageBitmap(bitmap);
                     }
                 });
@@ -150,10 +185,26 @@ public class RxImageRequestTest extends AppCompatActivity {
                 .callback(callback)
                 .getResult()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Bitmap>() {
+                .filter(new Func1<Bitmap, Boolean>() {
                     @Override
-                    public void call(Bitmap bitmap) {
-                        Loger.debug("=====再次设置4");
+                    public Boolean call(Bitmap bitmap) {
+                        return bitmap != null;
+                    }
+                })
+                .subscribe(new Subscriber<Bitmap>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i("kymjs", "======::网络请求完成");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("kymjs", "======::网络请求失败" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Bitmap bitmap) {
+                        Log.i("kymjs", "======::网络请求");
                         imageView4.setImageBitmap(bitmap);
                     }
                 });
@@ -163,10 +214,26 @@ public class RxImageRequestTest extends AppCompatActivity {
                 .callback(callback)
                 .getResult()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Bitmap>() {
+                .filter(new Func1<Bitmap, Boolean>() {
                     @Override
-                    public void call(Bitmap bitmap) {
-                        Loger.debug("=====再次设置5");
+                    public Boolean call(Bitmap bitmap) {
+                        return bitmap != null;
+                    }
+                })
+                .subscribe(new Subscriber<Bitmap>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i("kymjs", "======::网络请求完成");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("kymjs", "======::网络请求失败" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Bitmap bitmap) {
+                        Log.i("kymjs", "======::网络请求");
                         imageView5.setImageBitmap(bitmap);
                     }
                 });

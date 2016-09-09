@@ -59,8 +59,7 @@ public class AsyncPoster implements Runnable {
         }
         byte[] bytes = loadFromFile(pendingPost.config.mUrl, pendingPost.config.maxWidth,
                 pendingPost.config.maxHeight, pendingPost.callback);
-        RxBus.getDefault().post(new Result(pendingPost.config.mUrl,
-                Collections.<String, String>emptyMap(), bytes));
+        RxBus.getDefault().post(new Result(pendingPost.config.mUrl, bytes));
         PendingPost.releasePendingPost(pendingPost);
     }
 

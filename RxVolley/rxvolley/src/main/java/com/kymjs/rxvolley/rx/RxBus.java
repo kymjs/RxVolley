@@ -50,7 +50,13 @@ public class RxBus {
     private final Subject<Object, Object> bus = new SerializedSubject<>(PublishSubject.create());
 
     public void post(Object event) {
-        bus.onNext(event);
+        if (event instanceof Result) {
+            if (((Result) event).isSuccess()) {
+                bus.onNext(event);
+            } else {
+                bus.onError(((Result) event).error);
+            }
+        }
     }
 
     public <T> Observable<T> take(final Class<T> eventType) {

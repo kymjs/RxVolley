@@ -19,9 +19,9 @@ import com.squareup.okhttp.OkHttpClient;
 import java.io.File;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 "oscid=vv%2BiiKldi6wRaKbbRig0DDvMcIURmo56ZCZD2bfC83AsmxdhUxEVnr3ORNGz7BjiFlkpGQHUKJoRTzVAwy3oVtcO7JsM4nRIjEl6ZgM%2BmZgplCH0foAIiQ%3D%3D;");
 
         params.put("uid", 863548);
-        params.put("msg", "睡觉");
+        params.put("msg", "睡会");
         params.put("img", new File(FileUtils.getSDCardPath() + "/request.png"));
 
         RxVolley.post("http://192.168.1.11/action/api/software_tweet_pub", params,
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void test() {
         Observable<Result> observable = new RxVolley.Builder()
-                .url("http://kymjs.com/feed.xml")
+                .url("http://kymjs.com/feed.xmlsss")
 //                .url("https://api.douban.com/v2/book/26692621") //服务器端声明了no-cache
                 .contentType(RxVolley.ContentType.FORM)
                 .getResult();
@@ -93,10 +93,20 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
+                .subscribe(new Subscriber<String>() {
                     @Override
-                    public void call(String result) {
-                        Log.i("kymjs", "======网络请求" + result);
+                    public void onCompleted() {
+                        Log.i("kymjs", "======网络请求结束");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("kymjs", "======网络请求失败" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.i("kymjs", "======网络请求" + s);
                     }
                 });
     }
