@@ -23,6 +23,7 @@ import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.Response;
 import com.kymjs.rxvolley.http.URLHttpResponse;
 import com.kymjs.rxvolley.http.VolleyError;
+import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
 import com.kymjs.rxvolley.toolbox.Loger;
 
@@ -210,13 +211,14 @@ public class FileRequest extends Request<byte[]> {
 
     @Override
     protected void deliverResponse(ArrayList<HttpParamsEntry> headers, byte[] response) {
+        HashMap<String, String> map = new HashMap<>(headers.size());
+        for (HttpParamsEntry entry : headers) {
+            map.put(entry.k, entry.v);
+        }
+        if (response == null) response = new byte[0];
         if (mCallback != null) {
-            HashMap<String, String> map = new HashMap<>(headers.size());
-            for (HttpParamsEntry entry : headers) {
-                map.put(entry.k, entry.v);
-            }
-            if (response == null) response = new byte[0];
             mCallback.onSuccess(map, response);
         }
+        getConfig().mSubject.onNext(new Result(getUrl(), response, map));
     }
 }

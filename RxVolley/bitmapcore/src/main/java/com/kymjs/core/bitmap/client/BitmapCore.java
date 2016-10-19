@@ -36,7 +36,6 @@ import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
 import com.kymjs.rxvolley.rx.Result;
-import com.kymjs.rxvolley.rx.RxBus;
 import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.util.LinkedList;
@@ -324,26 +323,13 @@ public final class BitmapCore {
 
         public Observable<Bitmap> getResult() {
             doTask();
-            return RxBus.getDefault().take(Result.class)
-                    .filter(new Func1<Result, Boolean>() {
-                        @Override
-                        public Boolean call(Result result) {
-                            return result != null;
-                        }
-                    })
-                    .filter(new Func1<Result, Boolean>() {
-                        @Override
-                        public Boolean call(Result result) {
-                            return config.mUrl.equals(result.url);
-                        }
-                    })
+            return config.mSubject
                     .map(new Func1<Result, Bitmap>() {
                         @Override
                         public Bitmap call(Result result) {
                             return CreateBitmap.create(result.data, config.maxWidth, config.maxHeight);
                         }
                     })
-                    .take(1)
                     .subscribeOn(Schedulers.io());
         }
 

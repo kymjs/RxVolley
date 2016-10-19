@@ -284,24 +284,25 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      *
      * @param error 原因
      */
-    public void deliverError(VolleyError error) {
-        if (mCallback != null) {
-            int errorNo;
-            String strMsg;
-            if (error != null) {
-                if (error.networkResponse != null) {
-                    errorNo = error.networkResponse.statusCode;
-                } else {
-                    errorNo = -1;
-                }
-                strMsg = error.getMessage();
+    public void deliverError(final VolleyError error) {
+        final int errorNo;
+        String strMsg;
+        if (error != null) {
+            if (error.networkResponse != null) {
+                errorNo = error.networkResponse.statusCode;
             } else {
                 errorNo = -1;
-                strMsg = "unknow";
             }
+            strMsg = error.getMessage();
+        } else {
+            errorNo = -1;
+            strMsg = "unknow";
+        }
+        if (mCallback != null) {
             mCallback.onFailure(errorNo, strMsg);
             mCallback.onFailure(error);
         }
+        getConfig().mSubject.onError(error);
     }
 
     public void deliverStartHttp() {
@@ -317,6 +318,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         if (mCallback != null) {
             mCallback.onFinish();
         }
+        getConfig().mSubject.onCompleted();
     }
 
     /**

@@ -21,6 +21,7 @@ import com.kymjs.rxvolley.http.HttpHeaderParser;
 import com.kymjs.rxvolley.http.NetworkResponse;
 import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.Response;
+import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
 import com.kymjs.rxvolley.toolbox.Loger;
 
@@ -96,13 +97,14 @@ public class FormRequest extends Request<byte[]> {
 
     @Override
     protected void deliverResponse(ArrayList<HttpParamsEntry> headers, final byte[] response) {
+        final HashMap<String, String> map = new HashMap<>(headers.size());
+        for (HttpParamsEntry entry : headers) {
+            map.put(entry.k, entry.v);
+        }
         if (mCallback != null) {
-            HashMap<String, String> map = new HashMap<>(headers.size());
-            for (HttpParamsEntry entry : headers) {
-                map.put(entry.k, entry.v);
-            }
             mCallback.onSuccess(map, response);
         }
+        getConfig().mSubject.onNext(new Result(getUrl(), response, map));
     }
 
     @Override

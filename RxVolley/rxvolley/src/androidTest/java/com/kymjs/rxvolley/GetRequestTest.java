@@ -102,7 +102,7 @@ public class GetRequestTest extends AndroidTestCase {
                 .map(new Func1<Result, Map<String, String>>() {
                     @Override
                     public Map<String, String> call(Result result) {
-                        return result.header;
+                        return result.headers;
                     }
                 })
                 .subscribe(new Action1<Map<String, String>>() {

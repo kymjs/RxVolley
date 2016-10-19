@@ -18,13 +18,17 @@ import com.kymjs.rxvolley.toolbox.Loger;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
+import java.util.Map;
 
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -79,30 +83,75 @@ public class MainActivity extends AppCompatActivity {
      * RxJava
      */
     private void test() {
+        HttpCallback callback = new HttpCallback() {
+            @Override
+            public void onPreStart() {
+                Loger.debug("=====onPreStart");
+                // 测试类是运行在异步的,所以此处断言会异常
+                // assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
+            }
+
+            @Override
+            public void onPreHttp() {
+                Loger.debug("=====onPreHttp");
+                assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
+            }
+
+            @Override
+            public void onSuccessInAsync(byte[] t) {
+                assertNotNull(t);
+                Loger.debug("=====onSuccessInAsync" + new String(t));
+                //onSuccessInAsync 一定是运行在异步
+                assertFalse(Thread.currentThread() == Looper.getMainLooper().getThread());
+            }
+
+            @Override
+            public void onSuccess(String t) {
+                Loger.debug("=====onSuccess" + t);
+                assertNotNull(t);
+                assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
+            }
+
+            @Override
+            public void onSuccess(Map<String, String> headers, byte[] t) {
+                assertNotNull(t);
+                Loger.debug("=====onSuccessWithHeader" + headers.size() + new String(t));
+                assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
+            }
+
+            @Override
+            public void onFailure(int errorNo, String strMsg) {
+                super.onFailure(errorNo, strMsg);
+                Loger.debug("=====onFailure" + strMsg);
+                assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                Loger.debug("=====onFinish");
+                assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
+            }
+        };
+
         Observable<Result> observable = new RxVolley.Builder()
-                .url("http://kymjs.com/feed.xmlsss")
+                .url("http://kymjs.com/feed.xml")
 //                .url("https://api.douban.com/v2/book/26692621") //服务器端声明了no-cache
                 .contentType(RxVolley.ContentType.FORM)
                 .shouldCache(true)
                 .httpMethod(RxVolley.Method.GET)
+//                .callback(callback)
                 .getResult();
 
         subscription = observable
-                .filter(new Func1<Result, Boolean>() {
-                    @Override
-                    public Boolean call(Result result) {
-                        return result.data != null;
-                    }
-                })
-                .map(new Func1<Result, String>() {
-                    @Override
-                    public String call(Result result) {
-                        return new String(result.data);
-                    }
-                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
+                .subscribe(new Subscriber<Result>() {
+                    @Override
+                    public void onStart() {
+                        Log.i("kymjs", "======网络请求开始");
+                    }
+
                     @Override
                     public void onCompleted() {
                         Log.i("kymjs", "======网络请求结束");
@@ -114,8 +163,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(String s) {
-                        Log.i("kymjs", "======网络请求" + s);
+                    public void onNext(Result s) {
+                        Log.i("kymjs", "======网络请求" + new String(s.data));
                     }
                 });
     }

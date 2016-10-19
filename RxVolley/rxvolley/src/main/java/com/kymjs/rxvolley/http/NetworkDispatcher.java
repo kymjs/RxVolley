@@ -24,7 +24,6 @@ import android.os.Process;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.INetwork;
-import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.rx.RxBus;
 import com.kymjs.rxvolley.toolbox.Loger;
 
@@ -111,7 +110,6 @@ public class NetworkDispatcher extends Thread {
                     if (request.getCallback() != null) {
                         request.getCallback().onSuccessInAsync(networkResponse.data);
                     }
-                    mPoster.post(new Result(request.getUrl(), networkResponse.data, networkResponse.headers));
                 }
                 mDelivery.postResponse(request, response);
             } catch (VolleyError volleyError) {
@@ -126,6 +124,5 @@ public class NetworkDispatcher extends Thread {
     private void parseAndDeliverNetworkError(Request<?> request, VolleyError error, int stateCode) {
         error = request.parseNetworkError(error);
         mDelivery.postError(request, error);
-        mPoster.post(new Result(request.getUrl(), error, stateCode));
     }
 }
