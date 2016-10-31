@@ -47,7 +47,7 @@ public class RxVolley {
     private RxVolley() {
     }
 
-    public final static File CACHE_FOLDER = FileUtils.getSaveFolder("RxVolley");
+    public final static File CACHE_FOLDER = FileUtils.getExternalCacheDir("RxVolley");
 
     private static RequestQueue sRequestQueue;
 

@@ -44,6 +44,18 @@ public final class FileUtils {
         return file;
     }
 
+    /**
+     * 获取文件夹对象
+     *
+     * @return 返回SD卡下的指定文件夹对象，若文件夹不存在则创建
+     */
+    public static File getExternalCacheDir(String folderName) {
+        File file = new File(RxVolleyContext.INSTANCE.getExternalCacheDir()
+                + File.separator + folderName + File.separator);
+        file.mkdirs();
+        return file;
+    }
+
     public static String getSDCardPath() {
         return Environment.getExternalStorageDirectory().getAbsolutePath();
     }
