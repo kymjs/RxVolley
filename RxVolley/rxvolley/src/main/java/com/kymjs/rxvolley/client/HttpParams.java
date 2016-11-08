@@ -30,6 +30,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -139,10 +141,10 @@ public class HttpParams {
     /**
      * 添加二进制文件参数
      *
-     * @param key           参数key
-     * @param rawData       二进制参数body
-     * @param type          参数的contentType
-     * @param fileName      二进制文件名,可以为空
+     * @param key      参数key
+     * @param rawData  二进制参数body
+     * @param type     参数的contentType
+     * @param fileName 二进制文件名,可以为空
      */
     public void put(final String key, final byte[] rawData, String type, String fileName) {
         hasFile = true;
@@ -255,7 +257,12 @@ public class HttpParams {
                 result.append("?");
                 isFirst = false;
             }
-            result.append(entry.k).append("=").append(entry.v);
+            try {
+                result.append(URLEncoder.encode(entry.k, CHARSET)).append("=").
+                        append(URLEncoder.encode(entry.v, CHARSET));
+            } catch (UnsupportedEncodingException e) {
+                result.append(entry.k).append("=").append(entry.v);
+            }
         }
         return result;
     }

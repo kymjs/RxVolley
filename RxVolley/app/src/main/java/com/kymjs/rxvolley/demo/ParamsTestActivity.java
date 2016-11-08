@@ -34,8 +34,8 @@ public class ParamsTestActivity extends AppCompatActivity {
         params.put("name[]", "hello");
         params.put("name[]", "hello2");
         params.put("name[]", "hello3");
-        params.put("name2", "hello3333");
-        RxVolley.post("http://192.168.31.155/php/array_info.php", params, new HttpCallback() {
+        params.put("name2", "hell    o3333");
+        RxVolley.get("http://172.16.12.236/php/array_info.php", params, new HttpCallback() {
             @Override
             public void onSuccess(String t) {
                 super.onSuccess(t);
