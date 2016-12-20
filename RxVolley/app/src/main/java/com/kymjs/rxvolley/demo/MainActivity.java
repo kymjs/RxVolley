@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.kymjs.okhttp.OkHttpStack;
+import com.kymjs.okhttp3.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
@@ -15,11 +15,11 @@ import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.FileUtils;
 import com.kymjs.rxvolley.toolbox.Loger;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
 import java.util.Map;
 
+import okhttp3.OkHttpClient;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -135,12 +135,12 @@ public class MainActivity extends AppCompatActivity {
         };
 
         Observable<Result> observable = new RxVolley.Builder()
-                .url("http://kymjs.com/feed.xml")
-//                .url("https://api.douban.com/v2/book/26692621") //服务器端声明了no-cache
+//                .url("http://kymjs.com/feed.xml")
+                .url("https://api.douban.com/v2/book/26692621") //服务器端声明了no-cache
                 .contentType(RxVolley.ContentType.FORM)
                 .shouldCache(true)
                 .httpMethod(RxVolley.Method.GET)
-//                .callback(callback)
+                .callback(callback)
                 .getResult();
 
         subscription = observable

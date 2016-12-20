@@ -7,16 +7,17 @@ import android.os.Looper;
 import android.widget.ImageView;
 
 import com.kymjs.core.bitmap.client.BitmapCore;
-import com.kymjs.okhttp.OkHttpStack;
+import com.kymjs.okhttp3.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.toolbox.FileUtils;
 import com.kymjs.rxvolley.toolbox.Loger;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
 import java.util.Map;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Created by kymjs on 2/23/16.

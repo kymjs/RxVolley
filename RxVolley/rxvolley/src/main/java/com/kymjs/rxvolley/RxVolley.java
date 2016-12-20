@@ -350,7 +350,7 @@ public class RxVolley {
      * @param progressListener 下载进度回调
      * @param callback         回调
      */
-    public static void download(String storeFilePath, String url, ProgressListener
+    public static FileRequest download(String storeFilePath, String url, ProgressListener
             progressListener, HttpCallback callback) {
         RequestConfig config = new RequestConfig();
         config.mUrl = url;
@@ -360,5 +360,6 @@ public class RxVolley {
         request.setTag(url);
         request.setOnProgressListener(progressListener);
         new Builder().setRequest(request).doTask();
+        return request;
     }
 }
