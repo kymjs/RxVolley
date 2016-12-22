@@ -19,20 +19,18 @@ import com.kymjs.rxvolley.toolbox.Loger;
 import java.io.File;
 import java.util.Map;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Subscription subscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,28 +141,27 @@ public class MainActivity extends AppCompatActivity {
                 .callback(callback)
                 .getResult();
 
-        subscription = observable
-                .subscribeOn(Schedulers.io())
+        observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Result>() {
+                .subscribe(new Observer<Result>() {
                     @Override
-                    public void onStart() {
-                        Log.i("kymjs", "======网络请求开始");
-                    }
-
-                    @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         Log.i("kymjs", "======网络请求结束");
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        Log.i("kymjs", "======网络请求失败" + e.getMessage());
+                    public void onSubscribe(Disposable d) {
+                        Log.i("kymjs", "======网络请求开始");
                     }
 
                     @Override
                     public void onNext(Result s) {
                         Log.i("kymjs", "======网络请求" + new String(s.data));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("kymjs", "======网络请求失败" + e.getMessage());
                     }
                 });
     }
@@ -190,13 +187,5 @@ public class MainActivity extends AppCompatActivity {
                         Loger.debug(errorNo + "====failure" + strMsg);
                     }
                 });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (subscription != null && subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
     }
 }

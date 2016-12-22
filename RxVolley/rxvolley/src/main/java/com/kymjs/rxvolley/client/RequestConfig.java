@@ -20,9 +20,9 @@ import com.kymjs.rxvolley.http.DefaultRetryPolicy;
 import com.kymjs.rxvolley.http.RetryPolicy;
 import com.kymjs.rxvolley.rx.Result;
 
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
+
 
 /**
  * @author kymjs (http://www.kymjs.com/) on 12/17/15.
@@ -49,5 +49,5 @@ public class RequestConfig {
 
     public Object mTag; //每个request可以设置一个标志
 
-    public final Subject<Result, Result> mSubject = new SerializedSubject<>(PublishSubject.<Result>create());
+    public final Subject<Result> mSubject = PublishSubject.<Result>create().toSerialized();
 }

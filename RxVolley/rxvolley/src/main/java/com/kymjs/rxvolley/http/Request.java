@@ -318,7 +318,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         if (mCallback != null) {
             mCallback.onFinish();
         }
-        getConfig().mSubject.onCompleted();
+        getConfig().mSubject.onComplete();
     }
 
     /**

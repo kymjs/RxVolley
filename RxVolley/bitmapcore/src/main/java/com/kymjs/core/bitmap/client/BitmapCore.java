@@ -43,9 +43,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import rx.Observable;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 入口类
@@ -324,9 +324,9 @@ public final class BitmapCore {
         public Observable<Bitmap> getResult() {
             doTask();
             return config.mSubject
-                    .map(new Func1<Result, Bitmap>() {
+                    .map(new Function<Result, Bitmap>() {
                         @Override
-                        public Bitmap call(Result result) {
+                        public Bitmap apply(Result result) throws Exception {
                             return CreateBitmap.create(result.data, config.maxWidth, config.maxHeight);
                         }
                     })
