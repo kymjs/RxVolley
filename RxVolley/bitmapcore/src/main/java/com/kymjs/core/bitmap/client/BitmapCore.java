@@ -131,7 +131,7 @@ public final class BitmapCore {
         /**
          * HttpRequest的配置器
          */
-        public Builder confit(BitmapRequestConfig config) {
+        public Builder config(BitmapRequestConfig config) {
             this.config = config;
             return this;
         }

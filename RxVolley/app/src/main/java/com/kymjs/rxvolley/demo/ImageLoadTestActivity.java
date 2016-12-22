@@ -99,6 +99,9 @@ public class ImageLoadTestActivity extends Activity {
                 .callback(callback).doTask();
     }
 
+    /**
+     * 定制加载中、加载出错的图片
+     */
     public void testBitmapWithLoadImage() {
         new BitmapCore.Builder()
                 .url("http://kymjs.com/image/logo.jpg")
@@ -109,6 +112,9 @@ public class ImageLoadTestActivity extends Activity {
                 .doTask();
     }
 
+    /**
+     * 从本地SD卡加载图片(可直接传路径)
+     */
     public void testBitmapWithDiskLoader() {
         new BitmapCore.Builder()
                 .url(FileUtils.getSDCardPath() + File.separator + "request.png")
@@ -119,6 +125,9 @@ public class ImageLoadTestActivity extends Activity {
                 .doTask();
     }
 
+    /**
+     * 使用并行模式访问本地图片(默认为串行)
+     */
     public void testBitmapWithDiskLoader2() {
         new BitmapCore.Builder()
                 .url(FileUtils.getSDCardPath() + File.separator + "request.png")
@@ -126,7 +135,7 @@ public class ImageLoadTestActivity extends Activity {
                 .view(contentView)
                 .loadResId(R.mipmap.ic_launcher)
                 .errorResId(R.mipmap.ic_launcher)
-                        //并行访问本地图片
+                //并行访问本地图片
                 .useAsyncLoadDiskImage(true)
                 .doTask();
     }
