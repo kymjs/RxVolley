@@ -5,13 +5,15 @@ RxVolley is modified Volley. Removed the HttpClient, and support RxJava.
 
 If you are building with Gradle, simply add the following line to the ```dependencies``` section of your ```build.gradle``` file:   
 
->compile 'com.kymjs.rxvolley:rxvolley:1.1.3'  
+>compile 'com.kymjs.rxvolley:rxvolley:1.1.4'  
 >
 >// If use okhttp function    
->compile 'com.kymjs.rxvolley:okhttp:1.1.3'  
+>compile 'com.kymjs.rxvolley:okhttp:1.1.4'  
+>//or
+>compile 'com.kymjs.rxvolley:okhttp3:1.1.4'
 >
 >// If use image-loader function  
->compile 'com.kymjs.rxvolley:bitmapcore:1.1.3'
+>compile 'com.kymjs.rxvolley:bitmapcore:1.1.4'
 
 
 ## Getting Started
