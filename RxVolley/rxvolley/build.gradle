@@ -1,8 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
-
-version = "1.1.4"
 
 android {
     compileSdkVersion 23
@@ -37,10 +33,16 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
 }
 
-def siteUrl = 'https://github.com/kymjs/RxVolley'      // 项目的主页
-def gitUrl = 'https://github.com/kymjs/RxVolley.git'   // Git仓库的url
 
-group = "com.kymjs.rxvolley"
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+def siteUrl = REPO_URL      // 项目的主页
+def gitUrl = REPO_GIT   // Git仓库的url
+def module_name = RXVOLLEY_MODULE_NAME
+
+group = PROJECT_GROUP
+version = MODULE_VERSION
 
 install {
     repositories.mavenInstaller {
@@ -48,21 +50,20 @@ install {
         pom {
             project {
                 packaging 'aar'
-                // Add your description here
-                name 'Volley + RxJava + OkHttp.'    //项目描述
+                name PROJECT_DESCRIPTION
                 url siteUrl
                 // Set your license
                 licenses {
                     license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name LICENSE_NAME
+                        url LICENSE_URL
                     }
                 }
                 developers {
                     developer {
-                        id 'kymjs'        //填写的一些基本信息
-                        name 'ZhangTao'
-                        email 'kymjs123@gmail.com'
+                        id DEVELOPER_ID		//填写的一些基本信息
+                        name DEVELOPER_NAME
+                        email DEVELOPER_EMAIL
                     }
                 }
                 scm {
@@ -98,7 +99,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "RxVolley"    //发布到JCenter上的项目名字
+        name = module_name	//发布到JCenter上的项目名字
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
