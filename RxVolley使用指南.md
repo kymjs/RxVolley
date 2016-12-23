@@ -19,19 +19,21 @@ RxVolley 项目地址： https://github.com/kymjs/RxVolley
 使用RxVolley，需要在你的```build.gradle```文件中加入  
 
 ```gradle
-compile 'com.kymjs.rxvolley:rxvolley:1.1.3'
+compile 'com.kymjs.rxvolley:rxvolley:1.1.4'
 ```
 
 如果你还想使用OKhttp来替代默认的```HttpUrlconnection```，需要加入  
 
 ```gradle
-compile 'com.kymjs.rxvolley:okhttp:1.1.3'
+compile 'com.kymjs.rxvolley:okhttp:1.1.4'
+//或可选okhttp3
+compile 'com.kymjs.rxvolley:okhttp3:1.1.4'
 ```
 
 如果你想使用RxVolley的图片加载功能(复用http模块可以有效减少apk大小)，需要加入   
 
 ```gradle
-compile 'com.kymjs.rxvolley:bitmapcore:1.1.3'
+compile 'com.kymjs.rxvolley:bitmapcore:1.1.4'
 ```  
 
 使用 RxVolley 做网络请求
