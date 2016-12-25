@@ -34,6 +34,7 @@ import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.FileUtils;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 
@@ -187,6 +188,13 @@ public class RxVolley {
          * 缓存有效时间,单位分钟
          */
         public Builder cacheTime(int cacheTime) {
+            this.httpConfig.mCacheTime = cacheTime;
+            return this;
+        }
+        /**
+         * 缓存有效时间,单位分钟
+         */
+        public Builder cacheTime(int cacheTime, TimeUnit timeUnit) {
             this.httpConfig.mCacheTime = cacheTime;
             return this;
         }
