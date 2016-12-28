@@ -21,10 +21,10 @@ import android.net.TrafficStats;
 import android.os.Build;
 import android.os.Process;
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.INetwork;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.util.concurrent.BlockingQueue;
 
@@ -112,7 +112,7 @@ public class NetworkDispatcher extends Thread {
             } catch (VolleyError volleyError) {
                 parseAndDeliverNetworkError(request, volleyError, stateCode);
             } catch (Exception e) {
-                Loger.debug(String.format("Unhandled exception %s", e.getMessage()));
+                Log.d("RxVolley", String.format("Unhandled exception %s", e.getMessage()));
                 parseAndDeliverNetworkError(request, new VolleyError(e), stateCode);
             }
         }

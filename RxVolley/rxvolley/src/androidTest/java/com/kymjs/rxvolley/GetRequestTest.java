@@ -7,7 +7,6 @@ import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.rx.Result;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import org.junit.After;
 import org.junit.Before;

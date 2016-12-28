@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 /**
  * Created by ZhangTao on 9/9/16.

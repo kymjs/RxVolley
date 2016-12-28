@@ -16,6 +16,7 @@
 package com.kymjs.rxvolley.client;
 
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.HttpHeaderParser;
 import com.kymjs.rxvolley.http.NetworkResponse;
@@ -23,7 +24,6 @@ import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.Response;
 import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FilterOutputStream;
@@ -83,7 +83,7 @@ public class FormRequest extends Request<byte[]> {
                 mParams.writeTo(bos);
             }
         } catch (IOException e) {
-            Loger.debug("FormRequest#getBody()--->IOException writing to ByteArrayOutputStream");
+            Log.d("RxVolley", "FormRequest#getBody()--->IOException writing to ByteArrayOutputStream");
         }
         return bos.toByteArray();
     }

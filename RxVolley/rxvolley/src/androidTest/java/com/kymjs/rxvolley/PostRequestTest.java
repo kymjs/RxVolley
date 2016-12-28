@@ -5,8 +5,6 @@ import android.test.AndroidTestCase;
 
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
-import com.kymjs.rxvolley.toolbox.FileUtils;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import org.junit.Before;
 import org.junit.Test;

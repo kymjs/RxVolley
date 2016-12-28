@@ -17,6 +17,7 @@ package com.kymjs.rxvolley.client;
 
 import android.text.TextUtils;
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.http.HttpHeaderParser;
 import com.kymjs.rxvolley.http.NetworkResponse;
 import com.kymjs.rxvolley.http.Request;
@@ -25,7 +26,6 @@ import com.kymjs.rxvolley.http.URLHttpResponse;
 import com.kymjs.rxvolley.http.VolleyError;
 import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.io.File;
 import java.io.IOException;
@@ -134,7 +134,7 @@ public class FileRequest extends Request<byte[]> {
     public byte[] handleResponse(URLHttpResponse response) throws IOException {
         long fileSize = response.getContentLength();
         if (fileSize <= 0) {
-            Loger.debug("Response doesn't present Content-Length!");
+            Log.d("RxVolley", "Response doesn't present Content-Length!");
         }
 
         long downloadedSize = mTemporaryFile.length();
@@ -146,7 +146,7 @@ public class FileRequest extends Request<byte[]> {
             if (!TextUtils.isEmpty(realRangeValue)) {
                 String assumeRangeValue = "bytes " + downloadedSize + "-" + (fileSize - 1);
                 if (TextUtils.indexOf(realRangeValue, assumeRangeValue) == -1) {
-                    Loger.debug("The Content-Range Header is invalid Assume["
+                    Log.d("RxVolley", "The Content-Range Header is invalid Assume["
                             + assumeRangeValue + "] vs Real["
                             + realRangeValue + "], "
                             + "please remove the temporary file ["
@@ -197,7 +197,7 @@ public class FileRequest extends Request<byte[]> {
             try {
                 response.getContentStream().close();
             } catch (Exception e) {
-                Loger.debug("Error occured when calling consumingContent");
+                Log.d("RxVolley", "Error occured when calling consumingContent");
             }
             tmpFileRaf.close();
         }

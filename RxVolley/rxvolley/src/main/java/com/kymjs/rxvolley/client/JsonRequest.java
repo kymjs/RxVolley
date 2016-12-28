@@ -17,6 +17,7 @@
 package com.kymjs.rxvolley.client;
 
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.HttpHeaderParser;
 import com.kymjs.rxvolley.http.NetworkResponse;
@@ -24,7 +25,6 @@ import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.Response;
 import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class JsonRequest extends Request<byte[]> {
         try {
             return mRequestBody == null ? null : mRequestBody.getBytes(getConfig().mEncoding);
         } catch (UnsupportedEncodingException uee) {
-            Loger.debug(String.format("Unsupported Encoding while trying to get the bytes of %s" +
+            Log.d("RxVolley", String.format("Unsupported Encoding while trying to get the bytes of %s" +
                     " using %s", mRequestBody, getConfig().mEncoding));
             return null;
         }

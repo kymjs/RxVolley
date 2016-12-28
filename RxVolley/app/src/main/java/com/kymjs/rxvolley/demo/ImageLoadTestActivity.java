@@ -11,8 +11,6 @@ import com.kymjs.okhttp3.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.RequestQueue;
-import com.kymjs.rxvolley.toolbox.FileUtils;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.io.File;
 import java.util.Map;

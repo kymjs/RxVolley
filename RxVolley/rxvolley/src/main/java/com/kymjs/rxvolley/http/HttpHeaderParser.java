@@ -17,8 +17,8 @@
 package com.kymjs.rxvolley.http;
 
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.interf.ICache;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,7 +62,7 @@ public class HttpHeaderParser {
                         // 如果服务器声明了缓存时间长度，则使用服务器缓存时间长度
                         maxAge = Long.parseLong(token.substring(8));
                     } catch (Exception e) {
-                        Loger.debug(HttpHeaderParser.class.getName() + e.getMessage());
+                        Log.d("RxVolley", HttpHeaderParser.class.getName() + e.getMessage());
                     }
                 } else if (token.equals("must-revalidate") || token.equals("proxy-revalidate")) {
                     // 如果服务器声明必须重新验证，或必须使用代理验证，则相当于本次数据是一次性的

@@ -17,15 +17,15 @@
 package com.kymjs.rxvolley.http;
 
 
+import com.kymjs.common.FileUtils;
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.client.FileRequest;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IHttpStack;
 import com.kymjs.rxvolley.interf.INetwork;
 import com.kymjs.rxvolley.toolbox.ByteArrayPool;
-import com.kymjs.rxvolley.toolbox.FileUtils;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
 import com.kymjs.rxvolley.toolbox.HttpStatus;
-import com.kymjs.rxvolley.toolbox.Loger;
 import com.kymjs.rxvolley.toolbox.PoolingByteArrayOutputStream;
 
 import java.io.IOException;
@@ -107,7 +107,7 @@ public class Network implements INetwork {
                 } else {
                     throw new VolleyError("NoConnection error", e);
                 }
-                Loger.debug(String.format("Unexpected response code %d for %s", statusCode,
+                Log.d("RxVolley", String.format("Unexpected response code %d for %s", statusCode,
                         request.getUrl()));
                 if (responseContents != null) {
                     networkResponse = new NetworkResponse(statusCode, responseContents,
@@ -142,13 +142,13 @@ public class Network implements INetwork {
             if (retryPolicy != null) {
                 retryPolicy.retry(exception);
             } else {
-                Loger.debug("not retry policy");
+                Log.d("RxVolley", "not retry policy");
             }
         } catch (VolleyError e) {
-            Loger.debug(String.format("%s-timeout-giveup [timeout=%s]", logPrefix, oldTimeout));
+            Log.d("RxVolley", String.format("%s-timeout-giveup [timeout=%s]", logPrefix, oldTimeout));
             throw e;
         }
-        Loger.debug(String.format("%s-retry [timeout=%s]", logPrefix, oldTimeout));
+        Log.d("RxVolley", String.format("%s-retry [timeout=%s]", logPrefix, oldTimeout));
     }
 
     /**
