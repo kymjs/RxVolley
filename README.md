@@ -5,18 +5,20 @@ RxVolley is modified Volley. Removed the HttpClient, and support RxJava.
 
 If you are building with Gradle, simply add the following line to the ```dependencies``` section of your ```build.gradle``` file:   
 
->compile 'com.kymjs.rxvolley:rxvolley:1.1.3'  
+>compile 'com.kymjs.rxvolley:rxvolley:1.1.4'  
 >
 >// If use okhttp function    
->compile 'com.kymjs.rxvolley:okhttp:1.1.3'  
+>compile 'com.kymjs.rxvolley:okhttp:1.1.4'  
+>//or   
+>compile 'com.kymjs.rxvolley:okhttp3:1.1.4'
 >
 >// If use image-loader function  
->compile 'com.kymjs.rxvolley:bitmapcore:1.1.3'
+>compile 'com.kymjs.rxvolley:bitmapcore:1.1.4'
 
 
 ## Getting Started
 Builder pattern to create objects.    
-or  [中文帮助](http://rxvolley.mydoc.io/) (正在不断完善中)
+or  [中文帮助](http://rxvolley.mydoc.io/)   
 
 ####Callback method do Get request and contenttype is form  
 
@@ -106,19 +108,6 @@ RxVolley can be included in any Android application.
 
 RxVolley supports Android 3.1, API12 (HONEYCOMB_MR1) and later.  
 
-##More
-
-####Which project uses it ？
-
-* CodeCafe [https://github.com/kymjs/CodeCafe](https://github.com/kymjs/CodeCafe)    
-
-	> My blog project.  
-	
-
-* OSChina Git App [http://git.oschina.net/oschina/git-osc-android](http://git.oschina.net/oschina/git-osc-android)  
-	
-	> OpenSourceChina company Git client.  
-	
-####License
+##License
 
 Licensed under the Apache License Version 2.0.  [The "License"](http://www.apache.org/licenses/LICENSE-2.0)  

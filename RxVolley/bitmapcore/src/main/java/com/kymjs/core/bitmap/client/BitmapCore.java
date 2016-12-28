@@ -22,6 +22,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.kymjs.core.bitmap.BitmapMemoryCache;
@@ -131,7 +132,7 @@ public final class BitmapCore {
         /**
          * HttpRequest的配置器
          */
-        public Builder confit(BitmapRequestConfig config) {
+        public Builder config(BitmapRequestConfig config) {
             this.config = config;
             return this;
         }
@@ -289,6 +290,10 @@ public final class BitmapCore {
                     @Override
                     public void onSuccessInAsync(byte[] t) {
                         if (callback != null) callback.onSuccessInAsync(t);
+                        if (config.animation != null
+                                && config.anim != 0) {
+                            config.animation = AnimationUtils.loadAnimation(view.getContext(), config.anim);
+                        }
                     }
 
                     @Override
@@ -316,7 +321,12 @@ public final class BitmapCore {
                         if (view != null && config.mUrl.equals(view.getTag())) {
                             setViewImage(view, bitmap);
                         }
-                        if (callback != null) callback.onSuccess(headers, bitmap);
+                        if (config.animation != null) {
+                            view.startAnimation(config.animation);
+                        }
+                        if (callback != null) {
+                            callback.onSuccess(headers, bitmap);
+                        }
                     }
                 };
         }
