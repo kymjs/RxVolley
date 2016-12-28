@@ -2,6 +2,9 @@ RxVolley使用指南
 ===
 
 RxVolley 项目地址： https://github.com/kymjs/RxVolley  
+QQ问答群：1群 257053751(付费); 2群 201055521(付费); 3群 110775129(付费)   
+*付费群，请带着问题来，闲聊者不建议随意加入，虽说不会踢人*
+
 
 ##概述
 
@@ -12,6 +15,7 @@ RxVolley 项目地址： https://github.com/kymjs/RxVolley
 移除了原```Volley```的 HttpClient 相关 API ，可在 API23 环境编译；   
 内置了```RxBus```的实现，可有效替换掉```EventBus```等相关库；  
 
+即将支持 RxJava2.0
 
 
 ##依赖 
@@ -26,7 +30,8 @@ compile 'com.kymjs.rxvolley:rxvolley:1.1.4'
 
 ```gradle
 compile 'com.kymjs.rxvolley:okhttp:1.1.4'
-//或可选okhttp3
+
+//或者okhttp3（二选一）
 compile 'com.kymjs.rxvolley:okhttp3:1.1.4'
 ```
 
@@ -162,13 +167,11 @@ new RxVolley.Builder()
 
 ```java
 public class Result {
-    public Map<String, String> header;
+    public String url;
     public byte[] data;
-
-    public Result(Map<String, String> header, byte[] data) {
-        this.header = header;
-        this.data = data;
-    }
+    public VolleyError error;
+    public Map<String, String> headers;
+    public int errorCode;
 }
 ```
 
@@ -215,10 +218,20 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<String>() {
+                .subscribe(new Subscriber<String>() {
                     @Override
-                    public void call(String result) {
-                        Log.i("kymjs", "======网络请求" + result);
+                    public void onCompleted() {
+                        Log.i("kymjs", "======网络请求结束");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("kymjs", "======网络请求失败" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.i("kymjs", "======网络请求" + s);
                     }
                 });
     }
@@ -388,7 +401,7 @@ RxVolley.download(FileUtils.getSDCardPath() + "/a.apk",
 ```
 RxVolley.setRequestQueue(RequestQueue.newRequestQueue(cacheFolder));
 ```
-需要注意的是，setRequestQueue 方法必须在 RxVolley.Build() 方法执行之前调用，也就是在使用 RxVolley 以前先设置配置信息。建议在 Application 类中完成这些设置。  
+需要注意的是，setRequestQueue 方法必须在 BitmapCore.Build() 和 RxVolley.Build() 方法执行之前调用，也就是在使用 RxVolley 以前先设置配置信息。建议在 Application 类中完成这些设置。  
 
 ###Https设置
 如果不设置，默认信任全部的https证书。可以传入自定义 ```SSLSocketFactory```  
@@ -440,22 +453,4 @@ shouldCache()
 retryPolicy()  
 
 ```
-
-##使用 OkHttp 替代 HttpUrlconnection 
-Volley 允许你创建自己的网络请求执行器，执行器需要实现```IHttpStack```接口  
-
-RxVolley 的 okhttp module 已经有了使用 OkHttp 作为请求执行器的实现。  
-
-你可以使用如下代码设置，依旧需要注意的是，setRequestQueue 方法必须在 RxVolley.Build() 方法执行之前调用，也就是在使用 RxVolley 以前先设置配置信息。建议在 Application 类中完成这些设置。  
-
-```java
-RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER, new OkHttpStack(new OkHttpClient())));
-```  
-
-使用 OkHttp 相关功能需要在你的 ```build.gradle``` 文件中加入 
-
-```gradle
-compile 'com.kymjs.rxvolley:okhttp:1.0.5'
-```
-
 
