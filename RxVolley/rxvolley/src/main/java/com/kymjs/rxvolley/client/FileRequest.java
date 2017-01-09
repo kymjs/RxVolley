@@ -60,6 +60,11 @@ public class FileRequest extends Request<byte[]> {
                 }
             }
         }
+        try {
+            Runtime.getRuntime().exec("chmod 777 " + storeFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         mTemporaryFile = new File(storeFilePath + ".tmp");
     }
 
@@ -91,7 +96,17 @@ public class FileRequest extends Request<byte[]> {
                             HttpHeaderParser.parseCacheHeaders(getConfig().mUseServerControl,
                                     getConfig().mCacheTime, response));
                 } else {
-                    errorMessage = "Can't rename the download temporary file!";
+                    //删除目标源,重试一次
+                    if (mStoreFile.exists()) {
+                        mStoreFile.delete();
+                        if (mTemporaryFile.renameTo(mStoreFile)) {
+                            return Response.success(response.data, response.headers,
+                                    HttpHeaderParser.parseCacheHeaders(getConfig().mUseServerControl,
+                                            getConfig().mCacheTime, response));
+                        } else {
+                            errorMessage = "Can't rename the download temporary file!";
+                        }
+                    }
                 }
             } else {
                 errorMessage = "Download temporary file was invalid!";
