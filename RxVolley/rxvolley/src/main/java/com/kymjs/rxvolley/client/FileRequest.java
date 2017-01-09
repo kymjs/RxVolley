@@ -60,6 +60,11 @@ public class FileRequest extends Request<byte[]> {
                 }
             }
         }
+        try {
+            Runtime.getRuntime().exec("chmod 777 " + storeFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         mTemporaryFile = new File(storeFilePath + ".tmp");
     }
 
@@ -91,7 +96,17 @@ public class FileRequest extends Request<byte[]> {
                             HttpHeaderParser.parseCacheHeaders(getConfig().mUseServerControl,
                                     getConfig().mCacheTime, response));
                 } else {
-                    errorMessage = "Can't rename the download temporary file!";
+                    //删除目标源,重试一次
+                    if (mStoreFile.exists()) {
+                        mStoreFile.delete();
+                        if (mTemporaryFile.renameTo(mStoreFile)) {
+                            return Response.success(response.data, response.headers,
+                                    HttpHeaderParser.parseCacheHeaders(getConfig().mUseServerControl,
+                                            getConfig().mCacheTime, response));
+                        } else {
+                            errorMessage = "Can't rename the download temporary file!";
+                        }
+                    }
                 }
             } else {
                 errorMessage = "Download temporary file was invalid!";
@@ -134,7 +149,7 @@ public class FileRequest extends Request<byte[]> {
     public byte[] handleResponse(URLHttpResponse response) throws IOException {
         long fileSize = response.getContentLength();
         if (fileSize <= 0) {
-            Log.d("RxVolley", "Response doesn't present Content-Length!");
+            Log.d("Response doesn't present Content-Length!");
         }
 
         long downloadedSize = mTemporaryFile.length();
@@ -146,7 +161,7 @@ public class FileRequest extends Request<byte[]> {
             if (!TextUtils.isEmpty(realRangeValue)) {
                 String assumeRangeValue = "bytes " + downloadedSize + "-" + (fileSize - 1);
                 if (TextUtils.indexOf(realRangeValue, assumeRangeValue) == -1) {
-                    Log.d("RxVolley", "The Content-Range Header is invalid Assume["
+                    Log.d("The Content-Range Header is invalid Assume["
                             + assumeRangeValue + "] vs Real["
                             + realRangeValue + "], "
                             + "please remove the temporary file ["
@@ -197,7 +212,7 @@ public class FileRequest extends Request<byte[]> {
             try {
                 response.getContentStream().close();
             } catch (Exception e) {
-                Log.d("RxVolley", "Error occured when calling consumingContent");
+                Log.d("Error occured when calling consumingContent");
             }
             tmpFileRaf.close();
         }
