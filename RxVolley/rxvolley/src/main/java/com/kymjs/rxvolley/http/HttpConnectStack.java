@@ -25,6 +25,7 @@ import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -64,7 +65,18 @@ public class HttpConnectStack implements IHttpStack {
 
     public HttpConnectStack(UrlRewriter urlRewriter, SSLSocketFactory sslSocketFactory) {
         mUrlRewriter = urlRewriter;
-        mSslSocketFactory = sslSocketFactory;
+        if (sslSocketFactory == null) {
+            try {
+                Class certificateUtilsClass = Class.forName("com.kymjs.okhttp3.CertificateUtils");
+                Method method = certificateUtilsClass.getDeclaredMethod("getDefaultSSLSocketFactory");
+                sslSocketFactory = (SSLSocketFactory) method.invoke(null);
+            } catch (Exception e) {
+            } finally {
+                mSslSocketFactory = sslSocketFactory;
+            }
+        } else {
+            mSslSocketFactory = sslSocketFactory;
+        }
     }
 
     @Override

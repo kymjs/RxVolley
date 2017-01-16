@@ -30,6 +30,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -305,7 +306,7 @@ public class RequestQueue {
                 String cacheKey = request.getCacheKey();
                 Queue<Request<?>> waitingRequests = mWaitingRequests.remove(cacheKey);
                 if (waitingRequests != null) {
-                    Log.d("RxVolley", String.format("Releasing %d waiting requests for cacheKey=%s.",
+                    Log.d("RxVolley", String.format(Locale.getDefault(), "Releasing %d waiting requests for cacheKey=%s.",
                             waitingRequests.size(), cacheKey));
                     // Process all queued up requests. They won't be considered as in flight, but
                     // that's not a problem as the cache has been primed by 'request'.

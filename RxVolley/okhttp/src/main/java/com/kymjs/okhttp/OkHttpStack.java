@@ -44,6 +44,7 @@ import java.util.concurrent.TimeUnit;
  * OkHttp的执行器,可用于替换原框架自带的HttpUrlConnection执行器
  * 修改自: https://gist.github.com/bryanstern/4e8f1cb5a8e14c202750
  */
+@Deprecated
 public class OkHttpStack implements IHttpStack {
 
     private final OkHttpClient mClient;

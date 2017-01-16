@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * 网络请求执行器，将传入的Request使用HttpStack客户端发起网络请求，并返回一个NetworkRespond结果
@@ -107,7 +108,7 @@ public class Network implements INetwork {
                 } else {
                     throw new VolleyError("NoConnection error", e);
                 }
-                Log.d("RxVolley", String.format("Unexpected response code %d for %s", statusCode,
+                Log.d("RxVolley", String.format(Locale.getDefault(), "Unexpected response code %d for %s", statusCode,
                         request.getUrl()));
                 if (responseContents != null) {
                     networkResponse = new NetworkResponse(statusCode, responseContents,
@@ -119,7 +120,7 @@ public class Network implements INetwork {
                         throw new VolleyError(networkResponse);
                     }
                 } else {
-                    throw new VolleyError(String.format("Unexpected response code %d for %s",
+                    throw new VolleyError(String.format(Locale.getDefault(), "Unexpected response code %d for %s",
                             statusCode, request.getUrl()));
                 }
             }
