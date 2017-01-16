@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.widget.ImageView;
 
+import com.kymjs.common.Log;
 import com.kymjs.core.bitmap.client.BitmapCore;
 import com.kymjs.okhttp3.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.RequestQueue;
+import com.kymjs.rxvolley.toolbox.FileUtils;
 
 import java.io.File;
 import java.util.Map;
@@ -32,8 +34,8 @@ public class ImageLoadTestActivity extends Activity {
         callback = new HttpCallback() {
             @Override
             public void onPreStart() {
-                Loger.debug("=====onPreStart");
-                Loger.debug("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
+                Log.d("=====onPreStart");
+                Log.d("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
                         ().getThread()));
             }
 
@@ -41,8 +43,8 @@ public class ImageLoadTestActivity extends Activity {
             @Override
             public void onPreHttp() {
                 super.onPreHttp();
-                Loger.debug("=====onPreHttp");
-                Loger.debug("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
+                Log.d("=====onPreHttp");
+                Log.d("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
                         ().getThread()));
             }
 
@@ -50,24 +52,24 @@ public class ImageLoadTestActivity extends Activity {
             @Override
             public void onSuccess(Map<String, String> headers, Bitmap bitmap) {
                 super.onSuccess(headers, bitmap);
-                Loger.debug("=====onSuccessBitmap" + headers.size());
-                Loger.debug("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
+                Log.d("=====onSuccessBitmap" + headers.size());
+                Log.d("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
                         ().getThread()));
             }
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 super.onFailure(errorNo, strMsg);
-                Loger.debug("=====onFailure" + strMsg);
-                Loger.debug("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
+                Log.d("=====onFailure" + strMsg);
+                Log.d("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
                         ().getThread()));
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                Loger.debug("=====onFinish");
-                Loger.debug("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
+                Log.d("=====onFinish");
+                Log.d("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
                         ().getThread()));
             }
         };

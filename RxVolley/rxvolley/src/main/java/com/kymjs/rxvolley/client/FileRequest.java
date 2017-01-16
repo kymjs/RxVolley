@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -225,15 +225,11 @@ public class FileRequest extends Request<byte[]> {
     }
 
     @Override
-    protected void deliverResponse(ArrayList<HttpParamsEntry> headers, byte[] response) {
-        HashMap<String, String> map = new HashMap<>(headers.size());
-        for (HttpParamsEntry entry : headers) {
-            map.put(entry.k, entry.v);
-        }
+    protected void deliverResponse(Map<String, String> headers, byte[] response) {
         if (response == null) response = new byte[0];
         if (mCallback != null) {
-            mCallback.onSuccess(map, response);
+            mCallback.onSuccess(headers, response);
         }
-        getConfig().mSubject.onNext(new Result(getUrl(), response, map));
+        getConfig().mSubject.onNext(new Result(getUrl(), response, headers));
     }
 }

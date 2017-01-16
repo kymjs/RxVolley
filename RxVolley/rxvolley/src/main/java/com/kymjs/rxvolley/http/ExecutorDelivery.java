@@ -20,11 +20,7 @@ import android.os.Handler;
 
 import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.interf.IDelivery;
-import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Executor;
 
 /**
@@ -126,14 +122,7 @@ public class ExecutorDelivery implements IDelivery {
 
             // Deliver a normal response or error, depending.
             if (mResponse.isSuccess()) {
-                ArrayList<HttpParamsEntry> headers = new ArrayList<>();
-                if (mResponse.headers != null) {
-                    Set<Map.Entry<String, String>> entrySet = mResponse.headers.entrySet();
-                    for (Map.Entry<String, String> entry : entrySet) {
-                        headers.add(new HttpParamsEntry(entry.getKey(), entry.getValue()));
-                    }
-                }
-                mRequest.deliverResponse(headers, mResponse.result);
+                mRequest.deliverResponse(mResponse.headers, mResponse.result);
             } else {
                 mRequest.deliverError(mResponse.error);
             }

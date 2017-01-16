@@ -30,7 +30,7 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Form表单形式的Http请求
@@ -96,15 +96,11 @@ public class FormRequest extends Request<byte[]> {
     }
 
     @Override
-    protected void deliverResponse(ArrayList<HttpParamsEntry> headers, final byte[] response) {
-        final HashMap<String, String> map = new HashMap<>(headers.size());
-        for (HttpParamsEntry entry : headers) {
-            map.put(entry.k, entry.v);
-        }
+    protected void deliverResponse(Map<String, String> headers, final byte[] response) {
         if (mCallback != null) {
-            mCallback.onSuccess(map, response);
+            mCallback.onSuccess(headers, response);
         }
-        getConfig().mSubject.onNext(new Result(getUrl(), response, map));
+        getConfig().mSubject.onNext(new Result(getUrl(), response, headers));
     }
 
     @Override

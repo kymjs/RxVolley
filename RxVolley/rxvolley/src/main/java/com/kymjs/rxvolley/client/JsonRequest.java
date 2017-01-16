@@ -28,7 +28,7 @@ import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 用来发起application/json格式的请求的，我们平时所使用的是form表单提交的参数，而使用JsonRequest提交的是json参数。
@@ -50,15 +50,11 @@ public class JsonRequest extends Request<byte[]> {
     }
 
     @Override
-    protected void deliverResponse(ArrayList<HttpParamsEntry> headers, byte[] response) {
-        HashMap<String, String> map = new HashMap<>(headers.size());
-        for (HttpParamsEntry entry : headers) {
-            map.put(entry.k, entry.v);
-        }
+    protected void deliverResponse(Map<String, String> headers, byte[] response) {
         if (mCallback != null) {
-            mCallback.onSuccess(map, response);
+            mCallback.onSuccess(headers, response);
         }
-        getConfig().mSubject.onNext(new Result(getUrl(), response, map));
+        getConfig().mSubject.onNext(new Result(getUrl(), response, headers));
     }
 
     @Override
