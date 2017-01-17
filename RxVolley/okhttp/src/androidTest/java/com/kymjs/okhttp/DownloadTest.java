@@ -3,12 +3,12 @@ package com.kymjs.okhttp;
 import android.os.Looper;
 import android.test.AndroidTestCase;
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.toolbox.FileUtils;
-import com.kymjs.rxvolley.toolbox.Loger;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.junit.Before;
@@ -32,7 +32,7 @@ public class DownloadTest extends AndroidTestCase {
         callback = new HttpCallback() {
             @Override
             public void onPreStart() {
-                Loger.debug("=====onPreStart");
+                Log.d("=====onPreStart");
 
 //                测试类是运行在异步的,所以此处断言会异常
 //                assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
@@ -41,13 +41,13 @@ public class DownloadTest extends AndroidTestCase {
             @Override
             public void onPreHttp() {
                 super.onPreHttp();
-                Loger.debug("=====onPreHttp");
+                Log.d("=====onPreHttp");
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onSuccessInAsync(byte[] t) {
-                Loger.debug("=====onSuccessInAsync" + new String(t));
+                Log.d("=====onSuccessInAsync" + new String(t));
 
                 assertNotNull(t);
 
@@ -56,28 +56,28 @@ public class DownloadTest extends AndroidTestCase {
             }
 
             public void onSuccess(File file) {
-                Loger.debug("=====onSuccess" + file);
+                Log.d("=====onSuccess" + file);
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onSuccess(Map<String, String> headers, byte[] t) {
                 assertNotNull(t);
-                Loger.debug("=====onSuccessWithHeader" + headers.size() + new String(t));
+                Log.d("=====onSuccessWithHeader" + headers.size() + new String(t));
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 super.onFailure(errorNo, strMsg);
-                Loger.debug("=====onFailure" + strMsg);
+                Log.d("=====onFailure" + strMsg);
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                Loger.debug("=====onFinish");
+                Log.d("=====onFinish");
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
         };
@@ -91,7 +91,7 @@ public class DownloadTest extends AndroidTestCase {
         RxVolley.download(SAVE_PATH, URL, new ProgressListener() {
             @Override
             public void onProgress(long transferredBytes, long totalSize) {
-                Loger.debug(transferredBytes + "======" + totalSize);
+                Log.d(transferredBytes + "======" + totalSize);
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
         }, callback);

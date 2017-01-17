@@ -19,16 +19,17 @@ import android.net.TrafficStats;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.client.RequestConfig;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * 一个请求基类
@@ -120,7 +121,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      * 通知请求队列，本次请求已经完成
      */
     public void finish(String log) {
-        Loger.debug(log);
+        Log.d("RxVolley", log);
         if (mRequestQueue != null) {
             mRequestQueue.finish(this);
         }
@@ -277,7 +278,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      *
      * @param response {@link #parseNetworkResponse(NetworkResponse)}
      */
-    abstract protected void deliverResponse(ArrayList<HttpParamsEntry> headers, T response);
+    abstract protected void deliverResponse(Map<String, String> headers, T response);
 
     /**
      * 响应Http请求异常的回调
@@ -318,7 +319,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         if (mCallback != null) {
             mCallback.onFinish();
         }
-        getConfig().mSubject.onCompleted();
+        getConfig().mSubject.onComplete();
     }
 
     /**

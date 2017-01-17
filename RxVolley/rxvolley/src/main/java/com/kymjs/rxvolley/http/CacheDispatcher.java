@@ -17,11 +17,11 @@ package com.kymjs.rxvolley.http;
 
 import android.os.Process;
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.IPersistence;
 import com.kymjs.rxvolley.rx.RxBus;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.util.concurrent.BlockingQueue;
 
@@ -100,7 +100,7 @@ public class CacheDispatcher extends Thread {
                 // 从缓存返回数据
                 Response<?> response = request.parseNetworkResponse(new NetworkResponse(entry.data,
                         entry.responseHeaders));
-                Loger.debug("CacheDispatcher：http resopnd from cache");
+                Log.d("RxVolley", "CacheDispatcher：http resopnd from cache");
                 sleep(request.getConfig().mDelayTime);
                 if (request.getCallback() != null) {
                     request.getCallback().onSuccessInAsync(entry.data);

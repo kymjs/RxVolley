@@ -2,11 +2,11 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
     resourcePrefix "rxvolley_"
 
     defaultConfig {
-        minSdkVersion 12
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName version
@@ -29,8 +29,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:0.4'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.2'
+    compile 'com.kymjs.core:common:1.0.8'
 }
 
 

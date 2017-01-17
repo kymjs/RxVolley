@@ -19,17 +19,18 @@ package com.kymjs.rxvolley.http;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.IHttpStack;
 import com.kymjs.rxvolley.interf.INetwork;
 import com.kymjs.rxvolley.toolbox.DiskBasedCache;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -275,7 +276,7 @@ public class RequestQueue {
                 }
                 stagedRequests.add(request);
                 mWaitingRequests.put(cacheKey, stagedRequests);
-                Loger.debug(String.format("Request for cacheKey=%s is in flight, putting on hold" +
+                Log.d("RxVolley", String.format("Request for cacheKey=%s is in flight, putting on hold" +
                         ".", cacheKey));
             } else {
                 // Insert 'null' queue for this cacheKey, indicating there is now a request in
@@ -305,7 +306,7 @@ public class RequestQueue {
                 String cacheKey = request.getCacheKey();
                 Queue<Request<?>> waitingRequests = mWaitingRequests.remove(cacheKey);
                 if (waitingRequests != null) {
-                    Loger.debug(String.format("Releasing %d waiting requests for cacheKey=%s.",
+                    Log.d("RxVolley", String.format(Locale.getDefault(), "Releasing %d waiting requests for cacheKey=%s.",
                             waitingRequests.size(), cacheKey));
                     // Process all queued up requests. They won't be considered as in flight, but
                     // that's not a problem as the cache has been primed by 'request'.

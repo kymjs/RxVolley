@@ -17,6 +17,7 @@ package com.kymjs.rxvolley.client;
 
 import android.text.TextUtils;
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.http.HttpHeaderParser;
 import com.kymjs.rxvolley.http.NetworkResponse;
 import com.kymjs.rxvolley.http.Request;
@@ -25,14 +26,13 @@ import com.kymjs.rxvolley.http.URLHttpResponse;
 import com.kymjs.rxvolley.http.VolleyError;
 import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -149,7 +149,7 @@ public class FileRequest extends Request<byte[]> {
     public byte[] handleResponse(URLHttpResponse response) throws IOException {
         long fileSize = response.getContentLength();
         if (fileSize <= 0) {
-            Loger.debug("Response doesn't present Content-Length!");
+            Log.d("Response doesn't present Content-Length!");
         }
 
         long downloadedSize = mTemporaryFile.length();
@@ -161,7 +161,7 @@ public class FileRequest extends Request<byte[]> {
             if (!TextUtils.isEmpty(realRangeValue)) {
                 String assumeRangeValue = "bytes " + downloadedSize + "-" + (fileSize - 1);
                 if (TextUtils.indexOf(realRangeValue, assumeRangeValue) == -1) {
-                    Loger.debug("The Content-Range Header is invalid Assume["
+                    Log.d("The Content-Range Header is invalid Assume["
                             + assumeRangeValue + "] vs Real["
                             + realRangeValue + "], "
                             + "please remove the temporary file ["
@@ -212,7 +212,7 @@ public class FileRequest extends Request<byte[]> {
             try {
                 response.getContentStream().close();
             } catch (Exception e) {
-                Loger.debug("Error occured when calling consumingContent");
+                Log.d("Error occured when calling consumingContent");
             }
             tmpFileRaf.close();
         }
@@ -225,15 +225,11 @@ public class FileRequest extends Request<byte[]> {
     }
 
     @Override
-    protected void deliverResponse(ArrayList<HttpParamsEntry> headers, byte[] response) {
-        HashMap<String, String> map = new HashMap<>(headers.size());
-        for (HttpParamsEntry entry : headers) {
-            map.put(entry.k, entry.v);
-        }
+    protected void deliverResponse(Map<String, String> headers, byte[] response) {
         if (response == null) response = new byte[0];
         if (mCallback != null) {
-            mCallback.onSuccess(map, response);
+            mCallback.onSuccess(headers, response);
         }
-        getConfig().mSubject.onNext(new Result(getUrl(), response, map));
+        getConfig().mSubject.onNext(new Result(getUrl(), response, headers));
     }
 }

@@ -16,6 +16,7 @@
 package com.kymjs.core.bitmap.client;
 
 import android.annotation.SuppressLint;
+import android.database.Observable;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -25,28 +26,23 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.kymjs.common.DensityUtils;
+import com.kymjs.common.Log;
 import com.kymjs.core.bitmap.BitmapMemoryCache;
 import com.kymjs.core.bitmap.DiskImageDisplayer;
 import com.kymjs.core.bitmap.ImageBale;
 import com.kymjs.core.bitmap.ImageDisplayer;
 import com.kymjs.core.bitmap.interf.IBitmapCache;
-import com.kymjs.core.bitmap.toolbox.CreateBitmap;
-import com.kymjs.core.bitmap.toolbox.DensityUtils;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
-import com.kymjs.rxvolley.rx.Result;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import rx.Observable;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * 入口类
@@ -242,7 +238,7 @@ public final class BitmapCore {
          */
         private synchronized void build() {
             if (TextUtils.isEmpty(config.mUrl)) {
-                Loger.debug("image url is empty");
+                Log.d("image url is empty");
                 doFailure(view, config.errorDrawable, config.errorRes);
                 if (callback != null)
                     callback.onFailure(-1, "image url is empty");
@@ -259,9 +255,9 @@ public final class BitmapCore {
                     config.maxWidth = view.getWidth();
                     config.maxHeight = view.getHeight();
                 } else if (config.maxWidth == BitmapRequestConfig.DEF_WIDTH_HEIGHT) {
-                    config.maxWidth = DensityUtils.getScreenW(view.getContext());
+                    config.maxWidth = DensityUtils.getScreenW();
                 } else if (config.maxHeight == BitmapRequestConfig.DEF_WIDTH_HEIGHT) {
-                    config.maxHeight = DensityUtils.getScreenH(view.getContext());
+                    config.maxHeight = DensityUtils.getScreenH();
                 }
             }
 
@@ -332,15 +328,17 @@ public final class BitmapCore {
         }
 
         public Observable<Bitmap> getResult() {
-            doTask();
-            return config.mSubject
-                    .map(new Func1<Result, Bitmap>() {
-                        @Override
-                        public Bitmap call(Result result) {
-                            return CreateBitmap.create(result.data, config.maxWidth, config.maxHeight);
-                        }
-                    })
-                    .subscribeOn(Schedulers.io());
+            //// TODO: 12/28/16  
+//            doTask();
+//            return config.mSubject
+//                    .map(new Function<Result, Bitmap>() {
+//                        @Override
+//                        public Bitmap apply(Result result) throws Exception {
+//                            return CreateBitmap.create(result.data, config.maxWidth, config.maxHeight);
+//                        }
+//                    })
+//                    .subscribeOn(Schedulers.io());
+            return null;
         }
 
         public void doTask() {

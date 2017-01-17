@@ -36,7 +36,8 @@ import com.kymjs.rxvolley.toolbox.FileUtils;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 /**
  * 主入口

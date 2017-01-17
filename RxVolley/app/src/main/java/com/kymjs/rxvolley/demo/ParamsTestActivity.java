@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 /**
  * Created by ZhangTao on 9/9/16.
@@ -39,7 +39,7 @@ public class ParamsTestActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String t) {
                 super.onSuccess(t);
-                Loger.debug("=======::" + t);
+                Log.d("=======::" + t);
             }
         });
     }

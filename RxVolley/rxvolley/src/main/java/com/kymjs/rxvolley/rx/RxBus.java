@@ -16,12 +16,8 @@
 package com.kymjs.rxvolley.rx;
 
 
-import rx.Observable;
-import rx.functions.Func1;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
-
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * 用于替换EventBus的RxBus实现,同时用做Http响应数据的分发
@@ -47,7 +43,7 @@ public class RxBus {
         return mInstance;
     }
 
-    private final Subject<Object, Object> bus = new SerializedSubject<>(PublishSubject.create());
+    private final PublishSubject<Object> bus = PublishSubject.create();
 
     public void post(Object event) {
         if (event instanceof Result) {
@@ -60,11 +56,6 @@ public class RxBus {
     }
 
     public <T> Observable<T> take(final Class<T> eventType) {
-        return bus.filter(new Func1<Object, Boolean>() {
-            @Override
-            public Boolean call(Object o) {
-                return eventType.isInstance(o);
-            }
-        }).cast(eventType);
+        return bus.toSerialized().cast(eventType);
     }
 }

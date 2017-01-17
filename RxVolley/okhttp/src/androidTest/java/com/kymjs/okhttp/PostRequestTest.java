@@ -3,13 +3,13 @@ package com.kymjs.okhttp;
 import android.os.Looper;
 import android.test.AndroidTestCase;
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.toolbox.FileUtils;
-import com.kymjs.rxvolley.toolbox.Loger;
 import com.squareup.okhttp.OkHttpClient;
 
 import org.junit.Before;
@@ -33,28 +33,28 @@ public class PostRequestTest extends AndroidTestCase {
         callback = new HttpCallback() {
             @Override
             public void onPreStart() {
-                Loger.debug("=====onPreStart");
+                Log.d("=====onPreStart");
                 // 测试类是运行在异步的,所以此处断言会异常
                 // assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onPreHttp() {
-                Loger.debug("=====onPreHttp");
+                Log.d("=====onPreHttp");
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onSuccessInAsync(byte[] t) {
                 assertNotNull(t);
-                Loger.debug("=====onSuccessInAsync" + new String(t));
+                Log.d("=====onSuccessInAsync" + new String(t));
                 //onSuccessInAsync 一定是运行在异步
                 assertFalse(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onSuccess(String t) {
-                Loger.debug("=====onSuccess" + t);
+                Log.d("=====onSuccess" + t);
                 assertNotNull(t);
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
@@ -62,21 +62,21 @@ public class PostRequestTest extends AndroidTestCase {
             @Override
             public void onSuccess(Map<String, String> headers, byte[] t) {
                 assertNotNull(t);
-                Loger.debug("=====onSuccessWithHeader" + headers.size() + new String(t));
+                Log.d("=====onSuccessWithHeader" + headers.size() + new String(t));
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 super.onFailure(errorNo, strMsg);
-                Loger.debug("=====onFailure" + strMsg);
+                Log.d("=====onFailure" + strMsg);
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                Loger.debug("=====onFinish");
+                Log.d("=====onFinish");
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
         };
@@ -102,7 +102,7 @@ public class PostRequestTest extends AndroidTestCase {
                     public void onProgress(long transferredBytes, long totalSize) {
                         //防止日志太多刷屏
                         if (transferredBytes % 10000 == 0) {
-                            Loger.debug(transferredBytes + "=====" + totalSize);
+                            Log.d(transferredBytes + "=====" + totalSize);
                         }
                         assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
                     }

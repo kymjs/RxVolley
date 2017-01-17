@@ -17,6 +17,7 @@
 package com.kymjs.rxvolley.client;
 
 
+import com.kymjs.common.Log;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.HttpHeaderParser;
 import com.kymjs.rxvolley.http.NetworkResponse;
@@ -24,11 +25,10 @@ import com.kymjs.rxvolley.http.Request;
 import com.kymjs.rxvolley.http.Response;
 import com.kymjs.rxvolley.rx.Result;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 用来发起application/json格式的请求的，我们平时所使用的是form表单提交的参数，而使用JsonRequest提交的是json参数。
@@ -50,15 +50,11 @@ public class JsonRequest extends Request<byte[]> {
     }
 
     @Override
-    protected void deliverResponse(ArrayList<HttpParamsEntry> headers, byte[] response) {
-        HashMap<String, String> map = new HashMap<>(headers.size());
-        for (HttpParamsEntry entry : headers) {
-            map.put(entry.k, entry.v);
-        }
+    protected void deliverResponse(Map<String, String> headers, byte[] response) {
         if (mCallback != null) {
-            mCallback.onSuccess(map, response);
+            mCallback.onSuccess(headers, response);
         }
-        getConfig().mSubject.onNext(new Result(getUrl(), response, map));
+        getConfig().mSubject.onNext(new Result(getUrl(), response, headers));
     }
 
     @Override
@@ -87,7 +83,7 @@ public class JsonRequest extends Request<byte[]> {
         try {
             return mRequestBody == null ? null : mRequestBody.getBytes(getConfig().mEncoding);
         } catch (UnsupportedEncodingException uee) {
-            Loger.debug(String.format("Unsupported Encoding while trying to get the bytes of %s" +
+            Log.d("RxVolley", String.format("Unsupported Encoding while trying to get the bytes of %s" +
                     " using %s", mRequestBody, getConfig().mEncoding));
             return null;
         }

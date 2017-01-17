@@ -33,6 +33,7 @@ import javax.net.ssl.X509TrustManager;
  *
  * @author kymjs (http://www.kymjs.com/) on 9/23/15.
  */
+@Deprecated
 public class HTTPSTrustManager implements X509TrustManager {
 
     private static TrustManager[] trustManagers;
@@ -67,6 +68,7 @@ public class HTTPSTrustManager implements X509TrustManager {
         return _AcceptedIssuers;
     }
 
+    @Deprecated
     public static void allowAllSSL() {
         HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
             @Override

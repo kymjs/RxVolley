@@ -18,6 +18,7 @@ package com.kymjs.core.bitmap.client;
 
 import android.graphics.Bitmap;
 
+import com.kymjs.common.Log;
 import com.kymjs.core.bitmap.toolbox.CreateBitmap;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.HttpHeaderParser;
@@ -27,10 +28,10 @@ import com.kymjs.rxvolley.http.Response;
 import com.kymjs.rxvolley.http.VolleyError;
 import com.kymjs.rxvolley.interf.IPersistence;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * 从网络请求一张bitmap
@@ -77,7 +78,7 @@ public class ImageRequest extends Request<Bitmap> implements IPersistence {
                             .parseCacheHeaders(getUseServerControl(), getCacheTime(), response));
                 }
             } catch (OutOfMemoryError e) {
-                Loger.debug(String.format("Caught OOM for %d byte image, url=%s",
+                Log.d(String.format(Locale.getDefault(), "Caught OOM for %d byte image, url=%s",
                         response.data.length, getUrl()));
                 return Response.error(new VolleyError(e));
             }
@@ -85,13 +86,9 @@ public class ImageRequest extends Request<Bitmap> implements IPersistence {
     }
 
     @Override
-    protected void deliverResponse(ArrayList<HttpParamsEntry> headers, Bitmap response) {
+    protected void deliverResponse(Map<String, String> headers, Bitmap response) {
         if (mCallback != null) {
-            HashMap<String, String> map = new HashMap<>(headers.size());
-            for (HttpParamsEntry entry : headers) {
-                map.put(entry.k, entry.v);
-            }
-            mCallback.onSuccess(map, response);
+            mCallback.onSuccess(headers, response);
         }
     }
 }
