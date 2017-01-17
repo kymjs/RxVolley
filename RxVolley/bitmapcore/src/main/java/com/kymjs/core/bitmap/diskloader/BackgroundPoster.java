@@ -15,12 +15,12 @@
  */
 package com.kymjs.core.bitmap.diskloader;
 
+import com.kymjs.common.Log;
 import com.kymjs.core.bitmap.DiskImageDisplayer;
 import com.kymjs.core.bitmap.client.BitmapCore;
 import com.kymjs.core.bitmap.client.BitmapRequestConfig;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.rx.Result;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 /**
  * 从本地加载一个bitmap的任务,串行异步加载的实现,思路取自EventBus
@@ -69,8 +69,7 @@ public class BackgroundPoster extends AsyncPoster {
                     PendingPost.releasePendingPost(pendingPost);
                 }
             } catch (InterruptedException e) {
-                Loger.debug(Thread.currentThread().getName() + " was interruppted" + e.getMessage
-                        ());
+                Log.d(Thread.currentThread().getName() + " was interruppted" + e.getMessage());
             }
         } finally {
             executorRunning = false;

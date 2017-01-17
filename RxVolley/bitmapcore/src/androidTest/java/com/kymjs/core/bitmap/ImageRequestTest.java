@@ -5,10 +5,10 @@ import android.os.Looper;
 import android.test.AndroidTestCase;
 import android.widget.ImageView;
 
+import com.kymjs.common.Log;
 import com.kymjs.core.bitmap.client.BitmapCore;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.toolbox.FileUtils;
-import com.kymjs.rxvolley.toolbox.Loger;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,14 +32,14 @@ public class ImageRequestTest extends AndroidTestCase {
         callback = new HttpCallback() {
             @Override
             public void onPreStart() {
-                Loger.debug("=====onPreStart");
+                Log.d("=====onPreStart");
                 // 测试类AndroidTestCase是运行在异步的,所以此处断言会异常
                 assertEquals(Thread.currentThread(), Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onPreHttp() {
-                Loger.debug("=====onPreHttp");
+                Log.d("=====onPreHttp");
                 assertEquals(Thread.currentThread(), Looper.getMainLooper().getThread());
             }
 
@@ -47,7 +47,7 @@ public class ImageRequestTest extends AndroidTestCase {
             @Override
             public void onSuccess(Map<String, String> headers, Bitmap bitmap) {
                 super.onSuccess(headers, bitmap);
-                Loger.debug("=====onSuccess");
+                Log.d("=====onSuccess");
                 assertEquals(contentView.getTag(), SDCARD_PATH);
                 assertEquals(Thread.currentThread(), Looper.getMainLooper().getThread());
             }
@@ -55,14 +55,14 @@ public class ImageRequestTest extends AndroidTestCase {
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 super.onFailure(errorNo, strMsg);
-                Loger.debug("=====onFailure" + strMsg);
+                Log.d("=====onFailure" + strMsg);
                 assertEquals(Thread.currentThread(), Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                Loger.debug("=====onFinish");
+                Log.d("=====onFinish");
                 assertEquals(Thread.currentThread(), Looper.getMainLooper().getThread());
             }
         };
