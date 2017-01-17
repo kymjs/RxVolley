@@ -18,8 +18,8 @@ package com.kymjs.rxvolley.client;
 
 import android.text.TextUtils;
 
+import com.kymjs.common.FileUtils;
 import com.kymjs.common.Log;
-import com.kymjs.rxvolley.toolbox.FileUtils;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
 
 import java.io.ByteArrayInputStream;

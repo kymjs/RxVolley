@@ -17,6 +17,7 @@ package com.kymjs.rxvolley.client;
 
 import android.text.TextUtils;
 
+import com.kymjs.common.FileUtils;
 import com.kymjs.common.Log;
 import com.kymjs.rxvolley.http.HttpHeaderParser;
 import com.kymjs.rxvolley.http.NetworkResponse;
@@ -206,9 +207,7 @@ public class FileRequest extends Request<byte[]> {
                 }
             }
         } finally {
-            if (in != null) {
-                in.close();
-            }
+            FileUtils.closeIO(in);
             try {
                 response.getContentStream().close();
             } catch (Exception e) {

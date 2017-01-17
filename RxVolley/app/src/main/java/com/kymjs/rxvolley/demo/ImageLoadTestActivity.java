@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.widget.ImageView;
 
+import com.kymjs.common.FileUtils;
 import com.kymjs.common.Log;
 import com.kymjs.core.bitmap.client.BitmapCore;
 import com.kymjs.okhttp3.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.RequestQueue;
-import com.kymjs.rxvolley.toolbox.FileUtils;
 
 import java.io.File;
 import java.util.Map;

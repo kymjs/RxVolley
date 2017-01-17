@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.kymjs.common.FileUtils;
 import com.kymjs.common.Log;
 import com.kymjs.okhttp3.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
@@ -13,7 +14,6 @@ import com.kymjs.rxvolley.client.HttpParams;
 import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.rx.Result;
-import com.kymjs.rxvolley.toolbox.FileUtils;
 
 import java.io.File;
 import java.util.Map;

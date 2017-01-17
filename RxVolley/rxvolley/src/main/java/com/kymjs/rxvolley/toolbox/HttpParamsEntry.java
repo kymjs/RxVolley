@@ -15,6 +15,8 @@
  */
 package com.kymjs.rxvolley.toolbox;
 
+import android.support.annotation.NonNull;
+
 /**
  * Http请求中的参数(包括请求头参数)封装
  *
@@ -44,7 +46,7 @@ public class HttpParamsEntry implements Comparable<HttpParamsEntry> {
     }
 
     @Override
-    public int compareTo(HttpParamsEntry another) {
+    public int compareTo(@NonNull HttpParamsEntry another) {
         if (k == null) {
             return -1;
         } else {

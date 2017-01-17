@@ -18,6 +18,7 @@ package com.kymjs.rxvolley;
 
 import android.text.TextUtils;
 
+import com.kymjs.common.FileUtils;
 import com.kymjs.rxvolley.client.FileRequest;
 import com.kymjs.rxvolley.client.FormRequest;
 import com.kymjs.rxvolley.client.HttpCallback;
@@ -31,7 +32,6 @@ import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.rx.Result;
-import com.kymjs.rxvolley.toolbox.FileUtils;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -192,6 +192,7 @@ public class RxVolley {
             this.httpConfig.mCacheTime = cacheTime;
             return this;
         }
+
         /**
          * 缓存有效时间,单位分钟
          */
