@@ -2,7 +2,7 @@
 
 [中文帮助](http://rxvolley.mydoc.io/)   
 
-#### Retrofit? No, I like Volley.
+## Retrofit? No, I like Volley.
 RxVolley is modified Volley. Removed the HttpClient, and support RxJava.   
 
 If you are building with Gradle, simply add the following line to the ```dependencies``` section of your ```build.gradle``` file:   
