@@ -6,7 +6,7 @@ QQ问答群：1群 257053751(付费); 2群 201055521(付费); 3群 110775129(付
 *付费群，请带着问题来，闲聊者不建议随意加入，虽说不会踢人*
 
 
-##概述
+## 概述
 
 ```RxVolley```是一个基于```Volley```的网络请求库；  
 同时支持```RxJava```；  
@@ -18,7 +18,7 @@ QQ问答群：1群 257053751(付费); 2群 201055521(付费); 3群 110775129(付
 即将支持 RxJava2.0
 
 
-##依赖 
+## 依赖 
 
 使用RxVolley，需要在你的```build.gradle```文件中加入  
 
@@ -43,7 +43,7 @@ compile 'com.kymjs.rxvolley:bitmapcore:1.1.4'
 
 使用 RxVolley 做网络请求
 
-##简洁实现 
+## 简洁实现 
 
 ```java
 //get请求简洁版实现
@@ -54,7 +54,7 @@ RxVolley.get("http://www.kymjs.com/feed.xml", new HttpCallback() {
     }
 });
 
-//post请求简洁版实现
+// post请求简洁版实现
 HttpParams params = new HttpParams();
 params.put("name", "kymjs");
 params.put("age", 18);
@@ -68,7 +68,7 @@ RxVolley.post("http://kymjs.com/feed.xml", params, new HttpCallback() {
 });
 ```
 
-##对Cookie等请求头的处理
+## 对Cookie等请求头的处理
 
 ```java
 //用户登录逻辑(HttpCallback中有很多重载方法，可以选择需要的实现)
@@ -104,7 +104,7 @@ RxVolley.post("http://kymjs.com/update", params, new HttpCallback() {
 
 比起 **入门** 章节讲述的网络请求，你可能希望有更多的需求 
 
-##构建网络请求
+## 构建网络请求
 
 ```java
 HttpParams params = new HttpParams();
@@ -161,7 +161,7 @@ new RxVolley.Builder()
     .doTask();  //执行请求操作
 ```
 
-##对 RxJava 的支持  
+## 对 RxJava 的支持  
 
 ```RxVolley``` 支持返回一个 ```Observable<Result>``` 类型的数据，如下是 ```Result``` 类的原型  
 
@@ -175,7 +175,7 @@ public class Result {
 }
 ```
 
-##执行一次请求，并返回 Observable<Result>
+## 执行一次请求，并返回 Observable<Result>
 
 ```java
 Observable<Result> observable = new RxVolley.Builder()
@@ -192,7 +192,7 @@ observable.subscribe(subscriber);
 
 ```
 
-##完整的使用示例
+## 完整的使用示例
 
 ```java
 public class MainActivity extends AppCompatActivity {
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-##自定义请求
+## 自定义请求
 也许你是 Volley 的重度使用者(就像我)，那么你一定是因为 Volley 自由的扩展性而爱上它的。  
 你可以通过创建一个```Request<?>```的子类，自由配置请求策略，缓存策略，数据传输加密，重试策略等。  
 最后通过
@@ -334,7 +334,7 @@ public class FormRequest extends Request<byte[]> {
 }
 ```
 
-##文件(图片)下载
+## 文件(图片)下载
 利用 RxVolley 的自定义请求，在库中内置了文件下载功能。你可以使用
 
 ```java
@@ -391,11 +391,11 @@ RxVolley.download(FileUtils.getSDCardPath() + "/a.apk",
     }
 ```
 
-##更多可选设置
+## 更多可选设置
 理论上来说，一切的请求设置都可以通过自定义 Request 来完成。  
 但是，如果你和我一样是个懒人，当然更希望这些早就有人已经做好了。  
 
-###设置文件缓存的路径
+### 设置文件缓存的路径
 默认的文件缓存路径是在SD卡根目录的 /RxVolley 文件夹下，你可以通过如下语句设置你的 cacheFolder 
 
 ```
@@ -403,7 +403,7 @@ RxVolley.setRequestQueue(RequestQueue.newRequestQueue(cacheFolder));
 ```
 需要注意的是，setRequestQueue 方法必须在 BitmapCore.Build() 和 RxVolley.Build() 方法执行之前调用，也就是在使用 RxVolley 以前先设置配置信息。建议在 Application 类中完成这些设置。  
 
-###Https设置
+### Https设置
 如果不设置，默认信任全部的https证书。可以传入自定义 ```SSLSocketFactory```  
 
 ```java
@@ -429,7 +429,7 @@ RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER), ne
 ```
 
 
-###Build()中的可选设置
+### Build()中的可选设置
 * 详细请参阅 RxVolley$Builder 类中代码。
 
 ```java 

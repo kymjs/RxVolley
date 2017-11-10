@@ -1,6 +1,8 @@
-##RxVolley = Volley + RxJava + OkHttp
+> RxVolley = Volley + RxJava + OkHttp
 
-####Retrofit? No, I like Volley.
+[中文帮助](http://rxvolley.mydoc.io/)   
+
+## Retrofit? No, I like Volley.
 RxVolley is modified Volley. Removed the HttpClient, and support RxJava.   
 
 If you are building with Gradle, simply add the following line to the ```dependencies``` section of your ```build.gradle``` file:   
@@ -18,9 +20,8 @@ If you are building with Gradle, simply add the following line to the ```depende
 
 ## Getting Started
 Builder pattern to create objects.    
-or  [中文帮助](http://rxvolley.mydoc.io/)   
 
-####Callback method do Get request and contenttype is form  
+#### Callback method do Get request and contenttype is form  
 
 ```java
 HttpParams params = new HttpParams();
@@ -54,7 +55,7 @@ new RxVolley.Builder()
     .doTask();
 ```
 
-####Callback method do Post request and contenttype is json  
+#### Callback method do Post request and contenttype is json  
 
 ```java
 
@@ -87,7 +88,7 @@ new RxVolley.Builder()
     .doTask();
 ```
 
-####return Observable\<Result\> type
+#### return Observable\<Result\> type
 
 ```java
 Observable<Result> observable = new RxVolley.Builder()
@@ -102,12 +103,12 @@ Observable<Result> observable = new RxVolley.Builder()
 observable.subscribe(subscriber);
 ``` 
 
-##Requirements
+## Requirements
 
 RxVolley can be included in any Android application.  
 
 RxVolley supports Android 3.1, API12 (HONEYCOMB_MR1) and later.  
 
-##License
+## License
 
 Licensed under the Apache License Version 2.0.  [The "License"](http://www.apache.org/licenses/LICENSE-2.0)  
