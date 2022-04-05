@@ -1,55 +1,46 @@
-[![OSL](https://kymjs.com/qiniu/image/logo3.png)](https://www.kymjs.com/works/)  
-
-RxVolley使用指南
-===
-
-RxVolley 项目地址： https://github.com/kymjs/RxVolley  
-QQ问答群：1群 257053751(付费); 2群 201055521(付费); 3群 110775129(付费)   
-*付费群，请带着问题来，闲聊者不建议随意加入，虽说不会踢人*
+[![OSL](https://kymjs.com/qiniu/image/logo3.png)](https://kymjs.com/works/)
+=================
 
 
 ## 概述
 
-```RxVolley```是一个基于```Volley```的网络请求库；  
-同时支持```RxJava```；  
-可以选择使用```OKHttp```替代默认的 HttpUrlConnection 做网络请求；  
+`RxVolley`是一个基于`Volley`的网络请求库，同时支持`RxJava`。
+并且允许用`OKHttp`替代默认的 HttpUrlConnection 做网络请求；  
 可以选择使用图片加载功能(复用的网络请求将有效减少apk体积)；  
-移除了原```Volley```的 HttpClient 相关 API ，可在 API23 环境编译；   
-内置了```RxBus```的实现，可有效替换掉```EventBus```等相关库；  
-
-即将支持 RxJava2.0
+移除了原`Volley`的 HttpClient 相关 API ，可在 API23 环境编译；   
+内置了`RxBus`的实现，可有效替换掉`EventBus`等相关库；  
 
 
 ## 依赖 
 
-使用RxVolley，需要在你的```build.gradle```文件中加入  
+使用RxVolley，需要在你的`build.gradle`文件中加入  
 
-```gradle
-compile 'com.kymjs.rxvolley:rxvolley:1.1.4'
+```
+implementation 'com.kymjs.rxvolley:rxvolley:3.0.0'
 ```
 
 如果你还想使用OKhttp来替代默认的```HttpUrlconnection```，需要加入  
 
-```gradle
-compile 'com.kymjs.rxvolley:okhttp:1.1.4'
+```
+implementation 'com.kymjs.rxvolley:okhttp3:3.0.0'
 
-//或者okhttp3（二选一）
-compile 'com.kymjs.rxvolley:okhttp3:1.1.4'
+//或者 okhttp2（二选一）
+implementation 'com.kymjs.rxvolley:okhttp:3.0.0'
 ```
 
 如果你想使用RxVolley的图片加载功能(复用http模块可以有效减少apk大小)，需要加入   
 
-```gradle
-compile 'com.kymjs.rxvolley:bitmapcore:1.1.4'
+```
+implementation 'com.kymjs.rxvolley:bitmapcore:3.0.0'
 ```  
 
 使用 RxVolley 做网络请求
 
 ## 简洁实现 
 
-```java
+```
 //get请求简洁版实现
-RxVolley.get("http://www.kymjs.com/feed.xml", new HttpCallback() {
+RxVolley.get("https://www.kymjs.com/feed.xml", new HttpCallback() {
     @Override
     public void onSuccess(String t) {
         Loger.debug("请求到的数据:" + t);
@@ -62,7 +53,7 @@ params.put("name", "kymjs");
 params.put("age", 18);
 params.put("image", new File("path"))//文件上传
 
-RxVolley.post("http://kymjs.com/feed.xml", params, new HttpCallback() {
+RxVolley.post("https://kymjs.com/feed.xml", params, new HttpCallback() {
     @Override
     public void onSuccess(String t) {
         Loger.debug("请求到的数据:" + t);
@@ -72,13 +63,13 @@ RxVolley.post("http://kymjs.com/feed.xml", params, new HttpCallback() {
 
 ## 对Cookie等请求头的处理
 
-```java
+```
 //用户登录逻辑(HttpCallback中有很多重载方法，可以选择需要的实现)
 HttpParams params = new HttpParams();
 params.put("name", "kymjs");
 params.put("age", 18);
 params.put("password", "helloword");
-RxVolley.post("http://kymjs.com/login", params, new HttpCallback() {
+RxVolley.post("https://kymjs.com/login", params, new HttpCallback() {
     @Override
     public void onSuccess(Map<String, String> headers, byte[] t) {
         Loger.debug("请求到的数据:" + new String(t));
@@ -88,7 +79,7 @@ RxVolley.post("http://kymjs.com/login", params, new HttpCallback() {
 });
 ```
 
-```java
+```
 //向服务器传递cookie信息
 HttpParams params = new HttpParams();
 params.put("name", "kymjs");
@@ -96,7 +87,7 @@ params.put("age", 100);
 
 params.putHeaders("cookie", "your cookie");
 
-RxVolley.post("http://kymjs.com/update", params, new HttpCallback() {
+RxVolley.post("https://kymjs.com/update", params, new HttpCallback() {
     @Override
     public void onSuccess(String t) {
         Loger.debug("请求到的数据:" + t);
@@ -108,7 +99,7 @@ RxVolley.post("http://kymjs.com/update", params, new HttpCallback() {
 
 ## 构建网络请求
 
-```java
+```
 HttpParams params = new HttpParams();
 
 //同之前的设计，传递 http 请求头可以使用 putHeaders()
@@ -165,9 +156,9 @@ new RxVolley.Builder()
 
 ## 对 RxJava 的支持  
 
-```RxVolley``` 支持返回一个 ```Observable<Result>``` 类型的数据，如下是 ```Result``` 类的原型  
+`RxVolley` 支持返回一个 `Observable<Result>` 类型的数据，如下是 `Result` 类的原型  
 
-```java
+```
 public class Result {
     public String url;
     public byte[] data;
@@ -179,9 +170,9 @@ public class Result {
 
 ## 执行一次请求，并返回 Observable<Result>
 
-```java
+```
 Observable<Result> observable = new RxVolley.Builder()
-    .url("http://www.kymjs.com/rss.xml")
+    .url("https://www.kymjs.com/rss.xml")
     //default GET or POST/PUT/DELETE/HEAD/OPTIONS/TRACE/PATCH
     .httpMethod(RxVolley.Method.POST) 
     .cacheTime(6) //default: get 5min, post 0min
@@ -196,7 +187,7 @@ observable.subscribe(subscriber);
 
 ## 完整的使用示例
 
-```java
+```
 public class MainActivity extends AppCompatActivity {
 
     private Subscription subscription;
@@ -250,10 +241,10 @@ public class MainActivity extends AppCompatActivity {
 
 ## 自定义请求
 也许你是 Volley 的重度使用者(就像我)，那么你一定是因为 Volley 自由的扩展性而爱上它的。  
-你可以通过创建一个```Request<?>```的子类，自由配置请求策略，缓存策略，数据传输加密，重试策略等。  
+你可以通过创建一个`Request<?>`的子类，自由配置请求策略，缓存策略，数据传输加密，重试策略等。  
 最后通过
    
-```java
+```
 RxVolley.Builder().setRequest(yourRequest).doTask();
 ```
 
@@ -261,7 +252,7 @@ RxVolley.Builder().setRequest(yourRequest).doTask();
 
 一个典型自定义Request的示例：  
 
-```java
+```
 /**
  * Form表单形式的Http请求
  */
@@ -339,7 +330,7 @@ public class FormRequest extends Request<byte[]> {
 ## 文件(图片)下载
 利用 RxVolley 的自定义请求，在库中内置了文件下载功能。你可以使用
 
-```java
+```
 //下载进度(可选参数，不需要可不传)
 listener = new ProgressListener() {
     @Override
@@ -372,9 +363,9 @@ RxVolley.download(FileUtils.getSDCardPath() + "/a.apk",
 
 #### download()原型
 
-既然说了```下载功能```是利用 RxVolley 的自定义请求创建的，不妨看看他的方法实现：  
+既然说了`下载功能`是利用 RxVolley 的自定义请求创建的，不妨看看他的方法实现：  
 
-```java
+```
     /**
      * 下载
      *
@@ -415,7 +406,7 @@ RxVolley.setRequestQueue(RequestQueue.newRequestQueue(cacheFolder), new HttpConn
 
 一个自定义设置SSLSocketFactory的相关示例：  
 
-```java
+```
 //下载的证书放到项目中的assets目录中
 InputStream ins = context.getAssets().open("app_pay.cer"); 
 CertificateFactory cerFactory = CertificateFactory
@@ -434,7 +425,7 @@ RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER), ne
 ### Build()中的可选设置
 * 详细请参阅 RxVolley$Builder 类中代码。
 
-```java 
+``` 
 //请求超时时间   
 timeout()    
 
@@ -456,3 +447,8 @@ retryPolicy()
 
 ```
 
+## 谁在使用
+
+本项目已被`乐视TV`、`沪江网校`使用。    
+
+你也可以提交`Pull Request`告诉我你的 APP 使用了`TheMVP`

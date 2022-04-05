@@ -1,23 +1,24 @@
-[![OSL](https://kymjs.com/qiniu/image/logo3.png)](https://www.kymjs.com/works/)  
+[![OSL](https://kymjs.com/qiniu/image/logo3.png)](https://kymjs.com/works/)
+=================
 
-> RxVolley = Volley + RxJava + OkHttp
+> RxVolley = Volley + RxAndroid3 + OkHttp3
 
-[中文帮助](http://rxvolley.mydoc.io/)   
+[中文帮助](https://github.com/kymjs/RxVolley/blob/master/Readme_zh.md)   
 
-## Retrofit? No, I like Volley.
+## Retrofit? No, I Love Volley.
 RxVolley is modified Volley. Removed the HttpClient, and support RxJava.   
 
 If you are building with Gradle, simply add the following line to the ```dependencies``` section of your ```build.gradle``` file:   
 
->compile 'com.kymjs.rxvolley:rxvolley:1.1.4'  
+>implementation 'com.kymjs.rxvolley:rxvolley:3.0.0'  
 >
 >// If use okhttp function    
->compile 'com.kymjs.rxvolley:okhttp:1.1.4'  
->//or   
->compile 'com.kymjs.rxvolley:okhttp3:1.1.4'
+>implementation 'com.kymjs.rxvolley:okhttp3:3.0.0'  
+>//or okhttp2   
+>implementation 'com.kymjs.rxvolley:okhttp:3.0.0'
 >
 >// If use image-loader function  
->compile 'com.kymjs.rxvolley:bitmapcore:1.1.4'
+>implementation 'com.kymjs.rxvolley:bitmapcore:3.0.0'
 
 
 ## Getting Started
@@ -25,7 +26,7 @@ Builder pattern to create objects.
 
 #### Callback method do Get request and contenttype is form  
 
-```java
+```
 HttpParams params = new HttpParams();
 
 //http header, optional parameters
@@ -46,7 +47,7 @@ HttpCallback callBack = new HttpCallback(){
 }
 
 new RxVolley.Builder()
-	.url("http://www.kymjs.com/rss.xml")
+	.url("https://www.kymjs.com/rss.xml")
     .httpMethod(RxVolley.Method.GET) //default GET or POST/PUT/DELETE/HEAD/OPTIONS/TRACE/PATCH
     .cacheTime(6) //default: get 5min, post 0min
     .contentType(RxVolley.ContentType.FORM)//default FORM or JSON
@@ -59,7 +60,7 @@ new RxVolley.Builder()
 
 #### Callback method do Post request and contenttype is json  
 
-```java
+```
 
 String paramJson = "{\n" +
                 "    \"name\": \"kymjs\", " +
@@ -78,7 +79,7 @@ ProgressListener listener = new ProgressListener(){
 }
 
 new RxVolley.Builder()
-	.url("http://www.kymjs.com/rss.xml")
+	.url("https://www.kymjs.com/rss.xml")
     .httpMethod(RxVolley.Method.POST) //default GET or POST/PUT/DELETE/HEAD/OPTIONS/TRACE/PATCH
     .cacheTime(6) //default: get 5min, post 0min
     .params(params)
@@ -92,9 +93,9 @@ new RxVolley.Builder()
 
 #### return Observable\<Result\> type
 
-```java
+```
 Observable<Result> observable = new RxVolley.Builder()
-	.url("http://www.kymjs.com/rss.xml")
+	.url("https://www.kymjs.com/rss.xml")
     .httpMethod(RxVolley.Method.POST) //default GET or POST/PUT/DELETE/HEAD/OPTIONS/TRACE/PATCH
     .cacheTime(6) //default: get 5min, post 0min
     .params(params)

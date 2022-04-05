@@ -16,8 +16,8 @@
 package com.kymjs.rxvolley.rx;
 
 
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 /**
  * 用于替换EventBus的RxBus实现,同时用做Http响应数据的分发

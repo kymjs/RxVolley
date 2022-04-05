@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "com.kymjs.rxvolley.demo"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
@@ -17,13 +17,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile project(':bitmapcore')
-    compile project(':okhttp3')
-    compile project(':rxvolley')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31"
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.0'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.kymjs.core:common:1.0.10'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation project(':bitmapcore')
+    implementation project(':okhttp3')
+    implementation project(':rxvolley')
+
+    debugImplementation 'junit:junit:4.12'
 }

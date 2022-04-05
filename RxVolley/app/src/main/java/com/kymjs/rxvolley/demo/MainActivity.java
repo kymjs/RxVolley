@@ -1,10 +1,16 @@
 package com.kymjs.rxvolley.demo;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import android.os.Bundle;
 import android.os.Looper;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.gson.Gson;
 import com.kymjs.common.FileUtils;
 import com.kymjs.common.Log;
 import com.kymjs.okhttp3.OkHttpStack;
@@ -18,16 +24,13 @@ import com.kymjs.rxvolley.rx.Result;
 import java.io.File;
 import java.util.Map;
 
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         params.put("uid", 863548);
         params.put("msg", "睡会");
         params.put("img", new File(FileUtils.getSDCardPath() + "/request.png"));
+        Gson gson = new Gson();
 
         RxVolley.post("http://192.168.1.11/action/api/software_tweet_pub", params,
                 new ProgressListener() {
@@ -85,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPreStart() {
                 Log.d("=====onPreStart");
                 // 测试类是运行在异步的,所以此处断言会异常
-                // assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
+                assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
@@ -96,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSuccessInAsync(byte[] t) {
-                assertNotNull(t);
                 Log.d("=====onSuccessInAsync" + new String(t));
                 //onSuccessInAsync 一定是运行在异步
                 assertFalse(Thread.currentThread() == Looper.getMainLooper().getThread());
@@ -105,8 +108,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String t) {
                 Log.d("=====onSuccess" + t);
-                assertNotNull(t);
-                assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
+//                assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override

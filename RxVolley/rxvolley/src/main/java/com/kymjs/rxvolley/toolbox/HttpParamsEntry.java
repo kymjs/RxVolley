@@ -15,7 +15,7 @@
  */
 package com.kymjs.rxvolley.toolbox;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Http请求中的参数(包括请求头参数)封装

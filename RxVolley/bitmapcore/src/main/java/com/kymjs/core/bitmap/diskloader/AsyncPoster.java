@@ -17,6 +17,7 @@ package com.kymjs.core.bitmap.diskloader;
 
 import android.graphics.Bitmap;
 
+import com.kymjs.common.FileUtils;
 import com.kymjs.core.bitmap.DiskImageDisplayer;
 import com.kymjs.core.bitmap.client.BitmapCore;
 import com.kymjs.core.bitmap.client.BitmapRequestConfig;
@@ -25,7 +26,6 @@ import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.Response;
 import com.kymjs.rxvolley.http.VolleyError;
 import com.kymjs.rxvolley.rx.Result;
-import com.kymjs.rxvolley.toolbox.FileUtils;
 
 import java.io.FileInputStream;
 import java.util.Collections;
