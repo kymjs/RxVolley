@@ -35,11 +35,14 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.14.9'
     implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.kymjs.core:common:1.0.10'
+    implementation 'com.github.kymjs:common:2.0.0'
     implementation 'com.google.code.gson:gson:2.8.8'
-    implementation project(':bitmapcore')
+    implementation project(':image')
     implementation project(':okhttp3')
     implementation project(':rxvolley')
+//    implementation 'com.github.kymjs.rxvolley:rxvolley:3.0.0'
+//    implementation 'com.github.kymjs.rxvolley:okhttp3:3.0.0'
+//    implementation 'com.github.kymjs.rxvolley:image:3.0.0'
 
     debugImplementation 'junit:junit:4.12'
 }

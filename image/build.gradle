@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 
+group = 'com.github.kymjs.rxvolley'
+version = "3.0.0"
+
 android {
     compileSdkVersion 30
     resourcePrefix "bitmapcore_"
@@ -28,23 +31,11 @@ android {
 dependencies {
     implementation 'io.reactivex.rxjava3:rxjava:3.1.0'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'com.kymjs.rxvolley:rxvolley:3.0.0'
-//    implementation project(':rxvolley')
-    implementation 'com.kymjs.core:common:1.0.10'
+//    compileOnly 'com.github.kymjs.rxvolley:rxvolley:3.0.0'
+    compileOnly project(':rxvolley')
+    implementation 'com.github.kymjs:common:2.0.0'
 }
 
 apply plugin: 'maven-publish'
 apply plugin: 'com.github.dcendents.android-maven'
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = 'com.kymjs.rxvolley'
-                artifactId = 'bitmapcore'
-                version = "3.0.0"
-            }
-        }
-    }
-}

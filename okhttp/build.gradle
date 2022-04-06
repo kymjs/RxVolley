@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 
+group = 'com.github.kymjs.rxvolley'
+version = "3.0.0"
+
 android {
     compileSdkVersion 30
     resourcePrefix "okhttp_"
@@ -26,23 +29,11 @@ android {
 }
 
 dependencies {
-    implementation 'com.kymjs.rxvolley:rxvolley:3.0.0'
-//    implementation project(':rxvolley')
-    implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+//    compileOnly 'com.github.kymjs.rxvolley:rxvolley:3.0.0'
+    compileOnly project(':rxvolley')
+    implementation 'com.squareup.okhttp:okhttp:2.7.0'
 }
 
 apply plugin: 'maven-publish'
 apply plugin: 'com.github.dcendents.android-maven'
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = 'com.kymjs.rxvolley'
-                artifactId = 'okhttp3'
-                version = "3.0.0"
-            }
-        }
-    }
-}

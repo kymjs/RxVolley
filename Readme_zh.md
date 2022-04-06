@@ -12,29 +12,38 @@
 
 
 ## 依赖 
+最新RXVolley版本号为：[![](https://jitpack.io/v/kymjs/RxVolley.svg)](https://jitpack.io/#kymjs/RxVolley)   
 
-使用RxVolley，需要在你的`build.gradle`文件中加入  
+使用RxVolley，需要在你的根`build.gradle`文件中加入 
 
 ```
-implementation 'com.kymjs.rxvolley:rxvolley:3.0.0'
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+对应的模块`build.gradle`中引入依赖：  
+
+```
+implementation 'com.github.kymjs.rxvolley:rxvolley:3.0.0'
 ```
 
 如果你还想使用OKhttp来替代默认的```HttpUrlconnection```，需要加入  
 
 ```
-implementation 'com.kymjs.rxvolley:okhttp3:3.0.0'
+implementation 'com.github.kymjs.rxvolley:okhttp3:3.0.0'
 
 //或者 okhttp2（二选一）
-implementation 'com.kymjs.rxvolley:okhttp:3.0.0'
+implementation 'com.github.kymjs.rxvolley:okhttp:3.0.0'
 ```
 
 如果你想使用RxVolley的图片加载功能(复用http模块可以有效减少apk大小)，需要加入   
 
 ```
-implementation 'com.kymjs.rxvolley:bitmapcore:3.0.0'
+implementation 'com.github.kymjs.rxvolley:image:3.0.0'
 ```  
-
-使用 RxVolley 做网络请求
 
 ## 简洁实现 
 
