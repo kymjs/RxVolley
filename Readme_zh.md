@@ -427,7 +427,7 @@ keyStore.setCertificateEntry("trust", cer);
 
 SSLSocketFactory socketFactory = new SSLSocketFactory(keyStore);
 
-RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER), new HttpConnectStack(null, sslSocketFactory));
+RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.cacheFolder()), new HttpConnectStack(null, sslSocketFactory));
 ```
 
 

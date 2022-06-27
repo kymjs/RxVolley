@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.widget.ImageView;
 
-import com.kymjs.common.FileUtils;
 import com.kymjs.common.Log;
 import com.kymjs.core.bitmap.client.BitmapCore;
 import com.kymjs.okhttp3.OkHttpStack;
@@ -14,7 +13,6 @@ import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.RequestQueue;
 
-import java.io.File;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
@@ -28,7 +26,7 @@ public class ImageLoadTestActivity extends Activity {
     public ImageView contentView;
 
     protected void setUp() {
-        RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER,
+        RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.cacheFolder(),
                 new OkHttpStack(new OkHttpClient())));
 
         callback = new HttpCallback() {
@@ -117,7 +115,7 @@ public class ImageLoadTestActivity extends Activity {
      */
     public void testBitmapWithDiskLoader() {
         new BitmapCore.Builder()
-                .url(FileUtils.getSDCardPath() + File.separator + "request.png")
+                .url("/sdcard/" + "request.png")
                 .callback(callback)
                 .view(contentView)
                 .loadResId(R.mipmap.ic_launcher)
@@ -130,7 +128,7 @@ public class ImageLoadTestActivity extends Activity {
      */
     public void testBitmapWithDiskLoader2() {
         new BitmapCore.Builder()
-                .url(FileUtils.getSDCardPath() + File.separator + "request.png")
+                .url("/sdcard/request.png")
                 .callback(callback)
                 .view(contentView)
                 .loadResId(R.mipmap.ic_launcher)

@@ -29,11 +29,11 @@ android {
 }
 
 dependencies {
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.4'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 //    compileOnly 'com.github.kymjs.rxvolley:rxvolley:3.0.0'
     compileOnly project(':rxvolley')
-    implementation 'com.github.kymjs:common:2.0.0'
+    implementation 'com.github.kymjs:common:2.0.5'
 }
 
 apply plugin: 'maven-publish'

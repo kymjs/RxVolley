@@ -11,7 +11,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
-import com.kymjs.common.FileUtils;
 import com.kymjs.common.Log;
 import com.kymjs.okhttp3.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER,
+        RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.cacheFolder(),
                 new OkHttpStack(new OkHttpClient())));
 
 
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         params.put("uid", 863548);
         params.put("msg", "睡会");
-        params.put("img", new File(FileUtils.getSDCardPath() + "/request.png"));
+        params.put("img", new File("/sdcard/request.png"));
         Gson gson = new Gson();
 
         RxVolley.post("http://192.168.1.11/action/api/software_tweet_pub", params,
@@ -171,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
      * 下载
      */
     private void download() {
-        RxVolley.download(FileUtils.getSDCardPath() + "/a.apk",
+        RxVolley.download("/sdcard/a.apk",
                 "https://www.oschina.net/uploads/osc-android-app-2.4.apk", new ProgressListener() {
                     @Override
                     public void onProgress(long transferredBytes, long totalSize) {
