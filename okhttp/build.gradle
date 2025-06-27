@@ -8,7 +8,7 @@ android {
     resourcePrefix "okhttp_"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 24
         targetSdkVersion 34
         versionCode 2
         versionName version
