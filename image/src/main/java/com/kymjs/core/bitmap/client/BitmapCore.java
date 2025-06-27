@@ -22,12 +22,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.kymjs.common.DensityUtils;
-import com.kymjs.common.Log;
 import com.kymjs.core.bitmap.BitmapMemoryCache;
 import com.kymjs.core.bitmap.DiskImageDisplayer;
 import com.kymjs.core.bitmap.ImageBale;
@@ -238,7 +238,7 @@ public final class BitmapCore {
          */
         private synchronized void build() {
             if (TextUtils.isEmpty(config.mUrl)) {
-                Log.d("image url is empty");
+                Log.d("RxVolley", "image url is empty");
                 doFailure(view, config.errorDrawable, config.errorRes);
                 if (callback != null)
                     callback.onFailure(-1, "image url is empty");

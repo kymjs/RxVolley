@@ -17,7 +17,8 @@
 package com.kymjs.rxvolley.http;
 
 
-import com.kymjs.common.Log;
+import android.util.Log;
+
 import com.kymjs.rxvolley.interf.ICache;
 
 import java.text.ParseException;

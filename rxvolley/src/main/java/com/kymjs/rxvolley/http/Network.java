@@ -17,8 +17,8 @@
 package com.kymjs.rxvolley.http;
 
 
-import com.kymjs.common.FileUtils;
-import com.kymjs.common.Log;
+import android.util.Log;
+
 import com.kymjs.rxvolley.client.FileRequest;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IHttpStack;
@@ -178,11 +178,11 @@ public class Network implements INetwork {
      */
     private byte[] entityToBytes(URLHttpResponse httpResponse) throws IOException,
             VolleyError {
-        PoolingByteArrayOutputStream bytes = new PoolingByteArrayOutputStream(
-                ByteArrayPool.get(), (int) httpResponse.getContentLength());
         byte[] buffer = null;
-        try {
-            InputStream in = httpResponse.getContentStream();
+        try (InputStream in = httpResponse.getContentStream();
+             PoolingByteArrayOutputStream bytes = new PoolingByteArrayOutputStream(
+                     ByteArrayPool.get(), (int) httpResponse.getContentLength());
+        ) {
             if (in == null) {
                 throw new VolleyError("server error");
             }
@@ -193,9 +193,7 @@ public class Network implements INetwork {
             }
             return bytes.toByteArray();
         } finally {
-            FileUtils.closeIO(httpResponse.getContentStream());
             ByteArrayPool.get().returnBuf(buffer);
-            FileUtils.closeIO(bytes);
         }
     }
 }

@@ -20,8 +20,8 @@ import android.annotation.TargetApi;
 import android.net.TrafficStats;
 import android.os.Build;
 import android.os.Process;
+import android.util.Log;
 
-import com.kymjs.common.Log;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.INetwork;

@@ -18,8 +18,6 @@ package com.kymjs.rxvolley;
 
 import android.text.TextUtils;
 
-import com.kymjs.common.ContextTrojan;
-import com.kymjs.common.FileUtils;
 import com.kymjs.rxvolley.client.FileRequest;
 import com.kymjs.rxvolley.client.FormRequest;
 import com.kymjs.rxvolley.client.HttpCallback;
@@ -33,6 +31,7 @@ import com.kymjs.rxvolley.http.RequestQueue;
 import com.kymjs.rxvolley.http.RetryPolicy;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.rx.Result;
+import com.therouter.InnerTheRouterContentProviderKt;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -51,7 +50,9 @@ public class RxVolley {
     }
 
     public static File cacheFolder() {
-        return FileUtils.getExternalCacheDir(ContextTrojan.getApplicationContext(), "RxVolley");
+        File folder = new File(InnerTheRouterContentProviderKt.getApplicationContext().getCacheDir(), "RxVolley");
+        folder.mkdir();
+        return folder;
     }
 
     private static RequestQueue sRequestQueue;

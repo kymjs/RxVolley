@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.ImageView;
 
-import com.kymjs.common.Log;
 import com.kymjs.core.bitmap.client.BitmapCore;
 import com.kymjs.okhttp3.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
@@ -32,8 +32,8 @@ public class ImageLoadTestActivity extends Activity {
         callback = new HttpCallback() {
             @Override
             public void onPreStart() {
-                Log.d("=====onPreStart");
-                Log.d("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
+                Log.d("RxVolley", "=====onPreStart");
+                Log.d("RxVolley", "=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
                         ().getThread()));
             }
 
@@ -41,8 +41,8 @@ public class ImageLoadTestActivity extends Activity {
             @Override
             public void onPreHttp() {
                 super.onPreHttp();
-                Log.d("=====onPreHttp");
-                Log.d("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
+                Log.d("RxVolley", "=====onPreHttp");
+                Log.d("RxVolley", "=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
                         ().getThread()));
             }
 
@@ -50,24 +50,24 @@ public class ImageLoadTestActivity extends Activity {
             @Override
             public void onSuccess(Map<String, String> headers, Bitmap bitmap) {
                 super.onSuccess(headers, bitmap);
-                Log.d("=====onSuccessBitmap" + headers.size());
-                Log.d("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
+                Log.d("RxVolley", "=====onSuccessBitmap" + headers.size());
+                Log.d("RxVolley", "=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
                         ().getThread()));
             }
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 super.onFailure(errorNo, strMsg);
-                Log.d("=====onFailure" + strMsg);
-                Log.d("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
+                Log.d("RxVolley", "=====onFailure" + strMsg);
+                Log.d("RxVolley", "=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
                         ().getThread()));
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                Log.d("=====onFinish");
-                Log.d("=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
+                Log.d("RxVolley", "=====onFinish");
+                Log.d("RxVolley", "=====当前线程是主线程" + (Thread.currentThread() == Looper.getMainLooper
                         ().getThread()));
             }
         };

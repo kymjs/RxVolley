@@ -17,8 +17,8 @@
 package com.kymjs.core.bitmap.client;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
-import com.kymjs.common.Log;
 import com.kymjs.core.bitmap.toolbox.CreateBitmap;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.http.HttpHeaderParser;
@@ -78,7 +78,7 @@ public class ImageRequest extends Request<Bitmap> implements IPersistence {
                             .parseCacheHeaders(getUseServerControl(), getCacheTime(), response));
                 }
             } catch (OutOfMemoryError e) {
-                Log.d(String.format(Locale.getDefault(), "Caught OOM for %d byte image, url=%s",
+                Log.d("RxVolley", String.format(Locale.getDefault(), "Caught OOM for %d byte image, url=%s",
                         response.data.length, getUrl()));
                 return Response.error(new VolleyError(e));
             }

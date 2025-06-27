@@ -15,7 +15,8 @@
  */
 package com.kymjs.core.bitmap.diskloader;
 
-import com.kymjs.common.Log;
+import android.util.Log;
+
 import com.kymjs.core.bitmap.DiskImageDisplayer;
 import com.kymjs.core.bitmap.client.BitmapCore;
 import com.kymjs.core.bitmap.client.BitmapRequestConfig;
@@ -69,7 +70,7 @@ public class BackgroundPoster extends AsyncPoster {
                     PendingPost.releasePendingPost(pendingPost);
                 }
             } catch (InterruptedException e) {
-                Log.d(Thread.currentThread().getName() + " was interruppted" + e.getMessage());
+                Log.d("RxVolley", Thread.currentThread().getName() + " was interruppted" + e.getMessage());
             }
         } finally {
             executorRunning = false;

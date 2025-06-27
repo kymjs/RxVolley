@@ -17,11 +17,11 @@
 package com.kymjs.rxvolley.client;
 
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.kymjs.common.FileUtils;
-import com.kymjs.common.Log;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -130,12 +130,43 @@ public class HttpParams {
     public void put(final String key, final File file) {
         try {
             hasFile = true;
-            writeToOutputStream(key, FileUtils.input2byte(new FileInputStream(file)),
+            writeToOutputStream(key, input2byte(new FileInputStream(file)),
                     TYPE_OCTET_STREAM, BINARY_ENCODING, file.getName());
         } catch (FileNotFoundException e) {
             Log.d("RxVolley", "HttpParams.put()-> file not found");
         }
     }
+
+    /**
+     * 输入流转byte[]
+     */
+    private static byte[] input2byte(InputStream inStream) {
+        if (inStream == null) {
+            return null;
+        }
+        byte[] in2b = null;
+
+        int rc = 0;
+        try (
+                BufferedInputStream in = new BufferedInputStream(inStream);
+                ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+        ) {
+            while ((rc = in.read()) != -1) {
+                swapStream.write(rc);
+            }
+            in2b = swapStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return in2b;
+    }
+
 
     /**
      * 添加二进制文件参数

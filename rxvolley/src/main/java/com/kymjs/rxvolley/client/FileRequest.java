@@ -16,9 +16,8 @@
 package com.kymjs.rxvolley.client;
 
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.kymjs.common.FileUtils;
-import com.kymjs.common.Log;
 import com.kymjs.rxvolley.http.HttpHeaderParser;
 import com.kymjs.rxvolley.http.NetworkResponse;
 import com.kymjs.rxvolley.http.Request;
@@ -150,7 +149,7 @@ public class FileRequest extends Request<byte[]> {
     public byte[] handleResponse(URLHttpResponse response) throws IOException {
         long fileSize = response.getContentLength();
         if (fileSize <= 0) {
-            Log.d("Response doesn't present Content-Length!");
+            Log.d("RxVolley", "Response doesn't present Content-Length!");
         }
 
         long downloadedSize = mTemporaryFile.length();
@@ -162,7 +161,7 @@ public class FileRequest extends Request<byte[]> {
             if (!TextUtils.isEmpty(realRangeValue)) {
                 String assumeRangeValue = "bytes " + downloadedSize + "-" + (fileSize - 1);
                 if (TextUtils.indexOf(realRangeValue, assumeRangeValue) == -1) {
-                    Log.d("The Content-Range Header is invalid Assume["
+                    Log.d("RxVolley", "The Content-Range Header is invalid Assume["
                             + assumeRangeValue + "] vs Real["
                             + realRangeValue + "], "
                             + "please remove the temporary file ["
@@ -207,11 +206,13 @@ public class FileRequest extends Request<byte[]> {
                 }
             }
         } finally {
-            FileUtils.closeIO(in);
             try {
                 response.getContentStream().close();
             } catch (Exception e) {
-                Log.d("Error occured when calling consumingContent");
+                Log.d("RxVolley", "Error occured when calling consumingContent" + e.getMessage());
+            }
+            if (in != null) {
+                in.close();
             }
             tmpFileRaf.close();
         }

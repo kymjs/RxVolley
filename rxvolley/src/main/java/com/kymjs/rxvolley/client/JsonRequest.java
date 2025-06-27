@@ -17,7 +17,8 @@
 package com.kymjs.rxvolley.client;
 
 
-import com.kymjs.common.Log;
+import android.util.Log;
+
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.HttpHeaderParser;
 import com.kymjs.rxvolley.http.NetworkResponse;

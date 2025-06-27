@@ -18,8 +18,8 @@ package com.kymjs.rxvolley.http;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
-import com.kymjs.common.Log;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.interf.IDelivery;
 import com.kymjs.rxvolley.interf.IHttpStack;

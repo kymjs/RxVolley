@@ -1,15 +1,15 @@
 apply plugin: 'com.android.library'
 
 group = 'com.github.kymjs.rxvolley'
-version = "3.0.0"
+version = "3.0.2"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 34
     resourcePrefix "bitmapcore_"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 30
+        targetSdkVersion 34
         versionCode 2
         versionName version
     }
@@ -33,7 +33,7 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 //    compileOnly 'com.github.kymjs.rxvolley:rxvolley:3.0.0'
     compileOnly project(':rxvolley')
-    implementation 'com.github.kymjs:common:2.0.5'
+    implementation 'com.github.kymjs:common:2.0.7'
 }
 
 apply plugin: 'maven-publish'

@@ -1,15 +1,15 @@
 apply plugin: 'com.android.library'
 
 group = 'com.github.kymjs.rxvolley'
-version = "3.0.0"
+version = "3.0.2"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 34
     resourcePrefix "rxvolley_"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 30
+        targetSdkVersion 34
         versionCode 1
         versionName version
     }
@@ -31,7 +31,8 @@ android {
 dependencies {
     implementation 'io.reactivex.rxjava3:rxjava:3.1.4'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'com.github.kymjs:common:2.0.5'
+    implementation 'com.github.kymjs:common:2.0.7'
+    implementation 'cn.therouter:router:1.2.4'
     implementation 'androidx.appcompat:appcompat:1.3.1'
 }
 

@@ -1,11 +1,11 @@
 package com.kymjs.rxvolley.demo;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.kymjs.common.Log;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.HttpParams;
@@ -40,7 +40,7 @@ public class ParamsTestActivity extends AppCompatActivity {
             @Override
             public void onSuccess(String t) {
                 super.onSuccess(t);
-                Log.d("=======::" + t);
+                Log.d("RxVolley", "=======::" + t);
             }
         });
     }

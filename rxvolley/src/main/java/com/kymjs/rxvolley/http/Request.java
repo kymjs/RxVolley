@@ -18,8 +18,8 @@ package com.kymjs.rxvolley.http;
 import android.net.TrafficStats;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.kymjs.common.Log;
 import com.kymjs.rxvolley.client.HttpCallback;
 import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.client.RequestConfig;

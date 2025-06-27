@@ -6,12 +6,12 @@ import static org.junit.Assert.assertTrue;
 
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
-import com.kymjs.common.Log;
 import com.kymjs.okhttp3.OkHttpStack;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;

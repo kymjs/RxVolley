@@ -17,9 +17,8 @@
 package com.kymjs.rxvolley.toolbox;
 
 import android.os.SystemClock;
+import android.util.Log;
 
-import com.kymjs.common.FileUtils;
-import com.kymjs.common.Log;
 import com.kymjs.rxvolley.interf.ICache;
 
 import java.io.BufferedInputStream;
@@ -127,17 +126,13 @@ public class DiskBasedCache implements ICache {
         }
 
         File file = getFileForKey(key);
-        CountingInputStream cis = null;
-        try {
-            cis = new CountingInputStream(new FileInputStream(file));
+        try (CountingInputStream cis = new CountingInputStream(new FileInputStream(file))) {
             CacheHeader.readHeader(cis); // eat header
             byte[] data = streamToBytes(cis, (int) (file.length() - cis.bytesRead));
             return entry.toCacheEntry(data);
         } catch (IOException e) {
             Log.d("RxVolley", String.format("%s: %s", file.getAbsolutePath(), e.toString()));
             remove(key);
-        } finally {
-            FileUtils.closeIO(cis);
         }
         return null;
     }
@@ -161,16 +156,13 @@ public class DiskBasedCache implements ICache {
             return;
         }
         for (File file : files) {
-            BufferedInputStream fis = null;
-            try {
-                fis = new BufferedInputStream(new FileInputStream(file));
+            try (BufferedInputStream fis = new BufferedInputStream(new FileInputStream(file))) {
+
                 CacheHeader entry = CacheHeader.readHeader(fis);
                 entry.size = file.length();
                 putEntry(entry.key, entry);
             } catch (IOException e) {
                 file.delete();
-            } finally {
-                FileUtils.closeIO(fis);
             }
         }
     }
@@ -446,7 +438,6 @@ public class DiskBasedCache implements ICache {
                 return false;
             }
         }
-
     }
 
     private static class CountingInputStream extends FilterInputStream {

@@ -16,7 +16,8 @@
 package com.kymjs.rxvolley.client;
 
 
-import com.kymjs.common.Log;
+import android.util.Log;
+
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.http.HttpHeaderParser;
 import com.kymjs.rxvolley.http.NetworkResponse;
@@ -35,7 +36,7 @@ import java.util.Map;
 /**
  * Form表单形式的Http请求
  *
- * @author kymjs(http://www.kymjs.com)
+ * @author kymjs(http : / / www.kymjs.com)
  */
 public class FormRequest extends Request<byte[]> {
 
