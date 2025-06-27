@@ -1,15 +1,16 @@
 apply plugin: 'com.android.library'
 
 group = 'com.github.kymjs.rxvolley'
-version = "3.0.4"
+version = "3.0.6"
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
     resourcePrefix "bitmapcore_"
+    namespace 'com.kymjs.rxvolley.image'
 
     defaultConfig {
-        minSdkVersion 24
-        targetSdkVersion 34
+        minSdk 24
+        targetSdk 34
         versionCode 2
         versionName version
     }
@@ -36,5 +37,4 @@ dependencies {
     implementation 'com.github.kymjs:common:2.0.7'
 }
 
-apply plugin: 'maven-publish'
-
+apply from: "${project.getRootDir()}/publish.gradle"

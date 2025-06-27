@@ -2,12 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
+    namespace "com.kymjs.rxvolley.demo"
 
     defaultConfig {
         applicationId "com.kymjs.rxvolley.demo"
-        minSdkVersion 24
-        targetSdkVersion 34
+        minSdk 24
+        targetSdk 34
         versionCode 1
         versionName "1.0"
     }

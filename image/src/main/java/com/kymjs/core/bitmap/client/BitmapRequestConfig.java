@@ -18,8 +18,8 @@ package com.kymjs.core.bitmap.client;
 import android.graphics.drawable.Drawable;
 import android.view.animation.Animation;
 
-import com.kymjs.core.bitmap.R;
 import com.kymjs.rxvolley.client.RequestConfig;
+import com.kymjs.rxvolley.image.R;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
 
 import java.util.ArrayList;

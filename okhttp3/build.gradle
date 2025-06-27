@@ -1,15 +1,16 @@
 apply plugin: 'com.android.library'
 
 group = 'com.github.kymjs'
-version = "3.0.4"
+version = "3.0.6"
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
     resourcePrefix "okhttp_"
+    namespace 'com.kymjs.rxvolley.okhttp3'
 
     defaultConfig {
-        minSdkVersion 24
-        targetSdkVersion 34
+        minSdk 24
+        targetSdk 34
         versionCode 2
         versionName version
     }
@@ -29,9 +30,9 @@ android {
 }
 
 dependencies {
-//    compileOnly 'com.github.kymjs.rxvolley:rxvolley:3.0.4'
+//    compileOnly 'com.github.kymjs.rxvolley:rxvolley:3.0.6'
     compileOnly project(':rxvolley')
     api 'com.squareup.okhttp3:okhttp:3.14.9'
 }
 
-apply plugin: 'maven-publish'
+apply from: "${project.getRootDir()}/publish.gradle"

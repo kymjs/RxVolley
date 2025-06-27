@@ -1,0 +1,18 @@
+apply plugin: 'maven-publish'
+publishing {
+    repositories { RepositoryHandler handler ->
+        handler.mavenLocal()
+    }
+
+    publications {
+        aarAndroid(MavenPublication) {
+            afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }
+        }
+    }
+}
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier = "sources"
+}
+

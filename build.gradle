@@ -1,7 +1,6 @@
 
 buildscript {
     repositories {
-        maven { url 'https://maven.therouter.cn:8443/repository/maven-public/' }
         maven { url 'https://jitpack.io' }
         google()
         mavenCentral()
@@ -15,7 +14,10 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'https://maven.therouter.cn:8443/repository/maven-public/' }
+        maven { url 'https://jitpack.io' }
+        google()
+        mavenCentral()
+        jcenter()
     }
 }
 

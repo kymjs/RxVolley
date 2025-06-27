@@ -1,9 +1,5 @@
 package com.kymjs.rxvolley.demo;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -67,14 +63,14 @@ public class MainActivity extends AppCompatActivity {
                 new ProgressListener() {
                     @Override
                     public void onProgress(long transferredBytes, long totalSize) {
-                        Log.d(transferredBytes + "=====" + totalSize);
-                        Log.d("=====当前线程" + (Thread.currentThread() == Looper.getMainLooper
+                        Log.d("RxVolley", transferredBytes + "=====" + totalSize);
+                        Log.d("RxVolley", "=====当前线程" + (Thread.currentThread() == Looper.getMainLooper
                                 ().getThread()));
                     }
                 }, new HttpCallback() {
                     @Override
                     public void onSuccess(String t) {
-                        Log.d("=====完成" + t);
+                        Log.d("RxVolley", "=====完成" + t);
                     }
                 });
     }
@@ -86,48 +82,48 @@ public class MainActivity extends AppCompatActivity {
         HttpCallback callback = new HttpCallback() {
             @Override
             public void onPreStart() {
-                Log.d("=====onPreStart");
+                Log.d("RxVolley", "=====onPreStart");
                 // 测试类是运行在异步的,所以此处断言会异常
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onPreHttp() {
-                Log.d("=====onPreHttp");
+                Log.d("RxVolley", "=====onPreHttp");
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onSuccessInAsync(byte[] t) {
-                Log.d("=====onSuccessInAsync" + new String(t));
+                Log.d("RxVolley", "=====onSuccessInAsync" + new String(t));
                 //onSuccessInAsync 一定是运行在异步
                 assertFalse(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onSuccess(String t) {
-                Log.d("=====onSuccess" + t);
-//                assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
+                Log.d("RxVolley", "=====onSuccess" + t);
+                assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onSuccess(Map<String, String> headers, byte[] t) {
                 assertNotNull(t);
-                Log.d("=====onSuccessWithHeader" + headers.size() + new String(t));
+                Log.d("RxVolley", "=====onSuccessWithHeader" + headers.size() + new String(t));
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onFailure(int errorNo, String strMsg) {
                 super.onFailure(errorNo, strMsg);
-                Log.d("=====onFailure" + strMsg);
+                Log.d("RxVolley", "=====onFailure" + strMsg);
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                Log.d("=====onFinish");
+                Log.d("RxVolley", "=====onFinish");
                 assertTrue(Thread.currentThread() == Looper.getMainLooper().getThread());
             }
         };
@@ -174,18 +170,34 @@ public class MainActivity extends AppCompatActivity {
                 "https://www.oschina.net/uploads/osc-android-app-2.4.apk", new ProgressListener() {
                     @Override
                     public void onProgress(long transferredBytes, long totalSize) {
-                        Log.d(transferredBytes + "======" + totalSize);
+                        Log.d("RxVolley", transferredBytes + "======" + totalSize);
                     }
                 }, new HttpCallback() {
                     @Override
                     public void onSuccess(String t) {
-                        Log.d("====success" + t);
+                        Log.d("RxVolley", "====success" + t);
                     }
 
                     @Override
                     public void onFailure(int errorNo, String strMsg) {
-                        Log.d(errorNo + "====failure" + strMsg);
+                        Log.d("RxVolley", errorNo + "====failure" + strMsg);
                     }
                 });
+    }
+
+    private void assertNotNull(Object b) {
+        if (b == null) {
+            throw new RuntimeException("assert error");
+        }
+    }
+
+    private void assertFalse(boolean b) {
+        assertTrue(!b);
+    }
+
+    private void assertTrue(boolean b) {
+        if (!b) {
+            throw new RuntimeException("assert error");
+        }
     }
 }
