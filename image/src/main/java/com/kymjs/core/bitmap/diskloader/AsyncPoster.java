@@ -17,7 +17,6 @@ package com.kymjs.core.bitmap.diskloader;
 
 import android.graphics.Bitmap;
 
-import com.kymjs.common.FileUtils;
 import com.kymjs.core.bitmap.DiskImageDisplayer;
 import com.kymjs.core.bitmap.client.BitmapCore;
 import com.kymjs.core.bitmap.client.BitmapRequestConfig;
@@ -27,7 +26,11 @@ import com.kymjs.rxvolley.http.Response;
 import com.kymjs.rxvolley.http.VolleyError;
 import com.kymjs.rxvolley.rx.Result;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 
 /**
@@ -69,18 +72,46 @@ public class AsyncPoster implements Runnable {
      */
     protected byte[] loadFromFile(String path, int maxWidth, int maxHeight, HttpCallback callback) {
         byte[] data = null;
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(path);
-            data = FileUtils.input2byte(fis);
+        try (FileInputStream fis = new FileInputStream(path)) {
+            data = input2byte(fis);
             handleBitmap(path, data, maxWidth, maxHeight, callback);
         } catch (Exception e) {
             displayer.post(path, callback, Response.<Bitmap>error(new VolleyError(e)));
         } finally {
-            FileUtils.closeIO(fis);
         }
         return data;
     }
+
+    /**
+     * 输入流转byte[]
+     */
+    private static byte[] input2byte(InputStream inStream) {
+        if (inStream == null) {
+            return null;
+        }
+        byte[] in2b = null;
+
+        int rc = 0;
+        try (
+                BufferedInputStream in = new BufferedInputStream(inStream);
+                ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+        ) {
+            while ((rc = in.read()) != -1) {
+                swapStream.write(rc);
+            }
+            in2b = swapStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return in2b;
+    }
+
 
     private Bitmap handleBitmap(String path, byte[] data, int maxWidth, int maxHeight,
                                 HttpCallback callback) {
