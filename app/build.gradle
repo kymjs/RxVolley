@@ -18,11 +18,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
@@ -40,9 +40,6 @@ dependencies {
     implementation project(':image')
     implementation project(':okhttp3')
     implementation project(':rxvolley')
-//    implementation 'com.github.kymjs.rxvolley:rxvolley:3.0.0'
-//    implementation 'com.github.kymjs.rxvolley:okhttp3:3.0.0'
-//    implementation 'com.github.kymjs.rxvolley:image:3.0.0'
 
     debugImplementation 'junit:junit:4.12'
 }

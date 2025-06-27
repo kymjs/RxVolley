@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 group = 'com.github.kymjs'
-version = "3.0.2"
+version = "3.0.4"
 
 android {
     compileSdkVersion 34
@@ -20,8 +20,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     lintOptions {
         abortOnError false
@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-//    compileOnly 'com.github.kymjs.rxvolley:rxvolley:3.0.0'
+//    compileOnly 'com.github.kymjs.rxvolley:rxvolley:3.0.4'
     compileOnly project(':rxvolley')
     api 'com.squareup.okhttp3:okhttp:3.14.9'
 }

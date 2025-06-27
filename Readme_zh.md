@@ -27,22 +27,22 @@ allprojects {
 对应的模块`build.gradle`中引入依赖：  
 
 ```
-implementation 'com.github.kymjs.rxvolley:rxvolley:3.0.0'
+implementation 'com.github.kymjs.rxvolley:rxvolley:3.0.4'
 ```
 
 如果你还想使用OKhttp来替代默认的```HttpUrlconnection```，需要加入  
 
 ```
-implementation 'com.github.kymjs.rxvolley:okhttp3:3.0.0'
+implementation 'com.github.kymjs.rxvolley:okhttp3:3.0.4'
 
 //或者 okhttp2（二选一）
-implementation 'com.github.kymjs.rxvolley:okhttp:3.0.0'
+implementation 'com.github.kymjs.rxvolley:okhttp:3.0.4'
 ```
 
 如果你想使用RxVolley的图片加载功能(复用http模块可以有效减少apk大小)，需要加入   
 
 ```
-implementation 'com.github.kymjs.rxvolley:image:3.0.0'
+implementation 'com.github.kymjs.rxvolley:image:3.0.4'
 ```  
 
 ## 简洁实现 

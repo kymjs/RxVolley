@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 group = 'com.github.kymjs.rxvolley'
-version = "3.0.2"
+version = "3.0.4"
 
 android {
     compileSdkVersion 34
@@ -20,8 +20,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     lintOptions {
         abortOnError false

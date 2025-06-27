@@ -12,15 +12,15 @@ If you are building with Gradle, simply add the following line to the ```depende
 
 latest version numbers: [![](https://jitpack.io/v/kymjs/RxVolley.svg)](https://jitpack.io/#kymjs/RxVolley)
 
->implementation 'com.github.kymjs.rxvolley:rxvolley:3.0.0'  
+>implementation 'com.github.kymjs.rxvolley:rxvolley:3.0.4'  
 >
 >// If use okhttp function    
->implementation 'com.github.kymjs.rxvolley:okhttp3:3.0.0'  
+>implementation 'com.github.kymjs.rxvolley:okhttp3:3.0.4'  
 >//or okhttp2   
->implementation 'com.github.kymjs.rxvolley:okhttp:3.0.0'
+>implementation 'com.github.kymjs.rxvolley:okhttp:3.0.4'
 >
 >// If use image-loader function  
->implementation 'com.github.kymjs.rxvolley:image:3.0.0'
+>implementation 'com.github.kymjs.rxvolley:image:3.0.4'
 
 
 ## Getting Started
