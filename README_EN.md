@@ -3,7 +3,7 @@
 
 > RxVolley = Volley + RxAndroid3 + OkHttp3
 
-[中文帮助](https://github.com/kymjs/RxVolley/blob/master/Readme.md)   
+[中文帮助](https://github.com/kymjs/RxVolley/blob/master/README.md)   
 
 ## Retrofit? No, I Love Volley.
 RxVolley is modified Volley. Removed the HttpClient, and support RxJava.   
