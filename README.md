@@ -462,3 +462,4 @@ retryPolicy()
 
 你也可以提交`Pull Request`告诉我你的 APP 使用了`RxVolley`
 
+<img src="https://cdn.kymjs.com:8843/qiniu/image/qrcode_transfer_rxvolley.png" width="50%" max-width="200" alt="在线乞讨"/>
