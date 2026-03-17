@@ -92,4 +92,13 @@ public final class BitmapMemoryCache implements IBitmapCache {
             cache.put(url, bitmap);
         }
     }
+
+    @Override
+    public void trimMemory(int level) {
+        // 根据内存压力等级清理缓存
+        if (level >= android.content.ComponentCallbacks2.TRIM_MEMORY_MODERATE) {
+            // 内存压力较大，清理一半缓存
+            cache.trimToSize(cache.maxSize() / 2);
+        }
+    }
 }

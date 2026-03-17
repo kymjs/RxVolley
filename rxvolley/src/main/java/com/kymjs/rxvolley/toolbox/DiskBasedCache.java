@@ -20,6 +20,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import com.kymjs.rxvolley.interf.ICache;
+import com.kymjs.rxvolley.toolbox.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.EOFException;
@@ -65,7 +66,7 @@ public class DiskBasedCache implements ICache {
     /**
      * Default maximum disk usage in bytes.
      */
-    private static final int DEFAULT_DISK_USAGE_BYTES = 5 * 1024 * 1024;
+    private static final int DEFAULT_DISK_USAGE_BYTES = 20 * 1024 * 1024;
 
     /**
      * High water mark percentage for the cache
@@ -111,7 +112,7 @@ public class DiskBasedCache implements ICache {
         }
         mEntries.clear();
         mTotalSize = 0;
-        Log.d("RxVolley", "Cache cleared.");
+        Logger.d("RxVolley", "Cache cleared.");
     }
 
     /**
@@ -131,7 +132,7 @@ public class DiskBasedCache implements ICache {
             byte[] data = streamToBytes(cis, (int) (file.length() - cis.bytesRead));
             return entry.toCacheEntry(data);
         } catch (IOException e) {
-            Log.d("RxVolley", String.format("%s: %s", file.getAbsolutePath(), e.toString()));
+            Logger.d("RxVolley", String.format("%s: %s", file.getAbsolutePath(), e.toString()));
             remove(key);
         }
         return null;
@@ -145,7 +146,7 @@ public class DiskBasedCache implements ICache {
     public synchronized void initialize() {
         if (!mRootDirectory.exists()) {
             if (!mRootDirectory.mkdirs()) {
-                Log.d("RxVolley", String.format("Unable to create cache dir %s", mRootDirectory
+                Logger.d("RxVolley", String.format("Unable to create cache dir %s", mRootDirectory
                         .getAbsolutePath()));
             }
             return;
@@ -198,7 +199,7 @@ public class DiskBasedCache implements ICache {
             boolean success = e.writeHeader(fos);
             if (!success) {
                 fos.close();
-                Log.d("RxVolley", String.format("Failed to write header for %s", file.getAbsolutePath()));
+                Logger.d("RxVolley", String.format("Failed to write header for %s", file.getAbsolutePath()));
                 throw new IOException();
             }
             fos.write(entry.data);
@@ -206,11 +207,11 @@ public class DiskBasedCache implements ICache {
             putEntry(key, e);
             return;
         } catch (IOException e) {
-            Log.d("RxVolley", DiskBasedCache.class.getName() + e.getMessage());
+            Logger.d("RxVolley", DiskBasedCache.class.getName() + e.getMessage());
         }
         boolean deleted = file.delete();
         if (!deleted) {
-            Log.d("RxVolley", String.format("Could not clean up file %s", file.getAbsolutePath()));
+            Logger.d("RxVolley", String.format("Could not clean up file %s", file.getAbsolutePath()));
         }
     }
 
@@ -222,7 +223,7 @@ public class DiskBasedCache implements ICache {
         boolean deleted = getFileForKey(key).delete();
         removeEntry(key);
         if (!deleted) {
-            Log.d("RxVolley", String.format("Could not delete cache entry for key=%s, filename=%s",
+            Logger.d("RxVolley", String.format("Could not delete cache entry for key=%s, filename=%s",
                     key, getFilenameForKey(key)));
         }
     }
@@ -256,7 +257,7 @@ public class DiskBasedCache implements ICache {
         if ((mTotalSize + neededSpace) < mMaxCacheSizeInBytes) {
             return;
         }
-        Log.d("RxVolley", "Pruning old cache entries.");
+        Logger.d("RxVolley", "Pruning old cache entries.");
 
         long before = mTotalSize;
         int prunedFiles = 0;
@@ -270,7 +271,7 @@ public class DiskBasedCache implements ICache {
             if (deleted) {
                 mTotalSize -= e.size;
             } else {
-                Log.d("RxVolley", String.format("Could not delete cache entry for key=%s, filename=%s",
+                Logger.d("RxVolley", String.format("Could not delete cache entry for key=%s, filename=%s",
                         e.key, getFilenameForKey(e.key)));
             }
             iterator.remove();
@@ -281,7 +282,7 @@ public class DiskBasedCache implements ICache {
             }
         }
 
-        Log.d("RxVolley", String.format("pruned %d files, %d bytes, %d ms",
+        Logger.d("RxVolley", String.format("pruned %d files, %d bytes, %d ms",
                 prunedFiles, (mTotalSize - before), SystemClock.elapsedRealtime() - startTime));
     }
 
@@ -434,7 +435,7 @@ public class DiskBasedCache implements ICache {
                 os.flush();
                 return true;
             } catch (IOException e) {
-                Log.d("RxVolley", String.format("%s", e.toString()));
+                Logger.d("RxVolley", String.format("%s", e.toString()));
                 return false;
             }
         }

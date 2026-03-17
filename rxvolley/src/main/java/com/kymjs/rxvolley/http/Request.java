@@ -25,6 +25,7 @@ import com.kymjs.rxvolley.client.ProgressListener;
 import com.kymjs.rxvolley.client.RequestConfig;
 import com.kymjs.rxvolley.interf.ICache;
 import com.kymjs.rxvolley.toolbox.HttpParamsEntry;
+import com.kymjs.rxvolley.toolbox.Logger;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -121,7 +122,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      * 通知请求队列，本次请求已经完成
      */
     public void finish(String log) {
-        Log.d("RxVolley", log);
+        Logger.d("RxVolley", log);
         if (mRequestQueue != null) {
             mRequestQueue.finish(this);
         }
