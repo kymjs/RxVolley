@@ -83,6 +83,17 @@ public final class BitmapCore {
     }
 
     /**
+     * 释放资源，关闭线程池（防止内存泄漏）
+     */
+    public static void destroy() {
+        if (!DEFAULT_EXECUTOR_SERVICE.isShutdown()) {
+            DEFAULT_EXECUTOR_SERVICE.shutdown();
+        }
+        sDisplayer = null;
+        sDiskImageDisplayer = null;
+    }
+
+    /**
      * 设置请求队列,必须在调用BitmapCore#getDisplayer()之前设置
      *
      * @return 是否设置成功

@@ -65,7 +65,7 @@ public class DiskBasedCache implements ICache {
     /**
      * Default maximum disk usage in bytes.
      */
-    private static final int DEFAULT_DISK_USAGE_BYTES = 5 * 1024 * 1024;
+    private static final int DEFAULT_DISK_USAGE_BYTES = 20 * 1024 * 1024;
 
     /**
      * High water mark percentage for the cache
