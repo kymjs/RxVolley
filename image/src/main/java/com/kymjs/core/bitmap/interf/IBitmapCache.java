@@ -30,4 +30,10 @@ public interface IBitmapCache {
     void clean();
 
     void putBitmap(String url, Bitmap bitmap);
+
+    /**
+     * 响应内存压力，清理缓存
+     * @param level 内存压力等级，参考 {@link android.content.ComponentCallbacks2}
+     */
+    void trimMemory(int level);
 }

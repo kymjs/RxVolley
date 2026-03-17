@@ -53,6 +53,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class RequestQueue {
 
+    static {
+        // 根据CPU核心数动态计算线程池大小，最小2核，最多4核
+        int cpuCores = Runtime.getRuntime().availableProcessors();
+        DEFAULT_NETWORK_THREAD_POOL_SIZE = Math.max(2, Math.min(cpuCores, 4));
+    }
+
     /**
      * Used for generating monotonically-increasing sequence numbers for requests.
      */
@@ -90,7 +96,7 @@ public class RequestQueue {
     /**
      * Number of network request dispatcher threads to start.
      */
-    private static final int DEFAULT_NETWORK_THREAD_POOL_SIZE = 4;
+    private static int DEFAULT_NETWORK_THREAD_POOL_SIZE = 4;
 
     /**
      * Cache interface for retrieving and storing responses.
